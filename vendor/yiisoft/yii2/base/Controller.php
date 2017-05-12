@@ -184,7 +184,7 @@ class Controller extends Component implements ViewContextInterface
     public function run($route, $params = [])
     {
         $pos = strpos($route, '/');
-        if ($pos === false) {
+        if ($pos === false) {;
             return $this->runAction($route, $params);
         } elseif ($pos > 0) {
             return $this->module->runAction($route, $params);

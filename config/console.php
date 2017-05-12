@@ -8,6 +8,16 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'app\commands',
+    'controllerMap' => [
+        // Common migrations for the whole application
+        'migrate-app' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            'migrationNamespaces' => ['app\migrations'],
+            'migrationTable' => 'migration_app',
+            'migrationPath' => null,
+            'templateFile' => '@app/components/views/migration.php',
+        ],
+    ],
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
