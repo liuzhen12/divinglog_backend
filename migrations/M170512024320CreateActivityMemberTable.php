@@ -15,7 +15,7 @@ class M170512024320CreateActivityMemberTable extends BaseMigration
             'created_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('创建时间戳'),
             'updated_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('更新时间戳'),
         ]);
-        $this->alterColumn('activity_member',"id","bigint");
+        $this->alterColumn('activity_member',"id","bigint auto_increment");
     }
 
     public function safeDown()

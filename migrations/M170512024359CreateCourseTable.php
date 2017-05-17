@@ -14,7 +14,7 @@ class M170512024359CreateCourseTable extends BaseMigration
             'created_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('创建时间戳'),
             'updated_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('更新时间戳'),
         ]);
-        $this->alterColumn('course',"id","bigint");
+        $this->alterColumn('course',"id","bigint auto_increment");
     }
 
     public function safeDown()

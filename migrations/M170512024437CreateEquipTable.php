@@ -16,7 +16,7 @@ class M170512024437CreateEquipTable extends BaseMigration
             'created_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('创建时间戳'),
             'updated_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('更新时间戳'),
         ]);
-        $this->alterColumn('equip',"id","bigint");
+        $this->alterColumn('equip',"id","bigint auto_increment");
     }
 
     public function safeDown()

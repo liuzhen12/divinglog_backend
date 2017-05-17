@@ -1,0 +1,49 @@
+<?php
+
+namespace app\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "activity_member".
+ *
+ * @property integer $id
+ * @property integer $activity_id
+ * @property integer $user_id
+ * @property integer $created_at
+ * @property integer $updated_at
+ */
+class ActivityMember extends \app\components\base\BaseModel
+{
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'activity_member';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['activity_id', 'user_id', 'created_at', 'updated_at'], 'integer'],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'activity_id' => Yii::t('app', '关联活动'),
+            'user_id' => Yii::t('app', '关联用户(潜员,教练)'),
+            'created_at' => Yii::t('app', '创建时间戳'),
+            'updated_at' => Yii::t('app', '更新时间戳'),
+        ];
+    }
+}

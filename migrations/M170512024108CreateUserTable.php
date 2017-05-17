@@ -33,7 +33,8 @@ class M170512024108CreateUserTable extends BaseMigration
             'created_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('创建时间戳'),
             'updated_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('更新时间戳'),
         ]);
-        $this->alterColumn('user',"id","bigint");
+        $this->alterColumn('user',"id","bigint auto_increment");
+
     }
 
     public function safeDown()

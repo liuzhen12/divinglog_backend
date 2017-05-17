@@ -18,7 +18,7 @@ class M170512024446CreateLevelTable extends BaseMigration
             'created_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('创建时间戳'),
             'updated_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('更新时间戳'),
         ]);
-        $this->alterColumn('level',"id","bigint");
+        $this->alterColumn('level',"id","bigint auto_increment");
     }
 
     public function safeDown()

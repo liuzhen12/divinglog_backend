@@ -23,7 +23,7 @@ class M170512024415CreateDiveStoreTable extends BaseMigration
             'created_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('创建时间戳'),
             'updated_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('更新时间戳'),
         ]);
-        $this->alterColumn('divestore',"id","bigint");
+        $this->alterColumn('divestore',"id","bigint auto_increment");
     }
 
     public function safeDown()
