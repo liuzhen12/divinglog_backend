@@ -9,9 +9,19 @@
 namespace app\components\base;
 
 
+use yii;
+use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
 
 class BaseController extends ActiveController
 {
 
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' => QueryParamAuth::className()
+        ];
+        return $behaviors;
+    }
 }

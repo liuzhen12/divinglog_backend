@@ -12,6 +12,8 @@ class M170512024108CreateUserTable extends BaseMigration
         $this->createTable('user', [
             'id' => $this->primaryKey(),
             'open_id' => $this->string(45)->notNull()->defaultValue('')->comment('微信用户的唯一标识'),
+            'session_key' => $this->string(45)->notNull()->defaultValue('')->comment('微信用户登录返回'),
+            'access_token' => $this->string(45)->notNull()->defaultValue('')->comment('后台根据openid和session_key生成的'),
             'avatar_url' => $this->string(100)->notNull()->defaultValue('')->comment('微信头像图片'),
             'nick_name' => $this->string(45)->notNull()->defaultValue('')->comment('微信昵称'),
             'gender' => $this->smallInteger()->notNull()->defaultValue(0)->comment('1:男 2:女'),
@@ -30,10 +32,12 @@ class M170512024108CreateUserTable extends BaseMigration
             'evaluation_count' => $this->bigInteger(20)->notNull()->defaultValue(0)->comment('教练属性->评价人数'),
             'evaluation_score' => $this->decimal(3,2)->notNull()->defaultValue(0)->comment('教练属性->评价平均分'),
             'divestore_id' => $this->bigInteger(20)->notNull()->defaultValue(0)->comment('教练属性->管理的潜店'),
+            'status' => $this->smallInteger()->notNull()->defaultValue(1)->comment('1:enable 2:disable'),
             'created_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('创建时间戳'),
             'updated_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('更新时间戳'),
         ]);
         $this->alterColumn('user',"id","bigint auto_increment");
+        $this->createIndex('access_token_i',"user",'access_token');
 
     }
 
