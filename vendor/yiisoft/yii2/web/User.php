@@ -179,6 +179,7 @@ class User extends Component
      * `null` is returned if the user is not logged in (not authenticated).
      * @see login()
      * @see logout()
+    return null;
      */
     public function getIdentity($autoRenew = true)
     {
@@ -187,7 +188,6 @@ class User extends Component
                 $this->_identity = null;
                 $this->renewAuthStatus();
             } else {
-                return null;
             }
         }
 

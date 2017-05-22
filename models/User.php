@@ -3,12 +3,16 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Url;
+use yii\web\Link;
 
 /**
  * This is the model class for table "user".
  *
  * @property integer $id
  * @property string $open_id
+ * @property string $session_key
+ * @property string $access_token
  * @property string $avatar_url
  * @property string $nick_name
  * @property integer $gender
@@ -27,11 +31,16 @@ use Yii;
  * @property integer $evaluation_count
  * @property string $evaluation_score
  * @property integer $divestore_id
+ * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
  */
 class User extends \app\components\base\BaseModel
 {
+    const SCENARIO_LOGIN = 'login';
+    const SCENARIO_DIVER_SIGNIN = 'diver';
+    const SCENARIO_COACH_SIGNIN = 'coach';
+
     /**
      * @inheritdoc
      */
@@ -46,11 +55,18 @@ class User extends \app\components\base\BaseModel
     public function rules()
     {
         return [
-            [['gender', 'language_detail', 'role', 'log_count', 'equip_count', 'speciality_count', 'is_store_manager', 'evaluation_count', 'divestore_id', 'created_at', 'updated_at'], 'integer'],
+            [['gender', 'language_detail', 'role', 'log_count', 'equip_count', 'speciality_count', 'is_store_manager', 'evaluation_count', 'divestore_id', 'status', 'created_at', 'updated_at'], 'integer'],
             [['evaluation_score'], 'number'],
-            [['open_id', 'nick_name', 'city', 'province', 'language', 'level_keywords', 'title'], 'string', 'max' => 45],
+            [['open_id'], 'string', 'max' => 28],
+            [['session_key'], 'string', 'max' => 24],
+            [['access_token'], 'string', 'max' => 32],
+            [['nick_name', 'city', 'province', 'language', 'level_keywords', 'title'], 'string', 'max' => 45],
             [['avatar_url'], 'string', 'max' => 100],
             [['country'], 'string', 'max' => 2],
+            [['access_token'], 'unique'],
+            [['open_id','session_key','access_token'],'required','on'=>self::SCENARIO_LOGIN],
+            [['open_id','session_key','access_token','gender', 'language_detail', 'role',],'required','on'=>self::SCENARIO_DIVER_SIGNIN],
+            [['open_id','session_key','access_token','gender', 'language_detail', 'role','is_store_manager','divestore_id'],'required','on'=>self::SCENARIO_COACH_SIGNIN],
         ];
     }
 
@@ -62,6 +78,8 @@ class User extends \app\components\base\BaseModel
         return [
             'id' => Yii::t('app', 'ID'),
             'open_id' => Yii::t('app', '微信用户的唯一标识'),
+            'session_key' => Yii::t('app', '微信用户登录返回'),
+            'access_token' => Yii::t('app', '后台根据openid和session_key生成的'),
             'avatar_url' => Yii::t('app', '微信头像图片'),
             'nick_name' => Yii::t('app', '微信昵称'),
             'gender' => Yii::t('app', '1:男 2:女'),
@@ -80,8 +98,28 @@ class User extends \app\components\base\BaseModel
             'evaluation_count' => Yii::t('app', '教练属性->评价人数'),
             'evaluation_score' => Yii::t('app', '教练属性->评价平均分'),
             'divestore_id' => Yii::t('app', '教练属性->管理的潜店'),
+            'status' => Yii::t('app', '1:enable 2:disable'),
             'created_at' => Yii::t('app', '创建时间戳'),
             'updated_at' => Yii::t('app', '更新时间戳'),
         ];
     }
+
+    public function fields()
+    {
+        $fields = parent::fields();
+
+        // remove fields that contain sensitive information
+        unset($fields['open_id'], $fields['session_key']);
+
+        return $fields;
+    }
+
+    public function getLinks()
+    {
+        return [
+            Link::REL_SELF => Url::to(['@web/login', 'code' => $this->access_token], true),
+            'signin' => Url::to(['@web/sign'], true),
+        ];
+    }
+
 }
