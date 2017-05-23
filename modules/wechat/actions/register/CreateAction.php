@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\wechat\actions\signin;
+namespace app\modules\wechat\actions\register;
 
 use app\models\User;
 use yii;

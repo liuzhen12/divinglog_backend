@@ -4,10 +4,10 @@ namespace app\modules\wechat\controllers;
 
 use yii\rest\ActiveController;
 
-/**
+/**git
  * Default controller for the `wechat` module
  */
-class SigninController extends ActiveController
+class RegisterController extends ActiveController
 {
     public $modelClass = 'app\models\User';
 
@@ -15,7 +15,7 @@ class SigninController extends ActiveController
     {
         return [
             'create' => [
-                'class' => 'app\modules\wechat\actions\signin\CreateAction',
+                'class' => 'app\modules\wechat\actions\register\CreateAction',
                 'modelClass' => $this->modelClass,
                 'checkAccess' => [$this, 'checkAccess'],
             ]

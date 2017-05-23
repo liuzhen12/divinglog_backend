@@ -40,8 +40,8 @@ use yii\web\Link;
 class User extends \app\components\base\BaseModel
 {
     const SCENARIO_LOGIN = 'login';
-    const SCENARIO_DIVER_SIGNIN = 'diver';
-    const SCENARIO_COACH_SIGNIN = 'coach';
+    const SCENARIO_DIVER_REGISTER = 'diver';
+    const SCENARIO_COACH_REGISTER= 'coach';
     const ROLE = [
         1=>'diver',
         2=>'coach'
@@ -71,8 +71,8 @@ class User extends \app\components\base\BaseModel
             [['country'], 'string', 'max' => 2],
             [['open_id'], 'unique'],
             [['open_id','session_key','access_token'],'required','on'=>self::SCENARIO_LOGIN],
-            [['open_id','session_key','access_token','gender', 'language_detail', 'role',],'required','on'=>self::SCENARIO_DIVER_SIGNIN],
-            [['open_id','session_key','access_token','gender', 'language_detail', 'role','is_store_manager','divestore_id'],'required','on'=>self::SCENARIO_COACH_SIGNIN],
+            [['open_id','session_key','access_token','gender', 'language_detail', 'role',],'required','on'=>self::SCENARIO_DIVER_REGISTER],
+            [['open_id','session_key','access_token','gender', 'language_detail', 'role','is_store_manager','divestore_id'],'required','on'=>self::SCENARIO_COACH_REGISTER],
         ];
     }
 
@@ -123,7 +123,7 @@ class User extends \app\components\base\BaseModel
     public function getLinks()
     {
         $links = [Link::REL_SELF => Url::to(['@web/login{?code}'], true)];
-        if(in_array(self::getScenario(),[self::SCENARIO_COACH_SIGNIN,self::SCENARIO_DIVER_SIGNIN])){
+        if(in_array(self::getScenario(),[self::SCENARIO_COACH_REGISTER,self::SCENARIO_DIVER_REGISTER])){
             $links['signin'] = Url::to(['@web/sign'], true);
         }
         return $links;
