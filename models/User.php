@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\base\InvalidValueException;
+use yii\base\UserException;
 use yii\helpers\Url;
 use yii\web\Link;
 
@@ -40,6 +42,10 @@ class User extends \app\components\base\BaseModel
     const SCENARIO_LOGIN = 'login';
     const SCENARIO_DIVER_SIGNIN = 'diver';
     const SCENARIO_COACH_SIGNIN = 'coach';
+    const ROLE = [
+        1=>'diver',
+        2=>'coach'
+    ];
 
     /**
      * @inheritdoc
@@ -63,7 +69,7 @@ class User extends \app\components\base\BaseModel
             [['nick_name', 'city', 'province', 'language', 'level_keywords', 'title'], 'string', 'max' => 45],
             [['avatar_url'], 'string', 'max' => 100],
             [['country'], 'string', 'max' => 2],
-            [['access_token'], 'unique'],
+            [['open_id'], 'unique'],
             [['open_id','session_key','access_token'],'required','on'=>self::SCENARIO_LOGIN],
             [['open_id','session_key','access_token','gender', 'language_detail', 'role',],'required','on'=>self::SCENARIO_DIVER_SIGNIN],
             [['open_id','session_key','access_token','gender', 'language_detail', 'role','is_store_manager','divestore_id'],'required','on'=>self::SCENARIO_COACH_SIGNIN],
@@ -116,10 +122,29 @@ class User extends \app\components\base\BaseModel
 
     public function getLinks()
     {
-        return [
-            Link::REL_SELF => Url::to(['@web/login', 'code' => $this->access_token], true),
-            'signin' => Url::to(['@web/sign'], true),
-        ];
+        $links = [Link::REL_SELF => Url::to(['@web/login{?code}'], true)];
+        if(in_array(self::getScenario(),[self::SCENARIO_COACH_SIGNIN,self::SCENARIO_DIVER_SIGNIN])){
+            $links['signin'] = Url::to(['@web/sign'], true);
+        }
+        return $links;
     }
 
+    /**
+     * Name: getScenarioByRole
+     * Desc: role字段不同，场景不同
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170523
+     * Modifier:
+     * ModifiedDate:
+     * @param $role
+     * @return mixed
+     * @throws UserException
+     */
+    public static function getScenarioByRole($role)
+    {
+        if(!is_integer($role) || $role > count(static::ROLE,0)){
+            throw new UserException("invalid role",422);
+        }
+        return static::ROLE[$role];
+    }
 }
