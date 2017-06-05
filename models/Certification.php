@@ -53,4 +53,23 @@ class Certification extends \app\components\base\BaseModel
             'updated_at' => Yii::t('app', '更新时间戳'),
         ];
     }
+
+    /**
+     * Name: getDivingLog
+     * Desc: 认证信息归属的日志
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170523
+     * Modifier:
+     * ModifiedDate:
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public function getDivingLog()
+    {
+        return $this->hasOne(DivingLog::className(),['id'=>'log_id'])->one();
+    }
+
+    public function getDiver()
+    {
+        return $this->hasOne(User::className(),['id'=>'user_id'])->one();
+    }
 }

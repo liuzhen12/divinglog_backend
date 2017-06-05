@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use HttpException;
 use Yii;
 use yii\base\InvalidValueException;
 use yii\base\UserException;
@@ -61,12 +62,12 @@ class User extends \app\components\base\BaseModel
     public function rules()
     {
         return [
-            [['gender', 'language_detail', 'role', 'log_count', 'equip_count', 'speciality_count', 'is_store_manager', 'evaluation_count', 'divestore_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['evaluation_score'], 'number'],
+            [['gender', 'language_detail', 'role', '!log_count', '!equip_count', '!speciality_count', 'is_store_manager', '!evaluation_count', 'divestore_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['!evaluation_score'], 'number'],
             [['open_id'], 'string', 'max' => 28],
             [['session_key'], 'string', 'max' => 24],
             [['access_token'], 'string', 'max' => 32],
-            [['nick_name', 'city', 'province', 'language', 'level_keywords', 'title'], 'string', 'max' => 45],
+            [['nick_name', 'city', 'province', 'language', '!level_keywords', '!title'], 'string', 'max' => 45],
             [['avatar_url'], 'string', 'max' => 100],
             [['country'], 'string', 'max' => 2],
             [['open_id'], 'unique'],
@@ -143,8 +144,41 @@ class User extends \app\components\base\BaseModel
     public static function getScenarioByRole($role)
     {
         if(!is_integer($role) || $role > count(static::ROLE,0)){
-            throw new UserException("invalid role",422);
+            throw new HttpException(422,"invalid role");
         }
         return static::ROLE[$role];
     }
+
+    /**
+     * Name: incrLogCount
+     * Desc:
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170523
+     * Modifier:
+     * ModifiedDate:
+     */
+    public function incrLogCount()
+    {
+        $this->log_count++;
+        if(!$this->save()){
+            throw new HttpException(422, implode('|', $this->getFirstErrors()));
+        }
+    }
+
+    /**
+     * Name: decrLogCount
+     * Desc:
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170523
+     * Modifier:
+     * ModifiedDate:
+     */
+    public function decrLogCount()
+    {
+        $this->log_count--;
+        if(!$this->save()){
+            throw new HttpException(422, implode('|', $this->getFirstErrors()));
+        }
+    }
+
 }

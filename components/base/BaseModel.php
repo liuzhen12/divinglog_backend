@@ -39,4 +39,5 @@ class BaseModel extends ActiveRecord implements Linkable
     {
         return [];
     }
+
 }
