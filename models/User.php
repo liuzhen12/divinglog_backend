@@ -182,6 +182,89 @@ class User extends \app\components\base\BaseModel
     }
 
     /**
+     * Name: incrLogCount
+     * Desc: 递增装备数量
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170523
+     * Modifier:
+     * ModifiedDate:
+     */
+    public function incrEquipCount()
+    {
+        $this->equip_count++;
+        if(!$this->save()){
+            throw new HttpException(422, implode('|', $this->getFirstErrors()));
+        }
+    }
+
+    /**
+     * Name: decrLogCount
+     * Desc: 递减装备数量
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170523
+     * Modifier:
+     * ModifiedDate:
+     */
+    public function decrEquipCount()
+    {
+        $this->equip_count--;
+        if(!$this->save()){
+            throw new HttpException(422, implode('|', $this->getFirstErrors()));
+        }
+    }
+
+    /**
+     * Name: updateLevel
+     * Desc: 更新等级关键字
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170606
+     * Modifier:
+     * ModifiedDate:
+     * @param $organization
+     * @param $level
+     * @throws HttpException
+     */
+    public function updateLevel($organization,$level)
+    {
+        $this->level_keywords = $organization . ' ' . $level;
+        if(!$this->save()){
+            throw new HttpException(422, implode('|', $this->getFirstErrors()));
+        }
+    }
+
+    /**
+     * Name: incrLogCount
+     * Desc: 递增装备数量
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170523
+     * Modifier:
+     * ModifiedDate:
+     */
+    public function incrSpecialityCount()
+    {
+        $this->speciality_count++;
+        if(!$this->save()){
+            throw new HttpException(422, implode('|', $this->getFirstErrors()));
+        }
+    }
+
+    /**
+     * Name: decrLogCount
+     * Desc: 递减装备数量
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170523
+     * Modifier:
+     * ModifiedDate:
+     */
+    public function decrSpecialityCount()
+    {
+        $this->speciality_count--;
+        if(!$this->save()){
+            throw new HttpException(422, implode('|', $this->getFirstErrors()));
+        }
+    }
+
+    /**
      * Name: evaluation
      * Desc: 教练评价,更新对应教练的平均分和评价人数
      * Creator: liuzhen<liuzhen12@lenovo.com>

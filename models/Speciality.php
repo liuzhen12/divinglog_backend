@@ -47,4 +47,18 @@ class Speciality extends \app\components\base\BaseModel
             'updated_at' => Yii::t('app', '更新时间戳'),
         ];
     }
+
+    /**
+     * Name: getDiver
+     * Desc: 获取当前专长的潜水员
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170606
+     * Modifier:
+     * ModifiedDate:
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public function getDiver()
+    {
+        return $this->hasOne(User::className(),['id'=>'user_id'])->one();
+    }
 }
