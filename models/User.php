@@ -151,7 +151,7 @@ class User extends \app\components\base\BaseModel
 
     /**
      * Name: incrLogCount
-     * Desc:
+     * Desc: 递增日志数量
      * Creator: liuzhen<liuzhen12@lenovo.com>
      * CreatedDate: 20170523
      * Modifier:
@@ -167,7 +167,7 @@ class User extends \app\components\base\BaseModel
 
     /**
      * Name: decrLogCount
-     * Desc:
+     * Desc: 递减日志数量
      * Creator: liuzhen<liuzhen12@lenovo.com>
      * CreatedDate: 20170523
      * Modifier:
@@ -181,4 +181,22 @@ class User extends \app\components\base\BaseModel
         }
     }
 
+    /**
+     * Name: evaluation
+     * Desc: 教练评价,更新对应教练的平均分和评价人数
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170606
+     * Modifier:
+     * ModifiedDate:
+     * @param $score
+     * @throws HttpException
+     */
+    public function evaluation($score)
+    {
+        $this->evaluation_count++;
+        $this->evaluation_score = ($score - $this->evaluation_score) / $this->evaluation_count + $this->evaluation_score ;
+        if(!$this->save()){
+            throw new HttpException(422, implode('|', $this->getFirstErrors()));
+        }
+    }
 }

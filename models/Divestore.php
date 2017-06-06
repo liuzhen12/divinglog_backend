@@ -66,4 +66,23 @@ class Divestore extends \app\components\base\BaseModel
             'updated_at' => Yii::t('app', '更新时间戳'),
         ];
     }
+
+
+    /**
+     * Name: evaluation
+     * Desc: 店铺评价,更新对应店铺的平均分和评价人数
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170606
+     * Modifier:
+     * ModifiedDate:
+     * @param $score
+     */
+    public function evaluation($score)
+    {
+        $this->evaluation_count++;
+        $this->evaluation_score = ($score - $this->evaluation_score) / $this->evaluation_count + $this->evaluation_score ;
+        if(!$this->save()){
+            throw new HttpException(422, implode('|', $this->getFirstErrors()));
+        }
+    }
 }

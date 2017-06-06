@@ -29,6 +29,11 @@ class DivingLogController extends BaseController
             'modelClass' => $this->modelClass,
             'checkAccess' => [$this, 'checkAccess'],
         ];
+        $actions['update'] = [
+            'class' => 'app\actions\divingLog\UpdateAction',
+            'modelClass' => $this->modelClass,
+            'checkAccess' => [$this, 'checkAccess'],
+        ];
         return $actions;
     }
 }

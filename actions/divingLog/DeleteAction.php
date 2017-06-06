@@ -12,15 +12,6 @@ use app\components\traits\ModelFindingTrait;
 
 class DeleteAction extends \yii\rest\DeleteAction
 {
-//    public function behaviors()
-//    {
-//        return [
-//            [
-//                'class' => ModelFindingBehavior::className(),
-//            ]
-//        ];
-//    }
-
     use ModelFindingTrait;
 
     public function run($id)

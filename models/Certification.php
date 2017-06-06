@@ -18,6 +18,8 @@ use Yii;
  */
 class Certification extends \app\components\base\BaseModel
 {
+    const SCENARIO_CERTIFICATE = 'certificate';
+    const SCENARIO_EVALUATE= 'evaluate';
     /**
      * @inheritdoc
      */
@@ -34,6 +36,16 @@ class Certification extends \app\components\base\BaseModel
         return [
             [['log_id', 'user_id', 'coach_id', 'score', 'created_at', 'updated_at'], 'integer'],
             [['remarks'], 'string', 'max' => 140],
+            [['log_id','user_id','coach_id'],'required','on'=>self::SCENARIO_CERTIFICATE],
+            [['score',],'required','on'=>self::SCENARIO_EVALUATE],
+        ];
+    }
+
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_CERTIFICATE => ['log_id', 'user_id','coach_id'],
+            self::SCENARIO_EVALUATE => ['score','remarks'],
         ];
     }
 
@@ -68,8 +80,31 @@ class Certification extends \app\components\base\BaseModel
         return $this->hasOne(DivingLog::className(),['id'=>'log_id'])->one();
     }
 
+    /**
+     * Name: getDiver
+     * Desc: 被认证的潜员
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170606
+     * Modifier:
+     * ModifiedDate:
+     * @return array|null|\yii\db\ActiveRecord
+     */
     public function getDiver()
     {
         return $this->hasOne(User::className(),['id'=>'user_id'])->one();
+    }
+
+    /**
+     * Name: getCoach
+     * Desc: 认证的教练
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170606
+     * Modifier:
+     * ModifiedDate:
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public function getCoach()
+    {
+        return $this->hasOne(User::className(),['id'=>'coach_id'])->one();
     }
 }
