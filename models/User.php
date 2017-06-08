@@ -67,13 +67,22 @@ class User extends \app\components\base\BaseModel
             [['open_id'], 'string', 'max' => 28],
             [['session_key'], 'string', 'max' => 24],
             [['access_token'], 'string', 'max' => 32],
-            [['nick_name', 'city', 'province', 'language', '!level_keywords', '!title'], 'string', 'max' => 45],
+            [['nick_name', 'city', 'province', 'language', '!level_keywords', 'title'], 'string', 'max' => 45],
             [['avatar_url'], 'string', 'max' => 100],
             [['country'], 'string', 'max' => 2],
             [['open_id'], 'unique'],
-            [['open_id','session_key','access_token'],'required','on'=>self::SCENARIO_LOGIN],
-            [['open_id','session_key','access_token','gender', 'language_detail', 'role',],'required','on'=>self::SCENARIO_DIVER_REGISTER],
+            [['open_id','!session_key','!access_token'],'required','on'=>self::SCENARIO_LOGIN],
+            [['open_id','session_key','access_token','gender', 'language_detail', 'role'],'required','on'=>self::SCENARIO_DIVER_REGISTER],
             [['open_id','session_key','access_token','gender', 'language_detail', 'role','is_store_manager','divestore_id'],'required','on'=>self::SCENARIO_COACH_REGISTER],
+        ];
+    }
+
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_LOGIN => ['open_id', 'session_key','access_token'],
+            self::SCENARIO_DIVER_REGISTER => ['open_id','session_key','access_token','gender', 'language_detail', 'role'],
+            self::SCENARIO_COACH_REGISTER => ['open_id','session_key','access_token','gender', 'language_detail', 'role','title','is_store_manager','divestore_id'],
         ];
     }
 

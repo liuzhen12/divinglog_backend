@@ -18,6 +18,9 @@ use Yii;
  */
 class Level extends \app\components\base\BaseModel
 {
+    const SCENARIO_CREATE= 'create';
+    const SCENARIO_CERTIFICATE = 'certificate';
+
     /**
      * @inheritdoc
      */
@@ -35,6 +38,16 @@ class Level extends \app\components\base\BaseModel
             [['user_id', 'coach_id', 'created_at', 'updated_at'], 'integer'],
             [['organization'], 'string', 'max' => 45],
             [['level', 'no'], 'string', 'max' => 20],
+            [['user_id','organization','level'],'required','on'=>self::SCENARIO_CREATE],
+            [['coach_id',],'required','on'=>self::SCENARIO_CERTIFICATE],
+        ];
+    }
+
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_CREATE => ['user_id','organization','level'],
+            self::SCENARIO_CERTIFICATE => ['coach_id'],
         ];
     }
 
