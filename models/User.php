@@ -134,7 +134,7 @@ class User extends \app\components\base\BaseModel
     {
         $links = [Link::REL_SELF => Url::to(['@web/login{?code}'], true)];
         if(in_array(self::getScenario(),[self::SCENARIO_COACH_REGISTER,self::SCENARIO_DIVER_REGISTER])){
-            $links['signin'] = Url::to(['@web/sign'], true);
+            $links['signin'] = Url::to(['@web/register'], true);
         }
         return $links;
     }
