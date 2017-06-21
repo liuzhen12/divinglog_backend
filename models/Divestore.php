@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\HttpException;
 
 /**
  * This is the model class for table "divestore".

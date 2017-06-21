@@ -2,11 +2,11 @@
 
 namespace app\models;
 
-use HttpException;
 use Yii;
 use yii\base\InvalidValueException;
 use yii\base\UserException;
 use yii\helpers\Url;
+use yii\web\HttpException;
 use yii\web\Link;
 
 /**

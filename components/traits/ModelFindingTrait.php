@@ -1,6 +1,7 @@
 <?php
 
 namespace app\components\traits;
+use yii\web\NotFoundHttpException;
 
 /**
  * Created by PhpStorm.
