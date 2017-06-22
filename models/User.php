@@ -72,8 +72,8 @@ class User extends \app\components\base\BaseModel
             [['country'], 'string', 'max' => 2],
             [['open_id'], 'unique'],
             [['open_id','!session_key','!access_token'],'required','on'=>self::SCENARIO_LOGIN],
-            [['open_id','session_key','access_token','gender', 'language_detail', 'role'],'required','on'=>self::SCENARIO_DIVER_REGISTER],
-            [['open_id','session_key','access_token','gender', 'language_detail', 'role','is_store_manager','divestore_id'],'required','on'=>self::SCENARIO_COACH_REGISTER],
+            [['open_id','session_key','access_token','gender','nick_name', 'city', 'province', 'language', 'language_detail', 'role'],'required','on'=>self::SCENARIO_DIVER_REGISTER],
+            [['open_id','session_key','access_token','gender','nick_name', 'city', 'province', 'language', 'language_detail','title', 'role','is_store_manager','divestore_id'],'required','on'=>self::SCENARIO_COACH_REGISTER],
         ];
     }
 
@@ -152,7 +152,8 @@ class User extends \app\components\base\BaseModel
      */
     public static function getScenarioByRole($role)
     {
-        if(!is_integer($role) || $role > count(static::ROLE,0)){
+        $role = intval($role);
+        if($role > count(static::ROLE,0)){
             throw new HttpException(422,"invalid role");
         }
         return static::ROLE[$role];
