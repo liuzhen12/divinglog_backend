@@ -153,7 +153,7 @@ class User extends \app\components\base\BaseModel
     public static function getScenarioByRole($role)
     {
         $role = intval($role);
-        if($role > count(static::ROLE,0)){
+        if(!in_array($role,array_keys(static::ROLE))){
             throw new HttpException(422,"invalid role");
         }
         return static::ROLE[$role];
