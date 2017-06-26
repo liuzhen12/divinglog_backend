@@ -81,8 +81,8 @@ class User extends \app\components\base\BaseModel
     {
         return [
             self::SCENARIO_LOGIN => ['open_id', 'session_key','access_token'],
-            self::SCENARIO_DIVER_REGISTER => ['open_id','session_key','access_token','gender', 'nick_name', 'city', 'province', 'language','language_detail', 'role'],
-            self::SCENARIO_COACH_REGISTER => ['open_id','session_key','access_token','gender', 'nick_name', 'city', 'province', 'language','language_detail', 'role','title','is_store_manager','divestore_id'],
+            self::SCENARIO_DIVER_REGISTER => ['open_id','session_key','access_token','gender','avatar_url', 'nick_name', 'country','city', 'province', 'language','language_detail', 'role'],
+            self::SCENARIO_COACH_REGISTER => ['open_id','session_key','access_token','gender','avatar_url',  'nick_name', 'country','city', 'province', 'language','language_detail', 'role','title','is_store_manager','divestore_id'],
         ];
     }
 
