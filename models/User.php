@@ -68,7 +68,7 @@ class User extends \app\components\base\BaseModel
             [['session_key'], 'string', 'max' => 24],
             [['access_token'], 'string', 'max' => 32],
             [['nick_name', 'city', 'province', 'language', '!level_keywords', 'title'], 'string', 'max' => 45],
-            [['avatar_url'], 'string', 'max' => 100],
+            [['avatar_url'], 'string', 'max' => 200],
             [['country'], 'string', 'max' => 2],
             [['open_id'], 'unique'],
             [['open_id','!session_key','!access_token'],'required','on'=>self::SCENARIO_LOGIN],
