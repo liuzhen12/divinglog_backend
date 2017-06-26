@@ -14,7 +14,7 @@ class M170512024108CreateUserTable extends BaseMigration
             'open_id' => $this->string(28)->notNull()->unique()->defaultValue('')->comment('微信用户的唯一标识'),
             'session_key' => $this->string(24)->notNull()->defaultValue('')->comment('微信用户登录返回'),
             'access_token' => $this->string(32)->notNull()->defaultValue('')->comment('后台根据openid和session_key生成的'),
-            'avatar_url' => $this->string(100)->notNull()->defaultValue('')->comment('微信头像图片'),
+            'avatar_url' => $this->string(200)->notNull()->defaultValue('')->comment('微信头像图片'),
             'nick_name' => $this->string(45)->notNull()->defaultValue('')->comment('微信昵称'),
             'gender' => $this->smallInteger()->notNull()->defaultValue(0)->comment('1:男 2:女'),
             'city' => $this->string(45)->notNull()->defaultValue(''),
