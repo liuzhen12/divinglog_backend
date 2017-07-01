@@ -68,7 +68,9 @@ class Equip extends \app\components\base\BaseModel
         return [
             Link::REL_SELF => Url::to(['equip/view', 'id' => $this->id], true),
             'edit' => Url::to(['equip/view', 'id' => $this->id], true),
+            'delete' => Url::to(['equip/view', 'id' => $this->id], true),
             'index' => Url::to(['@web/equips'], true),
+            'create' => Url::to(['@web/equips'], true)
         ];
     }
 
