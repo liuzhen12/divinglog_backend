@@ -19,6 +19,9 @@ class M170512024337CreateCertificationTable extends BaseMigration
             'updated_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('更新时间戳'),
         ]);
         $this->alterColumn('certification',"id","bigint auto_increment");
+        $this->createIndex('log_id_i',"certification",'log_id');
+        $this->createIndex('user_id_i',"certification",'user_id');
+        $this->createIndex('coach_id_i',"certification",'coach_id');
     }
 
     public function safeDown()
