@@ -24,6 +24,7 @@ use yii\web\Link;
  * @property string $country
  * @property string $language
  * @property integer $language_detail
+ * @property string $wechat_no
  * @property integer $role
  * @property integer $log_count
  * @property integer $equip_count
@@ -34,6 +35,7 @@ use yii\web\Link;
  * @property integer $evaluation_count
  * @property string $evaluation_score
  * @property integer $divestore_id
+ * @property integer $student_count
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
@@ -62,7 +64,7 @@ class User extends \app\components\base\BaseModel
     public function rules()
     {
         return [
-            [['gender', 'language_detail', 'role', '!log_count', '!equip_count', '!speciality_count', 'is_store_manager', '!evaluation_count', 'divestore_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['gender', 'language_detail', 'role', '!log_count', '!equip_count', '!speciality_count', 'is_store_manager', '!evaluation_count', 'divestore_id','!student_count', 'status', 'created_at', 'updated_at'], 'integer'],
             [['!evaluation_score'], 'number'],
             [['open_id'], 'string', 'max' => 28],
             [['session_key'], 'string', 'max' => 24],
@@ -70,6 +72,7 @@ class User extends \app\components\base\BaseModel
             [['nick_name', 'city', 'province', 'language', '!level_keywords', 'title'], 'string', 'max' => 45],
             [['avatar_url'], 'string', 'max' => 200],
             [['country'], 'string', 'max' => 2],
+            [['wechat_no'], 'string', 'max' => 20],
             [['open_id'], 'unique'],
             [['open_id','!session_key','!access_token'],'required','on'=>self::SCENARIO_LOGIN],
             [['open_id','session_key','access_token','gender', 'language_detail', 'role'],'required','on'=>self::SCENARIO_DIVER_REGISTER],
@@ -82,7 +85,7 @@ class User extends \app\components\base\BaseModel
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_LOGIN] = ['open_id', 'session_key','access_token'];
         $scenarios[self::SCENARIO_DIVER_REGISTER] = ['open_id','session_key','access_token','gender','avatar_url', 'nick_name', 'country','city', 'province', 'language','language_detail', 'role'];
-        $scenarios[self::SCENARIO_COACH_REGISTER] = ['open_id','session_key','access_token','gender','avatar_url',  'nick_name', 'country','city', 'province', 'language','language_detail', 'role','title','is_store_manager','divestore_id'];
+        $scenarios[self::SCENARIO_COACH_REGISTER] = ['open_id','session_key','access_token','gender','avatar_url',  'nick_name', 'country','city', 'province', 'language','language_detail','wechat_no', 'role','title','is_store_manager','divestore_id','student_count'];
         return $scenarios;
     }
 
