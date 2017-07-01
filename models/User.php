@@ -79,11 +79,11 @@ class User extends \app\components\base\BaseModel
 
     public function scenarios()
     {
-        return [
-            self::SCENARIO_LOGIN => ['open_id', 'session_key','access_token'],
-            self::SCENARIO_DIVER_REGISTER => ['open_id','session_key','access_token','gender','avatar_url', 'nick_name', 'country','city', 'province', 'language','language_detail', 'role'],
-            self::SCENARIO_COACH_REGISTER => ['open_id','session_key','access_token','gender','avatar_url',  'nick_name', 'country','city', 'province', 'language','language_detail', 'role','title','is_store_manager','divestore_id'],
-        ];
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_LOGIN] = ['open_id', 'session_key','access_token'];
+        $scenarios[self::SCENARIO_DIVER_REGISTER] = ['open_id','session_key','access_token','gender','avatar_url', 'nick_name', 'country','city', 'province', 'language','language_detail', 'role'];
+        $scenarios[self::SCENARIO_COACH_REGISTER] = ['open_id','session_key','access_token','gender','avatar_url',  'nick_name', 'country','city', 'province', 'language','language_detail', 'role','title','is_store_manager','divestore_id'];
+        return $scenarios;
     }
 
     /**

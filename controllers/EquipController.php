@@ -18,10 +18,12 @@ class EquipController extends BaseController
     public function actions()
     {
         $actions = parent::actions();
+        $modelClass = $this->modelClass;
         $actions['create'] = [
             'class' => 'app\actions\equip\CreateAction',
-            'modelClass' => $this->modelClass,
+            'modelClass' => $modelClass,
             'checkAccess' => [$this, 'checkAccess'],
+            'scenario' => $modelClass::SCENARIO_CREATE,
         ];
         $actions['delete'] = [
             'class' => 'app\actions\equip\DeleteAction',

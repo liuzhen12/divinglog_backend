@@ -32,7 +32,7 @@ class BaseIndexAction extends \yii\rest\IndexAction
 
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
-            'query' => $modelClass::find()->select(implode(',',$model->activeAttributes()))->where([$this->identity => Yii::$app->user->id]),
+            'query' => $modelClass::find()->select(implode(',',$model->activeAttributes()))->where([$this->identity => Yii::$app->user->findIdentity(Yii::$app->user->userId)]),
         ]);
     }
 }

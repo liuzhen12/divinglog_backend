@@ -17,6 +17,8 @@ use Yii;
  */
 class Equip extends \app\components\base\BaseModel
 {
+    const SCENARIO_CREATE = 'create';
+
     /**
      * @inheritdoc
      */
@@ -32,8 +34,15 @@ class Equip extends \app\components\base\BaseModel
     {
         return [
             [['user_id', 'created_at', 'updated_at'], 'integer'],
-            [['brand', 'model'], 'string', 'max' => 45],
+            [['type','brand', 'model'], 'string', 'max' => 45],
         ];
+    }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_CREATE] = ['user_id','type','brand','model'];
+        return $scenarios;
     }
 
     /**
