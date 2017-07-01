@@ -117,7 +117,7 @@ class DivingLog extends \app\components\base\BaseModel
         return [
             Link::REL_SELF => Url::to(['diving-log/view', 'id' => $this->id], true),
             'edit' => Url::to(['diving-log/view', 'id' => $this->id], true),
-            'index' => Url::to(['diving-logs'], true),
+            'index' => Url::to(['@web/diving-logs'],true),
         ];
     }
 

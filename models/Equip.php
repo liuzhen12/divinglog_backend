@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Url;
+use yii\web\Link;
 
 /**
  * This is the model class for table "equip".
@@ -58,6 +60,15 @@ class Equip extends \app\components\base\BaseModel
             'model' => Yii::t('app', '型号'),
             'created_at' => Yii::t('app', '创建时间戳'),
             'updated_at' => Yii::t('app', '更新时间戳'),
+        ];
+    }
+
+    public function getLinks()
+    {
+        return [
+            Link::REL_SELF => Url::to(['equip/view', 'id' => $this->id], true),
+            'edit' => Url::to(['equip/view', 'id' => $this->id], true),
+            'index' => Url::to(['@web/equips'], true),
         ];
     }
 

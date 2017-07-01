@@ -19,6 +19,11 @@ class EquipController extends BaseController
     {
         $actions = parent::actions();
         $modelClass = $this->modelClass;
+        $actions['index'] = [
+            'class' => 'app\components\base\BaseIndexAction',
+            'modelClass' => $modelClass,
+            'checkAccess' => [$this, 'checkAccess']
+        ];
         $actions['create'] = [
             'class' => 'app\actions\equip\CreateAction',
             'modelClass' => $modelClass,

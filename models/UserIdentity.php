@@ -44,7 +44,8 @@ final class UserIdentity extends User implements \yii\web\IdentityInterface
      */
     public function getId()
     {
-        return $this->getAttribute(self::$access_token);
+//        return $this->getAttribute(self::$access_token);
+        return $this->id;
     }
 
     /**
