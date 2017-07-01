@@ -17,6 +17,7 @@ use Yii;
  * @property string $location_latitue
  * @property string $location_name
  * @property string $location_address
+ * @property string $dive_point
  * @property integer $depth1
  * @property integer $time1
  * @property integer $depth2
@@ -30,6 +31,7 @@ use Yii;
  * @property string $comments
  * @property string $assets
  * @property integer $stamp
+ * @property integer $link_id
  * @property integer $divestore_id
  * @property integer $divestore_score
  * @property integer $created_at
@@ -37,6 +39,9 @@ use Yii;
  */
 class DivingLog extends \app\components\base\BaseModel
 {
+    const SCENARIO_INDEX = 'index';
+    const SCENARIO_DIVER_INDEX = 'diver_index';
+    const SCENARIO_CREATE = 'create';
     /**
      * @inheritdoc
      */
@@ -51,16 +56,24 @@ class DivingLog extends \app\components\base\BaseModel
     public function rules()
     {
         return [
-            [['no', 'user_id', 'depth1', 'time1', 'depth2', 'time2', 'depth3', 'time3', 'gas', 'barometer_start', 'barometer_end', 'weight', 'stamp', 'divestore_id', 'divestore_score', 'created_at', 'updated_at'], 'integer'],
+            [['no', 'user_id', 'depth1', 'time1', 'depth2', 'time2', 'depth3', 'time3', 'gas', 'barometer_start', 'barometer_end', 'weight', 'stamp','link_id','divestore_id', 'divestore_score', 'created_at', 'updated_at'], 'integer'],
             [['day', 'time_in', 'time_out'], 'safe'],
             [['location_longitude', 'location_latitue'], 'number'],
-            [['location_name'], 'string', 'max' => 45],
+            [['location_name','dive_point'], 'string', 'max' => 45],
             [['location_address'], 'string', 'max' => 200],
             [['comments'], 'string', 'max' => 140],
             [['assets'], 'string', 'max' => 100],
         ];
     }
 
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_INDEX => ['user_id', 'day','location_longitude','location_latitue','location_name','location_address','assets'],
+            self::SCENARIO_DIVER_INDEX => ['user_id', 'day','location_longitude','location_latitue','location_name','location_address','assets'.'stamp'],
+            self::SCENARIO_CREATE => ['no','user_id','day','time_in','time_out', 'location_longitude', 'location_latitue','location_name', 'location_address', 'dive_point','depth1', 'time1','depth2', 'time2','depth3', 'time3','gas','barometer_start','barometer_end','weight','comments','!assets','link_id','divestore_id','divestore_score'],
+        ];
+    }
     /**
      * @inheritdoc
      */
@@ -77,6 +90,7 @@ class DivingLog extends \app\components\base\BaseModel
             'location_latitue' => Yii::t('app', '微信定位-纬度'),
             'location_name' => Yii::t('app', '微信定位-位置名称'),
             'location_address' => Yii::t('app', '微信定位-详细地址'),
+            'dive_point' => Yii::t('app', '潜点'),
             'depth1' => Yii::t('app', '潜水深度'),
             'time1' => Yii::t('app', '水下时间'),
             'depth2' => Yii::t('app', '潜水深度'),
@@ -89,11 +103,21 @@ class DivingLog extends \app\components\base\BaseModel
             'weight' => Yii::t('app', '配重'),
             'comments' => Yii::t('app', '潜水的感受和评价'),
             'assets' => Yii::t('app', '潜水照片链接'),
-            'stamp' => Yii::t('app', '认证人数'),
+            'stamp' => Yii::t('app', '认证人数和被拷贝的日志数量之和'),
+            'link_id' => Yii::t('app', '一次潜水buddies的日志可以通过copy来减少输入量，那么copy出来的日志和被copy的日志维护相同的link_id'),
             'divestore_id' => Yii::t('app', '关联潜店ID'),
             'divestore_score' => Yii::t('app', '给潜店打分'),
             'created_at' => Yii::t('app', '创建时间戳'),
             'updated_at' => Yii::t('app', '更新时间戳'),
+        ];
+    }
+
+    public function getLinks()
+    {
+        return [
+            Link::REL_SELF => Url::to(['diving-log/view', 'id' => $this->id], true),
+            'edit' => Url::to(['diving-log/view', 'id' => $this->id], true),
+            'index' => Url::to(['diving-logs'], true),
         ];
     }
 

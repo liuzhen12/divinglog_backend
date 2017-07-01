@@ -36,4 +36,14 @@ class DivingLogController extends BaseController
         ];
         return $actions;
     }
+
+    public function prepareDataProvider()
+    {
+        $modelClass = $this->modelClass;
+
+        return Yii::createObject([
+            'class' => ActiveDataProvider::className(),
+            'query' => $modelClass::find()->select(),
+        ]);
+    }
 }

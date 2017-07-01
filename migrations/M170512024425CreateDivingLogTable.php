@@ -19,6 +19,7 @@ class M170512024425CreateDivingLogTable extends BaseMigration
             'location_latitue' => $this->decimal(10,6)->notNull()->defaultValue(0)->comment('微信定位-纬度'),
             'location_name' => $this->string(45)->notNull()->defaultValue('')->comment('微信定位-位置名称'),
             'location_address' => $this->string(200)->notNull()->defaultValue('')->comment('微信定位-详细地址'),
+            'dive_point' => $this->string(45)->notNull()->defaultValue('')->comment('潜点'),
             'depth1' => $this->smallInteger()->notNull()->defaultValue(0)->comment('潜水深度'),
             'time1' => $this->smallInteger()->notNull()->defaultValue(0)->comment('水下时间'),
             'depth2' => $this->smallInteger()->notNull()->defaultValue(0)->comment('潜水深度'),
@@ -31,13 +32,16 @@ class M170512024425CreateDivingLogTable extends BaseMigration
             'weight' => $this->smallInteger()->notNull()->defaultValue(4)->comment('配重'),
             'comments' => $this->string(140)->notNull()->defaultValue('')->comment('潜水的感受和评价'),
             'assets' => $this->string(100)->notNull()->defaultValue('')->comment('潜水照片链接'),
-            'stamp' => $this->smallInteger()->notNull()->defaultValue(0)->comment('认证人数'),
+            'stamp' => $this->smallInteger()->notNull()->defaultValue(0)->comment('认证人数和被拷贝的日志数量之和'),
+            'link_id' => $this->bigInteger()->notNull()->defaultValue(0)->comment('一次潜水buddies的日志可以通过copy来减少输入量，那么copy出来的日志和被copy的日志维护相同的link_id'),
             'divestore_id' => $this->bigInteger(20)->notNull()->defaultValue(0)->comment('关联潜店ID'),
             'divestore_score' => $this->smallInteger()->notNull()->defaultValue(0)->comment('给潜店打分'),
             'created_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('创建时间戳'),
             'updated_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('更新时间戳'),
         ]);
         $this->alterColumn('diving_log',"id","bigint auto_increment");
+        $this->createIndex('user_id_i',"diving_log",'user_id');
+        $this->createIndex('link_id_i',"diving_log",'link_id');
     }
 
     public function safeDown()
