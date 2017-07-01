@@ -18,6 +18,12 @@ class DivingLogController extends BaseController
     public function actions()
     {
         $actions = parent::actions();
+        $modelClass = $this->modelClass;
+        $actions['index'] = [
+            'class' => 'app\components\base\BaseIndexAction',
+            'modelClass' => $modelClass,
+            'scenario' => $modelClass::SCENARIO_DIVER_INDEX,
+        ];
         $actions['create'] = [
             'class' => 'app\actions\divingLog\CreateAction',
             'modelClass' => $this->modelClass,
@@ -37,13 +43,4 @@ class DivingLogController extends BaseController
         return $actions;
     }
 
-    public function prepareDataProvider()
-    {
-        $modelClass = $this->modelClass;
-
-        return Yii::createObject([
-            'class' => ActiveDataProvider::className(),
-            'query' => $modelClass::find()->select(),
-        ]);
-    }
 }

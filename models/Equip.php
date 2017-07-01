@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property integer $user_id
+ * @property string $type
  * @property string $brand
  * @property string $model
  * @property integer $created_at
@@ -43,6 +44,7 @@ class Equip extends \app\components\base\BaseModel
         return [
             'id' => Yii::t('app', 'ID'),
             'user_id' => Yii::t('app', '关联用户'),
+            'type' => Yii::t('app', '类型'),
             'brand' => Yii::t('app', '品牌'),
             'model' => Yii::t('app', '型号'),
             'created_at' => Yii::t('app', '创建时间戳'),

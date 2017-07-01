@@ -11,6 +11,7 @@ class M170512024437CreateEquipTable extends BaseMigration
         $this->createTable('equip', [
             'id' => $this->primaryKey(),
             'user_id' => $this->bigInteger(20)->notNull()->defaultValue(0)->comment('关联用户'),
+            'type' => $this->string(45)->notNull()->defaultValue('')->comment('类型'),
             'brand' => $this->string(45)->notNull()->defaultValue('')->comment('品牌'),
             'model' => $this->string(45)->notNull()->defaultValue('')->comment('型号'),
             'created_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('创建时间戳'),
