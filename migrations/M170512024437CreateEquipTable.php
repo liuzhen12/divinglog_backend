@@ -18,7 +18,6 @@ class M170512024437CreateEquipTable extends BaseMigration
             'updated_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('更新时间戳'),
         ]);
         $this->alterColumn('equip',"id","bigint auto_increment");
-        $this->createIndex('user_id_i',"equip",'user_id');
         $this->createIndex('sort_i',"equip",['user_id','updated_at']);
     }
 
