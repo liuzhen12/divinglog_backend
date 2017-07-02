@@ -9,9 +9,9 @@
 namespace app\controllers;
 
 
-use yii\rest\Controller;
+use yii\rest\ActiveController;
 
-class LanguageController extends Controller
+class LanguageController extends ActiveController
 {
     public $modelClass = 'app\models\Language';
 }
