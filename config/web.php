@@ -65,6 +65,7 @@ $config = [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'level'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'speciality'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'student'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'language', 'only'=>['index']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['login'=>'wechat/login'],'only'=>['index']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['register'=>'wechat/register'],'only'=>['create']],
             ],
