@@ -24,9 +24,9 @@ class IndexAction extends Action
         $user = User::findOne(['open_id' => $wechatUser->openid]);
 
         if(isset($user)){
+            $user->scenario = User::SCENARIO_LOGIN;
             //wechat的session key会过期，所以user里的session key过期需要重新保持跟wechat一致，并且access token重新生成
             if($wechatUser->session_key != $user->session_key){
-                $user->scenario = User::SCENARIO_LOGIN;
                 $user->session_key = $wechatUser->session_key;
                 $user->access_token = $wechatUser->access_token;
                 if(!$user->save()){
