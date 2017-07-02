@@ -31,7 +31,7 @@ class CreateAction extends \yii\rest\CreateAction
         $request["open_id"] = $wechatUser->openid;
         $request["session_key"] = $wechatUser->session_key;
         $request["access_token"] = $wechatUser->access_token;
-        $this->scenario = User::getScenarioByRole($request["role"]);
+        $this->scenario = User::getScenarioByRole4Register($request["role"]);
         Yii::$app->getRequest()->setBodyParams($request);
         return parent::run();
     }

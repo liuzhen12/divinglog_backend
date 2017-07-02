@@ -19,6 +19,7 @@ class BaseIndexAction extends \yii\rest\IndexAction
 {
     public $scenario = Model::SCENARIO_DEFAULT;
     public $identity = "user_id";
+    public $pageSize = 10;
 
     protected function prepareDataProvider()
     {
@@ -34,7 +35,7 @@ class BaseIndexAction extends \yii\rest\IndexAction
             'class' => ActiveDataProvider::className(),
             'query' => $modelClass::find()->select(implode(',',array_merge($model->activeAttributes(),['id'])))->where([$this->identity => Yii::$app->user->id]),
             'pagination' => [
-                'pageSize' => 5,
+                'pageSize' => $this->pageSize,
             ],
             'sort' => [
                 'defaultOrder' => [

@@ -20,6 +20,7 @@ class Certification extends \app\components\base\BaseModel
 {
     const SCENARIO_CERTIFICATE = 'certificate';
     const SCENARIO_EVALUATE= 'evaluate';
+    const SCENARIO_STUDENT= 'student';
     /**
      * @inheritdoc
      */
@@ -43,10 +44,11 @@ class Certification extends \app\components\base\BaseModel
 
     public function scenarios()
     {
-        return [
-            self::SCENARIO_CERTIFICATE => ['log_id', 'user_id','coach_id'],
-            self::SCENARIO_EVALUATE => ['score','remarks'],
-        ];
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_CERTIFICATE] = ['log_id', 'user_id','coach_id'];
+        $scenarios[self::SCENARIO_EVALUATE] = ['score','remarks'];
+        $scenarios[self::SCENARIO_STUDENT] = ['user_id'];
+        return $scenarios;
     }
 
     /**
@@ -91,7 +93,7 @@ class Certification extends \app\components\base\BaseModel
      */
     public function getDiver()
     {
-        return $this->hasOne(User::className(),['id'=>'user_id'])->one();
+        return $this->hasOne(User::className(),['id'=>'user_id']);
     }
 
     /**

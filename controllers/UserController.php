@@ -14,4 +14,15 @@ use yii\rest\ActiveController;
 class UserController extends ActiveController
 {
     public $modelClass = 'app\models\User';
+
+    public function actions()
+    {
+        $actions = parent::actions();
+        $actions['view'] = [
+            'class' => 'app\actions\user\ViewAction',
+            'modelClass' => $this->modelClass,
+            'checkAccess' => [$this, 'checkAccess']
+        ];
+        return $actions;
+    }
 }
