@@ -167,7 +167,6 @@ class Controller extends Component implements ViewContextInterface
         if ($oldAction !== null) {
             $this->action = $oldAction;
         }
-
         return $result;
     }
 

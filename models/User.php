@@ -45,6 +45,8 @@ class User extends \app\components\base\BaseModel
     const SCENARIO_LOGIN = 'login';
     const SCENARIO_DIVER_REGISTER = 'diver';
     const SCENARIO_COACH_REGISTER= 'coach';
+    const SCENARIO_DIVER_INDEX = 'diver_index';
+    const SCENARIO_COACH_INDEX= 'coach_index';
     const ROLE = [
         1=>'diver',
         2=>'coach'
@@ -86,6 +88,8 @@ class User extends \app\components\base\BaseModel
         $scenarios[self::SCENARIO_LOGIN] = ['open_id', 'session_key','access_token'];
         $scenarios[self::SCENARIO_DIVER_REGISTER] = ['open_id','session_key','access_token','gender','avatar_url', 'nick_name', 'country','city', 'province', 'language','language_detail', 'role'];
         $scenarios[self::SCENARIO_COACH_REGISTER] = ['open_id','session_key','access_token','gender','avatar_url',  'nick_name', 'country','city', 'province', 'language','language_detail','wechat_no', 'role','title','is_store_manager','divestore_id','student_count'];
+        $scenarios[self::SCENARIO_DIVER_INDEX] = [];
+        $scenarios[self::SCENARIO_COACH_INDEX] = ['nick_name','gender','country','province','city','language_detail'];
         return $scenarios;
     }
 
