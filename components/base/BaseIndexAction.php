@@ -36,6 +36,11 @@ class BaseIndexAction extends \yii\rest\IndexAction
             'pagination' => [
                 'pageSize' => 5,
             ],
+            'sort' => [
+                'defaultOrder' => [
+                    'updated_at' => SORT_DESC
+                ]
+            ],
         ]);
     }
 }
