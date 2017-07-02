@@ -16,6 +16,7 @@ class M170512024458CreateSpecialityTable extends BaseMigration
             'updated_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('更新时间戳'),
         ]);
         $this->alterColumn('speciality',"id","bigint auto_increment");
+        $this->createIndex('sort_i',"speciality",['user_id','updated_at']);
     }
 
     public function safeDown()
