@@ -34,7 +34,7 @@ class IndexAction extends Action
                 }
             }
         } else {
-            $user = new User(['scenario' => User::SCENARIO_DIVER_REGISTER]);
+            $user = new User();
         }
 
         return $user;

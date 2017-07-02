@@ -153,22 +153,29 @@ class User extends \app\components\base\BaseModel
 
     public function getLinks()
     {
-        $links = [Link::REL_SELF => Url::to(['@web/login{?code}'], true)];
-        if(in_array(self::getScenario(),[self::SCENARIO_COACH_REGISTER,self::SCENARIO_DIVER_REGISTER])){
+        if(in_array(self::getScenario(),[self::SCENARIO_DEFAULT])){
             $links['register'] = Url::to(['@web/register'], true);
         }
+        if(in_array(self::getScenario(),[self::SCENARIO_LOGIN])){
+            $links[Link::REL_SELF] = Url::to(['@web/login{?code}'], true);
+            $links['me'] = Url::to(['user/view', 'id' => $this->id], true);
+        }
+        if(in_array(self::getScenario(),[self::SCENARIO_COACH_REGISTER,self::SCENARIO_DIVER_REGISTER])){
+            $links[Link::REL_SELF] = Url::to(['@web/register'], true);
+            $links['me'] = Url::to(['user/view', 'id' => $this->id], true);
+        }
         if(in_array(self::getScenario(),[self::SCENARIO_DIVER_INDEX,self::SCENARIO_DIVER_INDEX])){
-            $links[Link::REL_SELF ] = Url::to(['user/view', 'id' => $this->id], true);
+            $links[Link::REL_SELF] = Url::to(['user/view', 'id' => $this->id], true);
         }
         if(in_array(self::getScenario(),[self::SCENARIO_DIVER_VIEW])){
-            $links[Link::REL_SELF ] = Url::to(['user/view', 'id' => $this->id], true);
+            $links[Link::REL_SELF] = Url::to(['user/view', 'id' => $this->id], true);
             $links['diving-log'] = Url::to(['@web/diving-logs'], true);
             $links['equip'] = Url::to(['@web/equips'], true);
             $links['level'] = Url::to(['@web/levels'], true);
-            $links['speciality'] = Url::to(['@web/speciallities'], true);
+            $links['speciality'] = Url::to(['@web/specialities'], true);
         }
         if(in_array(self::getScenario(),[self::SCENARIO_COACH_VIEW])){
-            $links[Link::REL_SELF ] = Url::to(['user/view', 'id' => $this->id], true);
+            $links[Link::REL_SELF] = Url::to(['user/view', 'id' => $this->id], true);
             $links['coach-course'] = Url::to(['@web/coach-courses'], true);
             $links['student'] = Url::to(['@web/students'], true);
         }
