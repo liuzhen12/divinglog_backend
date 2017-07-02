@@ -125,6 +125,7 @@ class User extends \app\components\base\BaseModel
             'country' => Yii::t('app', 'Country'),
             'language' => Yii::t('app', 'Language'),
             'language_detail' => Yii::t('app', '1->中 2->英 3->粤'),
+            'wechat_no' => Yii::t('app', '微信号或者QQ号或者绑定的手机号，但手机号如果修改，需要重新维护该信息'),
             'role' => Yii::t('app', '1->潜员 2->教练'),
             'log_count' => Yii::t('app', '潜员属性->日志数量'),
             'equip_count' => Yii::t('app', '潜员属性->装备数量'),
@@ -135,6 +136,7 @@ class User extends \app\components\base\BaseModel
             'evaluation_count' => Yii::t('app', '教练属性->评价人数'),
             'evaluation_score' => Yii::t('app', '教练属性->评价平均分'),
             'divestore_id' => Yii::t('app', '教练属性->管理的潜店'),
+            'student_count' => Yii::t('app', '教练属性->学生人数'),
             'status' => Yii::t('app', '1:enable 2:disable'),
             'created_at' => Yii::t('app', '创建时间戳'),
             'updated_at' => Yii::t('app', '更新时间戳'),
@@ -146,7 +148,7 @@ class User extends \app\components\base\BaseModel
         $fields = parent::fields();
 
         // remove fields that contain sensitive information
-        unset($fields['open_id'], $fields['session_key']);
+        unset($fields['open_id'], $fields['session_key'], $fields['status']);
 
         return $fields;
     }
