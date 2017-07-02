@@ -155,10 +155,12 @@ class User extends \app\components\base\BaseModel
     {
         if(in_array(self::getScenario(),[self::SCENARIO_DEFAULT])){
             $links['register'] = Url::to(['@web/register'], true);
+            $links['logs'] = Url::to(['@web/diving-logs'], true);
         }
         if(in_array(self::getScenario(),[self::SCENARIO_LOGIN])){
             $links[Link::REL_SELF] = Url::to(['@web/login{?code}'], true);
             $links['me'] = Url::to(['user/view', 'id' => $this->id], true);
+            $links['logs'] = Url::to(['@web/diving-logs'], true);
         }
         if(in_array(self::getScenario(),[self::SCENARIO_COACH_REGISTER,self::SCENARIO_DIVER_REGISTER])){
             $links[Link::REL_SELF] = Url::to(['@web/register'], true);
