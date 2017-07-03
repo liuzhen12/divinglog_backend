@@ -50,6 +50,7 @@ class User extends \app\components\base\BaseModel
     const SCENARIO_DIVER_VIEW = 'diver_view';
     const SCENARIO_COACH_VIEW= 'coach_view';
     const SCENARIO_STUDENT= 'student';
+    const SCENARIO_TITLE='title';
     const ROLE_REGISTER = [
         1=>'diver',
         2=>'coach'
@@ -104,6 +105,7 @@ class User extends \app\components\base\BaseModel
         $scenarios[self::SCENARIO_DIVER_VIEW] = ['nick_name','gender','country','province','city','language_detail','role','log_count','equip_count','level_keywords','special_count'];
         $scenarios[self::SCENARIO_COACH_VIEW] = ['nick_name','gender','country','province','city','language_detail','wechat_no','role','title','is_store_manager','divestore_id','evaluation_score','student_count'];
         $scenarios[self::SCENARIO_STUDENT] = ['avatar_url', 'nick_name'];
+        $scenarios[self::SCENARIO_TITLE] = ['title'];
         return $scenarios;
     }
 
@@ -155,6 +157,7 @@ class User extends \app\components\base\BaseModel
 
     public function getLinks()
     {
+        $links = [];
         if(in_array(self::getScenario(),[self::SCENARIO_DEFAULT])){
             $links['register'] = Url::to(['@web/register'], true);
             $links['logs'] = Url::to(['@web/diving-logs'], true);
@@ -182,6 +185,11 @@ class User extends \app\components\base\BaseModel
             $links[Link::REL_SELF] = Url::to(['user/view', 'id' => $this->id], true);
             $links['coach-course'] = Url::to(['@web/coach-courses'], true);
             $links['student'] = Url::to(['@web/students'], true);
+            $links['divestore'] = Url::to(['@web/divestores/{$this->divestore_id}'], true);
+        }
+        if(in_array(self::getScenario(),[self::SCENARIO_TITLE])){
+            $links[Link::REL_SELF] = Url::to(['@web/coach-titles/{$this->id}', 'id' => $this->id], true);
+            $links['index'] = Url::to(['@web/coach-titles'], true);
         }
         return $links;
     }

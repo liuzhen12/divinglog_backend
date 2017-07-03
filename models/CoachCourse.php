@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "coach_course".
  *
  * @property integer $id
- * @property integer $coach_id
+ * @property integer $user_id
  * @property integer $course_id
  * @property integer $created_at
  * @property integer $updated_at
@@ -29,7 +29,7 @@ class CoachCourse extends \app\components\base\BaseModel
     public function rules()
     {
         return [
-            [['coach_id', 'course_id', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'course_id', 'created_at', 'updated_at'], 'integer'],
         ];
     }
 
@@ -40,7 +40,7 @@ class CoachCourse extends \app\components\base\BaseModel
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'coach_id' => Yii::t('app', '关联教练'),
+            'user_id' => Yii::t('app', '关联教练'),
             'course_id' => Yii::t('app', '关联课程'),
             'created_at' => Yii::t('app', '创建时间戳'),
             'updated_at' => Yii::t('app', '更新时间戳'),
