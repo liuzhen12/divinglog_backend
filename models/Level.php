@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\HttpException;
 
 /**
  * This is the model class for table "level".
@@ -45,10 +46,10 @@ class Level extends \app\components\base\BaseModel
 
     public function scenarios()
     {
-        return [
-            self::SCENARIO_CREATE => ['user_id','organization','level'],
-            self::SCENARIO_CERTIFICATE => ['coach_id'],
-        ];
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_CREATE] = ['user_id','organization','level','no'];
+        $scenarios[self::SCENARIO_CERTIFICATE] = ['coach_id'];
+        return $scenarios;
     }
 
     /**
@@ -80,5 +81,22 @@ class Level extends \app\components\base\BaseModel
     public function getDiver()
     {
         return $this->hasOne(User::className(),['id'=>'user_id'])->one();
+    }
+
+    /**
+     * Name: delete
+     * Desc: 重写delete方法，旨在添加不能删除已验证的level
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170704
+     * Modifier:
+     * ModifiedDate:
+     * @return false|int
+     */
+    public function delete()
+    {
+        if(0 == $this->coach_id){
+            throw new HttpException(422,"Could not delete authenticated level info.");
+        }
+        return parent::delete();
     }
 }
