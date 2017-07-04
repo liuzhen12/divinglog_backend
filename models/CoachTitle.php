@@ -29,16 +29,10 @@ class CoachTitle extends User
 
     public function getLinks()
     {
-        $links = [];
-        if(in_array(self::getScenario(),[self::SCENARIO_DEFAULT])){
-            $links[Link::REL_SELF] = Url::to(['coach-title/view','id' => $this->id], true);
-            $links['edit'] = Url::to(['coach-title/view','id' => $this->id], true);
-            $links['index'] = Url::to(['coach-titles'], true);
-        }
-        if(in_array(self::getScenario(),[self::SCENARIO_TITLE])){
-            $links[Link::REL_SELF] = Url::to(['coach-title/view','id' => $this->id], true);
-            $links['index'] = Url::to(['@web/coach-titles'], true);
-        }
-        return $links;
+        return [
+            Link::REL_SELF => Url::to(['coach-title/view', 'id' => $this->id], true),
+            'edit' => Url::to(['coach-title/view', 'id' => $this->id], true),
+            'index' => Url::to(['@web/coach-titles'], true)
+        ];
     }
 }

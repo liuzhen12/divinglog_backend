@@ -177,6 +177,7 @@ class User extends \app\components\base\BaseModel
             $links['diving-log'] = Url::to(['@web/diving-logs'], true);
             $links['equip'] = Url::to(['@web/equips'], true);
             $links['level'] = Url::to(['@web/levels'], true);
+            $links['default-level'] = Url::to(['@web/diver-levels'], true);
             $links['speciality'] = Url::to(['@web/specialities'], true);
         }
         if(in_array(self::getScenario(),[self::SCENARIO_COACH_VIEW])){
