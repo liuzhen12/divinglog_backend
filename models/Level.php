@@ -71,6 +71,13 @@ class Level extends \app\components\base\BaseModel
         ];
     }
 
+    public function fields()
+    {
+        $fields = parent::fields();
+        $fields[] = 'hasCertification';
+        return $fields;
+    }
+
     public function getLinks()
     {
         return [
@@ -107,9 +114,23 @@ class Level extends \app\components\base\BaseModel
      */
     public function delete()
     {
-        if(0 == $this->coach_id){
+        if($this->hasCertification){
             throw new HttpException(422,"Could not delete authenticated level info.");
         }
         return parent::delete();
+    }
+
+    /**
+     * Name: getHasCertification
+     * Desc: 该记录是否已被认证
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170704
+     * Modifier:
+     * ModifiedDate:
+     * @return bool
+     */
+    public function getHasCertification()
+    {
+        return $this->coach_id <> 0;
     }
 }
