@@ -11,9 +11,10 @@ namespace app\controllers;
 
 use app\components\base\BaseController;
 
+
 class CoachTitleController extends BaseController
 {
-    public $modelClass = 'app\models\User';
+    public $modelClass = 'app\models\CoachTitle';
 
     public function actions()
     {
