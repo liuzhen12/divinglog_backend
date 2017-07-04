@@ -3,7 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Url;
 use yii\web\HttpException;
+use yii\web\Link;
 
 /**
  * This is the model class for table "level".
@@ -66,6 +68,17 @@ class Level extends \app\components\base\BaseModel
             'coach_id' => Yii::t('app', '认证的教练'),
             'created_at' => Yii::t('app', '创建时间戳'),
             'updated_at' => Yii::t('app', '更新时间戳'),
+        ];
+    }
+
+    public function getLinks()
+    {
+        return [
+            Link::REL_SELF => Url::to(['level/view', 'id' => $this->id], true),
+            'edit' => Url::to(['level/view', 'id' => $this->id], true),
+            'delete' => Url::to(['level/view', 'id' => $this->id], true),
+            'create' => Url::to(['@web/levels'], true),
+            'index' => Url::to(['@web/levels'], true)
         ];
     }
 
