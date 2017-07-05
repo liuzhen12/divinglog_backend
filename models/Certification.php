@@ -93,7 +93,7 @@ class Certification extends \app\components\base\BaseModel
      */
     public function getDiver()
     {
-        return $this->hasOne(User::className(),['id'=>'user_id']);
+        return $this->hasOne(User1::className(),['id'=>'user_id']);
     }
 
     /**
@@ -107,6 +107,6 @@ class Certification extends \app\components\base\BaseModel
      */
     public function getCoach()
     {
-        return $this->hasOne(User::className(),['id'=>'coach_id'])->one();
+        return $this->hasOne(User2::className(),['id'=>'coach_id'])->one();
     }
 }

@@ -54,6 +54,8 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'user'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'diver'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'coach'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'activity'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'activity-member'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'certification'],
@@ -67,6 +69,7 @@ $config = [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'student'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'coach-title'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'diver-level'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'location'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'language', 'only'=>['index']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['login'=>'wechat/login'],'only'=>['index']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['register'=>'wechat/register'],'only'=>['create']],

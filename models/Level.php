@@ -75,6 +75,7 @@ class Level extends \app\components\base\BaseModel
     {
         $fields = parent::fields();
         $fields[] = 'hasCertification';
+        $fields[] = 'coachName';
         return $fields;
     }
 
@@ -100,7 +101,7 @@ class Level extends \app\components\base\BaseModel
      */
     public function getDiver()
     {
-        return $this->hasOne(User::className(),['id'=>'user_id'])->one();
+        return $this->hasOne(User1::className(),['id'=>'user_id'])->one();
     }
 
     /**
@@ -132,5 +133,36 @@ class Level extends \app\components\base\BaseModel
     public function getHasCertification()
     {
         return $this->coach_id <> 0;
+    }
+
+    /**
+     * Name: getCoach
+     * Desc: 认证的教练
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170606
+     * Modifier:
+     * ModifiedDate:
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public function getCoach()
+    {
+        if(0 >= $this->coach_id){
+            return (new User2())->loadDefaultValues();
+        }
+        return $this->hasOne(User2::className(),['id'=>'coach_id'])->one();
+    }
+
+    /**
+     * Name: getCoachName
+     * Desc: 获取教练昵称
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170705
+     * Modifier:
+     * ModifiedDate:
+     * @return mixed
+     */
+    public function getCoachName()
+    {
+        return $this->coach->nick_name;
     }
 }

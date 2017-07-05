@@ -85,6 +85,6 @@ class Equip extends \app\components\base\BaseModel
      */
     public function getDiver()
     {
-        return $this->hasOne(User::className(),['id'=>'user_id'])->one();
+        return $this->hasOne(User1::className(),['id'=>'user_id'])->one();
     }
 }

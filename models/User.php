@@ -42,26 +42,14 @@ use yii\web\Link;
  */
 class User extends \app\components\base\BaseModel
 {
+
+    const ROLE = 0;
+
     const SCENARIO_LOGIN = 'login';
-    const SCENARIO_DIVER_REGISTER = 'diver';
-    const SCENARIO_COACH_REGISTER= 'coach';
-    const SCENARIO_DIVER_INDEX = 'diver_index';
-    const SCENARIO_COACH_INDEX= 'coach_index';
-    const SCENARIO_DIVER_VIEW = 'diver_view';
-    const SCENARIO_COACH_VIEW= 'coach_view';
+    const SCENARIO_REGISTER = 'register';
+    const SCENARIO_INDEX = 'index';
+    const SCENARIO_VIEW = 'view';
     const SCENARIO_STUDENT= 'student';
-    const ROLE_REGISTER = [
-        1=>'diver',
-        2=>'coach'
-    ];
-    const ROLE_INDEX = [
-        1=>'diver_index',
-        2=>'coach_index'
-    ];
-    const ROLE_VIEW = [
-        1=>'diver_view',
-        2=>'coach_view'
-    ];
 
     /**
      * @inheritdoc
@@ -88,8 +76,7 @@ class User extends \app\components\base\BaseModel
             [['wechat_no'], 'string', 'max' => 20],
             [['open_id'], 'unique'],
             [['open_id','!session_key','!access_token'],'required','on'=>self::SCENARIO_LOGIN],
-            [['open_id','session_key','access_token','gender', 'language_detail', 'role'],'required','on'=>self::SCENARIO_DIVER_REGISTER],
-            [['open_id','session_key','access_token','gender', 'language_detail', 'role', 'is_store_manager'],'required','on'=>self::SCENARIO_COACH_REGISTER],
+            [['open_id','!session_key','!access_token','gender','avatar_url', 'nick_name', 'country','city', 'province', 'language','language_detail','wechat_no','role'],'required','on'=>self::SCENARIO_REGISTER]
         ];
     }
 
@@ -97,14 +84,16 @@ class User extends \app\components\base\BaseModel
     {
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_LOGIN] = ['open_id', 'session_key','access_token'];
-        $scenarios[self::SCENARIO_DIVER_REGISTER] = ['open_id','session_key','access_token','gender','avatar_url', 'nick_name', 'country','city', 'province', 'language','language_detail', 'role'];
-        $scenarios[self::SCENARIO_COACH_REGISTER] = ['open_id','session_key','access_token','gender','avatar_url',  'nick_name', 'country','city', 'province', 'language','language_detail','wechat_no', 'role','title','is_store_manager','divestore_id','student_count'];
-        $scenarios[self::SCENARIO_DIVER_INDEX] = [];
-        $scenarios[self::SCENARIO_COACH_INDEX] = ['nick_name','gender','country','province','city','language_detail'];
-        $scenarios[self::SCENARIO_DIVER_VIEW] = ['nick_name','gender','country','province','city','language_detail','role','log_count','equip_count','level_keywords','special_count'];
-        $scenarios[self::SCENARIO_COACH_VIEW] = ['nick_name','gender','country','province','city','language_detail','wechat_no','role','title','is_store_manager','divestore_id','evaluation_score','student_count'];
+        $scenarios[self::SCENARIO_REGISTER] = ['open_id','session_key','access_token','gender','avatar_url', 'nick_name', 'country','city', 'province', 'language','language_detail','wechat_no','role'];
+        $scenarios[self::SCENARIO_INDEX] = ['avatar_url','nick_name','gender','country','province','city','language','language_detail'];
+        $scenarios[self::SCENARIO_VIEW] = ['nick_name','gender','country','province','city','language_detail','wechat_no','role'];
         $scenarios[self::SCENARIO_STUDENT] = ['avatar_url', 'nick_name'];
         return $scenarios;
+    }
+
+    public function fields()
+    {
+        return ['id','access_token','avatar_url','nick_name','gender','city','province','country','language','language_detail','role'];
     }
 
     /**
@@ -143,111 +132,69 @@ class User extends \app\components\base\BaseModel
         ];
     }
 
-    public function fields()
-    {
-        $fields = parent::fields();
-
-        // remove fields that contain sensitive information
-        unset($fields['open_id'], $fields['session_key'], $fields['status']);
-
-        return $fields;
-    }
-
     public function getLinks()
     {
         $links = [];
         if(in_array(self::getScenario(),[self::SCENARIO_DEFAULT])){
             $links['register'] = Url::to(['@web/register'], true);
-            $links['logs'] = Url::to(['@web/diving-logs'], true);
         }
         if(in_array(self::getScenario(),[self::SCENARIO_LOGIN])){
             $links[Link::REL_SELF] = Url::to(['@web/login{?code}'], true);
-            $links['me'] = Url::to(["@web/users/{$this->id}"], true);
             $links['logs'] = Url::to(['@web/diving-logs'], true);
         }
-        if(in_array(self::getScenario(),[self::SCENARIO_COACH_REGISTER,self::SCENARIO_DIVER_REGISTER])){
+        if(in_array(self::getScenario(),[self::SCENARIO_REGISTER])){
             $links[Link::REL_SELF] = Url::to(['@web/register'], true);
-            $links['me'] = Url::to(["@web/users/{$this->id}"], true);
         }
-        if(in_array(self::getScenario(),[self::SCENARIO_DIVER_INDEX,self::SCENARIO_DIVER_INDEX])){
-            $links[Link::REL_SELF] = Url::to(['user/view', 'id' => $this->id], true);
-        }
-        if(in_array(self::getScenario(),[self::SCENARIO_DIVER_VIEW])){
-            $links[Link::REL_SELF] = Url::to(['user/view', 'id' => $this->id], true);
-            $links['diving-log'] = Url::to(['@web/diving-logs'], true);
-            $links['equip'] = Url::to(['@web/equips'], true);
-            $links['level'] = Url::to(['@web/levels'], true);
-            $links['default-level'] = Url::to(['@web/diver-levels'], true);
-            $links['speciality'] = Url::to(['@web/specialities'], true);
-        }
-        if(in_array(self::getScenario(),[self::SCENARIO_COACH_VIEW])){
-            $links[Link::REL_SELF] = Url::to(['user/view', 'id' => $this->id], true);
-            $links['coach-title'] = Url::to(["@web/coach-titles"], true);
-            $links['coach-course'] = Url::to(['@web/coach-courses'], true);
-            $links['student'] = Url::to(['@web/students'], true);
-            $links['divestore'] = Url::to(['@web/divestores/{$this->divestore_id}'], true);
-        }
-        return $links;
+        return array_merge($links,$this->getSubClass()->getLinks());
     }
 
     /**
-     * Name: getScenarioByRole4Register
-     * Desc: role字段不同，场景不同(注册)
+     * Name: find
+     * Desc: 重写，加入前提条件只筛选特定角色的数据
      * Creator: liuzhen<liuzhen12@lenovo.com>
-     * CreatedDate: 20170523
+     * CreatedDate: 20170704
      * Modifier:
      * ModifiedDate:
-     * @param $role
-     * @return mixed
-     * @throws UserException
+     * @return $this
      */
-    public static function getScenarioByRole4Register($role)
+    public static function find()
     {
-        $role = intval($role);
-        if(!in_array($role,array_keys(static::ROLE_REGISTER))){
-            throw new HttpException(422,"invalid role");
+        if(0 === static::ROLE){
+            return parent::find();
         }
-        return static::ROLE_REGISTER[$role];
+        return parent::find()->andWhere(['role'=>static::ROLE]);
     }
 
     /**
-     * Name: getScenarioByRole4Index
-     * Desc: role字段不同，场景不同(概揽)
+     * Name: getSubClass
+     * Desc: 根据后缀确定子类名字
      * Creator: liuzhen<liuzhen12@lenovo.com>
-     * CreatedDate: 20170702
+     * CreatedDate: 20170705
      * Modifier:
      * ModifiedDate:
      * @param $role
-     * @return mixed
-     * @throws HttpException
+     * @return stringe
      */
-    public static function getScenarioByRole4Index($role)
+    public function getSubClass($suffix)
     {
-        $role = intval($role);
-        if(!in_array($role,array_keys(static::ROLE_INDEX))){
-            throw new HttpException(422,"invalid role");
-        }
-        return static::ROLE_INDEX[$role];
+        return "User{$suffix}";
     }
 
     /**
-     * Name: getScenarioByRole4View
-     * Desc: role字段不同，场景不同(详情)
+     * Name: getSubInstance
+     * Desc: 实例化一个确定的子类
      * Creator: liuzhen<liuzhen12@lenovo.com>
-     * CreatedDate: 20170702
+     * CreatedDate: 20170705
      * Modifier:
      * ModifiedDate:
-     * @param $role
      * @return mixed
-     * @throws HttpException
      */
-    public static function getScenarioByRole4View($role)
+    public function getSubInstance()
     {
-        $role = intval($role);
-        if(!in_array($role,array_keys(static::ROLE_VIEW))){
-            throw new HttpException(422,"invalid role");
-        }
-        return static::ROLE_VIEW[$role];
+        $modelClass = $this->getSubClass($this->role);
+        return new $modelClass([
+            'scenario' => $this->scenario,
+        ]);
     }
 
     /**
@@ -263,137 +210,5 @@ class User extends \app\components\base\BaseModel
         return $this->hasOne(Certification::className(),['id'=>'coach_id']);
     }
 
-    /**
-     * Name: incrLogCount
-     * Desc: 递增日志数量
-     * Creator: liuzhen<liuzhen12@lenovo.com>
-     * CreatedDate: 20170523
-     * Modifier:
-     * ModifiedDate:
-     */
-    public function incrLogCount()
-    {
-        $this->log_count++;
-        if(!$this->save()){
-            throw new HttpException(422, implode('|', $this->getFirstErrors()));
-        }
-    }
 
-    /**
-     * Name: decrLogCount
-     * Desc: 递减日志数量
-     * Creator: liuzhen<liuzhen12@lenovo.com>
-     * CreatedDate: 20170523
-     * Modifier:
-     * ModifiedDate:
-     */
-    public function decrLogCount()
-    {
-        $this->log_count--;
-        if(!$this->save()){
-            throw new HttpException(422, implode('|', $this->getFirstErrors()));
-        }
-    }
-
-    /**
-     * Name: incrLogCount
-     * Desc: 递增装备数量
-     * Creator: liuzhen<liuzhen12@lenovo.com>
-     * CreatedDate: 20170523
-     * Modifier:
-     * ModifiedDate:
-     */
-    public function incrEquipCount()
-    {
-        $this->equip_count++;
-        if(!$this->save()){
-            throw new HttpException(422, implode('|', $this->getFirstErrors()));
-        }
-    }
-
-    /**
-     * Name: decrLogCount
-     * Desc: 递减装备数量
-     * Creator: liuzhen<liuzhen12@lenovo.com>
-     * CreatedDate: 20170523
-     * Modifier:
-     * ModifiedDate:
-     */
-    public function decrEquipCount()
-    {
-        $this->equip_count--;
-        if(!$this->save()){
-            throw new HttpException(422, implode('|', $this->getFirstErrors()));
-        }
-    }
-
-    /**
-     * Name: updateLevel
-     * Desc: 更新等级关键字
-     * Creator: liuzhen<liuzhen12@lenovo.com>
-     * CreatedDate: 20170606
-     * Modifier:
-     * ModifiedDate:
-     * @param $organization
-     * @param $level
-     * @throws HttpException
-     */
-    public function updateLevel($organization,$level)
-    {
-        $this->level_keywords = $organization . ' ' . $level;
-        if(!$this->save()){
-            throw new HttpException(422, implode('|', $this->getFirstErrors()));
-        }
-    }
-
-    /**
-     * Name: incrLogCount
-     * Desc: 递增装备数量
-     * Creator: liuzhen<liuzhen12@lenovo.com>
-     * CreatedDate: 20170523
-     * Modifier:
-     * ModifiedDate:
-     */
-    public function incrSpecialityCount()
-    {
-        $this->speciality_count++;
-        if(!$this->save()){
-            throw new HttpException(422, implode('|', $this->getFirstErrors()));
-        }
-    }
-
-    /**
-     * Name: decrLogCount
-     * Desc: 递减装备数量
-     * Creator: liuzhen<liuzhen12@lenovo.com>
-     * CreatedDate: 20170523
-     * Modifier:
-     * ModifiedDate:
-     */
-    public function decrSpecialityCount()
-    {
-        $this->speciality_count--;
-        if(!$this->save()){
-            throw new HttpException(422, implode('|', $this->getFirstErrors()));
-        }
-    }
-
-    /**
-     * Name: evaluation
-     * Desc: 教练评价,更新对应教练的平均分和评价人数
-     * Creator: liuzhen<liuzhen12@lenovo.com>
-     * CreatedDate: 20170606
-     * Modifier:
-     * ModifiedDate:
-     * @param $score
-     * @throws HttpException
-     */
-    public function evaluation($score)
-    {
-        $this->evaluation_count++;
-        $this->evaluation_score = ($score - $this->evaluation_score) / $this->evaluation_count + $this->evaluation_score ;
-        if(!$this->save()){
-            throw new HttpException(422, implode('|', $this->getFirstErrors()));
-        }
-    }
 }
