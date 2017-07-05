@@ -43,7 +43,7 @@ class User1 extends User
             $links[Link::REL_SELF] = Url::to(['diver/view', 'id' => $this->id], true);
         }
         if(in_array(self::getScenario(),[self::SCENARIO_LOGIN,self::SCENARIO_REGISTER])){
-            $links['me'] = Url::to(['@web/divers/{$this->id}'], true);
+            $links['me'] = Url::to(["@web/divers/{$this->id}"], true);
             $links['logs'] = Url::to(['@web/diving-logs'], true);
             $links['activities'] = Url::to(['@web/activities'], true);
             $links['coaches'] = Url::to(['@web/coaches{?city,gender,language,evaluation_score,student_count}'], true);
