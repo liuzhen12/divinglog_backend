@@ -13,7 +13,6 @@ class ViewAction extends \yii\rest\ViewAction
     public function run($id)
     {
         $model = parent::run($id);
-        $model->scenario = $model->getScenarioByRole4View($model->role);
         return $model;
     }
 }
