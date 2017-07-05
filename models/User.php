@@ -177,7 +177,7 @@ class User extends \app\components\base\BaseModel
      */
     public function getSubClass($suffix)
     {
-        return "User{$suffix}";
+        return "app\models\User{$suffix}";
     }
 
     /**
