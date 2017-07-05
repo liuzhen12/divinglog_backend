@@ -34,6 +34,8 @@ class CoachController extends BaseController
 
     public function prepareDataProvider()
     {
+        $country =  Yii::$app->getRequest()->get('country');
+        $province =  Yii::$app->getRequest()->get('province');
         $city =  Yii::$app->getRequest()->get('city');
         $gender = Yii::$app->getRequest()->get('gender');
         $language = Yii::$app->getRequest()->get('language');
@@ -42,6 +44,12 @@ class CoachController extends BaseController
 
         $condition = [];
         $sort = ['updated_at'=>SORT_DESC];
+        if(isset($country)){
+            $condition['country'] = $country;
+        }
+        if(isset($province)){
+            $condition['province'] = $province;
+        }
         if(isset($city)){
             $condition['city'] = $city;
         }

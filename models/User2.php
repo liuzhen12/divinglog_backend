@@ -40,10 +40,10 @@ class User2 extends User
     {
         $links = parent::getLinks();
         if(in_array(self::getScenario(),[self::SCENARIO_DEFAULT])){
-            $links[Link::REL_SELF] = Url::to(['coach/view', 'id' => $this->id], true);
+            $links[Link::REL_SELF] = Url::to(["@web/coaches/{$this->id}"], true);
         }
         if(in_array(self::getScenario(),[self::SCENARIO_LOGIN,self::SCENARIO_REGISTER])){
-            $links['me'] = Url::to(["@web/coachs/{$this->id}"], true);
+            $links['me'] = Url::to(["@web/coaches/{$this->id}"], true);
             $links['logs'] = Url::to(['@web/diving-logs'], true);
             $links['activities'] = Url::to(['@web/activities'], true);
         }
