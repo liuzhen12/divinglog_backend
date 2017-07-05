@@ -76,7 +76,7 @@ class User extends \app\components\base\BaseModel
             [['wechat_no'], 'string', 'max' => 20],
             [['open_id'], 'unique'],
             [['open_id','!session_key','!access_token'],'required','on'=>self::SCENARIO_LOGIN],
-            [['open_id','!session_key','!access_token','gender','avatar_url', 'nick_name', 'country','city', 'province', 'language','language_detail','wechat_no','role'],'required','on'=>self::SCENARIO_REGISTER]
+            [['open_id','!session_key','!access_token','gender','avatar_url', 'nick_name', 'country', 'province', 'language','language_detail','role'],'required','on'=>self::SCENARIO_REGISTER]
         ];
     }
 
