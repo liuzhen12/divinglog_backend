@@ -57,7 +57,7 @@ class CreateAction extends Action
         } elseif (!$model->hasErrors()) {
             throw new ServerErrorHttpException('Failed to create the object for unknown reason.');
         }
-
+var_dump($model);exit;
         return $model;
     }
 }
