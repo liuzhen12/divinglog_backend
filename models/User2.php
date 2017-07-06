@@ -55,7 +55,7 @@ class User2 extends User
             $links['coach-title'] = Url::to(["@web/coach-titles"], true);
             $links['coach-course'] = Url::to(['@web/coach-courses'], true);
             $links['student'] = Url::to(['@web/students'], true);
-            $links['divestore'] = Url::to(['@web/divestores/{$this->divestore_id}'], true);
+            $links['divestore'] = Url::to(["@web/divestores/{$this->divestore_id}"], true);
         }
         return $links;
     }
