@@ -194,6 +194,7 @@ class User extends \app\components\base\BaseModel
         $modelClass = $this->getSubClass($this->role);
         return new $modelClass([
             'scenario' => $this->scenario,
+            'id' => $this->id
         ]);
     }
 
