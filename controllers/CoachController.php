@@ -77,7 +77,7 @@ class CoachController extends BaseController
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
             'query' => User2::find()
-                ->select(implode(',',(new User2(['scenario' => User2::SCENARIO_INDEX]))->activeAttributes()))
+                ->select(implode(',',array_merge(new User2(['scenario' => User2::SCENARIO_INDEX]))->activeAttributes(),['id']))
                 ->andWhere($condition),
             'pagination' => [
                 'pageSize' => 5,
