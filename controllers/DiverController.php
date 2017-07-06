@@ -8,7 +8,6 @@
 
 namespace app\controllers;
 
-
 use app\components\base\BaseController;
 
 class DiverController extends BaseController
@@ -25,6 +24,12 @@ class DiverController extends BaseController
             'checkAccess' => [$this, 'checkAccess'],
             'scenario' => $modelClass::SCENARIO_INDEX,
             'identity' => 'id'
+        ];
+        $actions['view'] = [
+            'class' => 'app\components\base\BaseViewAction',
+            'modelClass' => $modelClass,
+            'checkAccess' => [$this, 'checkAccess'],
+            'scenario' => $modelClass::SCENARIO_VIEW,
         ];
         return $actions;
     }

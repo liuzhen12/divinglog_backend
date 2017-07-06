@@ -29,6 +29,12 @@ class CoachController extends BaseController
             'scenario' => $modelClass::SCENARIO_INDEX,
             'prepareDataProvider' => [$this, 'prepareDataProvider']
         ];
+        $actions['view'] = [
+            'class' => 'app\components\base\BaseViewAction',
+            'modelClass' => $modelClass,
+            'checkAccess' => [$this, 'checkAccess'],
+            'scenario' => $modelClass::SCENARIO_VIEW,
+        ];
         return $actions;
     }
 

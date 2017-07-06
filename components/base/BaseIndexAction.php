@@ -8,12 +8,9 @@
 
 namespace app\components\base;
 
-use app\models\DivingLog;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use yii\helpers\Url;
-use yii\web\ServerErrorHttpException;
 
 class BaseIndexAction extends \yii\rest\IndexAction
 {
