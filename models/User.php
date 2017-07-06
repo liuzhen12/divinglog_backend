@@ -93,7 +93,7 @@ class User extends \app\components\base\BaseModel
 
     public function fields()
     {
-        return ['id','access_token','avatar_url','nick_name','gender','city','province','country','language','language_detail','role'];
+        return ['id','access_token','avatar_url','nick_name','gender','city','province','country','language','language_detail','wechat_no','role'];
     }
 
     /**
