@@ -24,6 +24,9 @@ class User2 extends User
     public function fields()
     {
         $fields = parent::fields();
+        if(in_array(self::getScenario(),[self::SCENARIO_DEFAULT])){
+            return $fields;
+        }
         return array_merge($fields, ['title','is_store_manager','evaluation_count','evaluation_score','student_count','divestore_id']);
     }
 
