@@ -38,7 +38,7 @@ class User2 extends User
 
     public function getLinks()
     {
-        $links = parent::getLinks();
+        $links = [];
         if(in_array(self::getScenario(),[self::SCENARIO_DEFAULT])){
             $links[Link::REL_SELF] = Url::to(["@web/coaches/{$this->id}"], true);
         }

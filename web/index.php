@@ -6,7 +6,7 @@ defined('YII_ENV') or define('YII_ENV', 'dev');
 
 require(__DIR__ . '/../vendor/autoload.php');
 require(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
-ini_set('memory_limit', '256M');
+
 $config = require(__DIR__ . '/../config/web.php');
 //\Yii::$container->setSingleton('app\services\LoggingInterface', 'app\services\LoggingService');
 (new yii\web\Application($config))->run();
