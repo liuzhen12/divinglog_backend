@@ -32,7 +32,7 @@ class User1 extends User
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_VIEW] = array_merge($scenarios[self::SCENARIO_VIEW],['log_count','equip_count','level_keywords','special_count']);
+        $scenarios[self::SCENARIO_VIEW] = array_merge($scenarios[self::SCENARIO_VIEW],['log_count','equip_count','level_keywords','speciality_count']);
         return $scenarios;
     }
 
