@@ -17,6 +17,8 @@ class BaseIndexAction extends \yii\rest\IndexAction
     public $scenario = Model::SCENARIO_DEFAULT;
     public $identity = "user_id";
     public $pageSize = 10;
+    public $whereCondition;
+    public $sort = ['updated_at' => SORT_DESC];
 
     protected function prepareDataProvider()
     {
@@ -27,17 +29,14 @@ class BaseIndexAction extends \yii\rest\IndexAction
         /* @var $modelClass \yii\db\BaseActiveRecord */
         $modelClass = $this->modelClass;
         $model = new $modelClass(['scenario' => $this->scenario]);
-
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
-            'query' => $modelClass::find()->select(implode(',',array_merge($model->activeAttributes(),['id'])))->andWhere([$this->identity => Yii::$app->user->id]),
+            'query' => $modelClass::find()->select(implode(',',array_merge($model->activeAttributes(),['id'])))->andWhere($this->whereCondition?:[$this->identity => Yii::$app->user->id]),
             'pagination' => [
                 'pageSize' => $this->pageSize,
             ],
             'sort' => [
-                'defaultOrder' => [
-                    'updated_at' => SORT_DESC
-                ]
+                'defaultOrder' => $this->sort
             ],
         ]);
     }
