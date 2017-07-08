@@ -6,4 +6,5 @@ return [
     'username' => 'root',
     'password' => 'abcd-1234',
     'charset' => 'utf8',
+    'enableSchemaCache' => true
 ];
