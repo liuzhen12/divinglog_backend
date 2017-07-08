@@ -62,6 +62,13 @@ class Location extends \app\components\base\BaseModel
         ];
     }
 
+    public function fields()
+    {
+        $fields = parent::fields();
+        unset($fields['source']);
+        return $fields;
+    }
+
     /**
      * Name: batchSave
      * Desc: 批量添加country,province,city这些location信息
