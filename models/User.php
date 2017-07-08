@@ -2,7 +2,9 @@
 
 namespace app\models;
 
+use app\components\events\LocationEvent;
 use Yii;
+use yii\base\Event;
 use yii\base\InvalidValueException;
 use yii\base\UserException;
 use yii\helpers\Url;

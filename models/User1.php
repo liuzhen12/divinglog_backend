@@ -9,6 +9,9 @@
 namespace app\models;
 
 
+use app\components\events\LocationEvent;
+use Yii;
+use yii\base\Event;
 use yii\helpers\Url;
 use yii\web\Link;
 
@@ -65,6 +68,31 @@ class User1 extends User
             $links['speciality'] = Url::to(['@web/specialities'], true);
         }
         return $links;
+    }
+
+    /**
+     * Name: save
+     * Desc: 重写，触发保存location的事件
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170708
+     * Modifier:
+     * ModifiedDate:
+     * @param bool $runValidation
+     * @param null $attributeNames
+     * @return bool
+     */
+    public function save($runValidation = true, $attributeNames = null)
+    {
+        $data = [];
+        $data['country'] = $this->getAttribute('country');
+        $data['oldCountry'] = $this->getOldAttribute('country');
+        $data['province'] = $this->getAttribute('province');
+        $data['oldProvince'] = $this->getOldAttribute('province');
+        $data['city'] = $this->getAttribute('city');
+        $data['oldCity'] = $this->getOldAttribute('city');
+        $result = parent::save($runValidation, $attributeNames);
+        Yii::$app->trigger(LocationEvent::DIVER,new Event(['sender' => $data]));
+        return $result;
     }
 
     /**

@@ -5,7 +5,7 @@ $params = require(__DIR__ . '/params.php');
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log','locationEvent'],
     'modules' => [
         'wechat' => [
             'class' => 'app\modules\wechat\Module',
@@ -74,6 +74,9 @@ $config = [
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['login'=>'wechat/login'],'only'=>['index']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['register'=>'wechat/register'],'only'=>['create']],
             ],
+        ],
+        'locationEvent' => [
+            'class' => 'app\components\events\LocationEvent'
         ],
     ],
     'params' => $params,
