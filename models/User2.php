@@ -86,7 +86,32 @@ class User2 extends User
         $data['city'] = $this->getAttribute('city');
         $data['oldCity'] = $this->getOldAttribute('city');
         $result = parent::save($runValidation, $attributeNames);
-        Yii::$app->trigger(LocationEvent::COACH,new Event(['sender' => $data]));
+        if($result){
+            //触发保存location的事件
+            Yii::$app->trigger(LocationEvent::COACH,new Event(['sender' => $data]));
+        }
+        return $result;
+    }
+
+    /**
+     * Name: delete
+     * Desc: 重写，触发保存location的事件
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170708
+     * Modifier:
+     * ModifiedDate:
+     * @return false|int
+     */
+    public function delete()
+    {
+        $data = [];
+        $data['oldCountry'] = $this->getAttribute('country');
+        $data['oldProvince'] = $this->getAttribute('province');
+        $data['oldCity'] = $this->getAttribute('city');
+        $result = parent::delete();
+        if($result){
+            Yii::$app->trigger(LocationEvent::COACH,new Event(['sender' => $data]));
+        }
         return $result;
     }
 };

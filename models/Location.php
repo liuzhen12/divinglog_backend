@@ -76,12 +76,14 @@ class Location extends \app\components\base\BaseModel
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
             if ($this->country <> $this->oldCountry) {
-                $country = static::findOne(['source' => $this->source, 'name' => $this->country]) ?: clone $this;
-                $country->source = $this->source;
-                $country->name = $this->country;
-                $country->detail = $this->country;
-                $country->in_count++;
-                $country->save();
+                if (!empty($this->country)) {
+                    $country = static::findOne(['source' => $this->source, 'name' => $this->country]) ?: clone $this;
+                    $country->source = $this->source;
+                    $country->name = $this->country;
+                    $country->detail = $this->country;
+                    $country->in_count++;
+                    $country->save();
+                }
                 //旧值要减去计数
                 if (!empty($this->oldCountry)) {
                     $country = static::findOne(['source' => $this->source, 'name' => $this->oldCountry]);
@@ -97,12 +99,14 @@ class Location extends \app\components\base\BaseModel
             }
 
             if ($this->province <> $this->oldProvince) {
-                $province = static::findOne(['source' => $this->source, 'name' => $this->province]) ?: clone $this;
-                $province->source = $this->source;
-                $province->name = $this->province;
-                $province->detail = "{$this->province},{$this->country}";
-                $province->in_count++;
-                $province->save();
+                if (!empty($this->province)) {
+                    $province = static::findOne(['source' => $this->source, 'name' => $this->province]) ?: clone $this;
+                    $province->source = $this->source;
+                    $province->name = $this->province;
+                    $province->detail = "{$this->province},{$this->country}";
+                    $province->in_count++;
+                    $province->save();
+                }
                 //旧值要减去计数
                 if (!empty($this->oldProvince)) {
                     $province = static::findOne(['source' => $this->source, 'name' => $this->oldProvince]);
@@ -118,12 +122,14 @@ class Location extends \app\components\base\BaseModel
             }
 
             if ($this->city <> $this->oldCity) {
-                $city = static::findOne(['source' => $this->source, 'name' => $this->city]) ?: clone $this;
-                $city->source = $this->source;
-                $city->name = $this->city;
-                $city->detail = "{$this->country},{$this->province},{$this->city}";
-                $city->in_count++;
-                $city->save();
+                if(!empty($this->province)){
+                    $city = static::findOne(['source' => $this->source, 'name' => $this->city]) ?: clone $this;
+                    $city->source = $this->source;
+                    $city->name = $this->city;
+                    $city->detail = "{$this->country},{$this->province},{$this->city}";
+                    $city->in_count++;
+                    $city->save();
+                }
                 //旧值要减去计数
                 if (!empty($this->oldCity)) {
                     $city = static::findOne(['source' => $this->source, 'name' => $this->oldCity]);
