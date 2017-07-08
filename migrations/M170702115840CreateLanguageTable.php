@@ -17,10 +17,9 @@ class M170702115840CreateLanguageTable extends BaseMigration
             'updated_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('更新时间戳'),
         ]);
         $this->alterColumn('user',"id","bigint auto_increment");
-        \Yii::$app->db->createCommand()->batchInsert("language",
+        $this->batchInsert("language",
             ['id','name','created_at','updated_at'],
-            [[1,'Mandarin',time(),time()],[2,'English',time(),time()],[3,'Cantonese',time(),time()]])
-        ->execute();
+            [[1,'Mandarin',time(),time()],[2,'English',time(),time()],[3,'Cantonese',time(),time()]]);
     }
 
     public function safeDown()
