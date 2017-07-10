@@ -14,4 +14,16 @@ use app\components\base\BaseController;
 class CoachCourseController extends BaseController
 {
     public $modelClass = 'app\models\CoachCourse';
+
+    public function actions()
+    {
+        $actions = parent::actions();
+        $modelClass = $this->modelClass;
+        $actions['index'] = [
+            'class' => 'app\components\base\BaseIndexAction',
+            'modelClass' => $modelClass,
+            'checkAccess' => [$this, 'checkAccess']
+        ];
+        return $actions;
+    }
 }

@@ -46,4 +46,16 @@ class CoachCourse extends \app\components\base\BaseModel
             'updated_at' => Yii::t('app', '更新时间戳'),
         ];
     }
+
+    public function getLinks()
+    {
+        return [
+            Link::REL_SELF => Url::to(['coach-course/view', 'id' => $this->id], true),
+            'edit' => Url::to(['coach-course/view', 'id' => $this->id], true),
+            'delete' => Url::to(['coach-course/view', 'id' => $this->id], true),
+            'index' => Url::to(['@web/coach-courses'], true),
+            'create' => Url::to(['@web/coach-courses'], true),
+            'detail' => Url::to(["@web/courses/{$this->course_id}"], true),
+        ];
+    }
 }
