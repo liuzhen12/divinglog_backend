@@ -19,7 +19,7 @@ class M170512024108CreateUserTable extends BaseMigration
             'gender' => $this->smallInteger()->notNull()->defaultValue(0)->comment('1:男 2:女'),
             'city' => $this->string(45)->notNull()->defaultValue(''),
             'province' => $this->string(45)->notNull()->defaultValue(''),
-            'country' => $this->string(2)->notNull()->defaultValue(''),
+            'country' => $this->string(45)->notNull()->defaultValue(''),
             'language' => $this->string(45)->notNull()->defaultValue(''),
             'language_detail' => $this->smallInteger()->notNull()->defaultValue(1)->comment('1->中 2->英 3->粤'),
             'wechat_no' => $this->string(20)->notNull()->defaultValue('')->comment('微信号或者QQ号或者绑定的手机号，但手机号如果修改，需要重新维护该信息'),
