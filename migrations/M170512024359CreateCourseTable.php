@@ -10,6 +10,7 @@ class M170512024359CreateCourseTable extends BaseMigration
     {
         $this->createTable('course', [
             'id' => $this->primaryKey(),
+            'organization' => $this->string(45)->notNull()->defaultValue('')->comment('组织 PADI'),
             'name' => $this->string(45)->notNull()->defaultValue('')->comment('课程名字'),
             'created_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('创建时间戳'),
             'updated_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('更新时间戳'),
