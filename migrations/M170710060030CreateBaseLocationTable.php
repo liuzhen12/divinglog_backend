@@ -4,7 +4,7 @@ namespace app\migrations;
 
 use app\components\base\BaseMigration;
 
-class M170710060030CreateBaseLocation extends BaseMigration
+class M170710060030CreateBaseLocationTable extends BaseMigration
 {
 
     // Use safeUp/safeDown to run migration code within a transaction
@@ -19,7 +19,7 @@ class M170710060030CreateBaseLocation extends BaseMigration
             'updated_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('更新时间戳'),
         ]);
         $this->alterColumn('base_location',"id","bigint auto_increment");
-        $this->createIndex('parent_i',"base_location",['p_id']);
+        $this->createIndex('parent_i',"base_location",['p_id','name']);
         $this->batchInsert('base_location',['id','name','chinese_name','p_id'],[
             [1,"United States","美国",0],
             [2,"Arkansas","阿肯色",1],

@@ -70,6 +70,7 @@ $config = [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'coach-title'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'diver-level'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'location'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'base-location'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'language', 'only'=>['index']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['login'=>'wechat/login'],'only'=>['index']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['register'=>'wechat/register'],'only'=>['create']],
