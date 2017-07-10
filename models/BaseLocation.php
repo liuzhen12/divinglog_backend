@@ -59,4 +59,11 @@ class BaseLocation extends \app\components\base\BaseModel
             'children' => Url::to(["@web/base-locations?p_id={$this->id}"], true)
         ];
     }
+
+    public function fields()
+    {
+        $fields = parent::fields();
+        unset($fields['p_id']);
+        return $fields;
+    }
 }
