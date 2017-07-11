@@ -50,26 +50,26 @@ class CoachController extends BaseController
 
         $condition = [];
         $sort = ['updated_at'=>SORT_DESC];
-        if(isset($country)){
+        if(!empty($country)){
             $condition['country'] = $country;
         }
-        if(isset($province)){
+        if(!empty($province)){
             $condition['province'] = $province;
         }
-        if(isset($city)){
+        if(!empty($city)){
             $condition['city'] = $city;
         }
-        if(isset($gender)){
+        if(!empty($gender)){
             $condition['gender'] = explode(',',$gender);
         }
-        if(isset($language)){
+        if(!empty($language)){
             $condition['language_detail'] = explode(',',$language);
         }
-        if(isset($evaluationScore) && in_array($evaluationScore,[0,1])){
+        if(!empty($evaluationScore) && in_array($evaluationScore,[0,1])){
             $sort['evaluation_score'] = 1 == $evaluationScore ? SORT_DESC : SORT_ASC;
             unset($sort['updated_at']);
         }
-        if(isset($studentCount)  && in_array($studentCount,[0,1])){
+        if(!empty($studentCount)  && in_array($studentCount,[0,1])){
             $sort['student_count'] = 1 == $studentCount ? SORT_DESC : SORT_ASC;
             unset($sort['updated_at']);
         }

@@ -13,6 +13,7 @@ use app\components\base\BaseController;
 use app\models\BaseLocation;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 
 class BaseLocationController extends BaseController
 {
@@ -32,17 +33,24 @@ class BaseLocationController extends BaseController
 
     public function prepareDataProvider()
     {
+        $p_id=Yii::$app->request->get('p_id');
+        $models = Yii::$app->db->cache(function ($db) use ($p_id) {
+//            return $db->createCommand("SELECT * FROM base_location where p_id = {$p_id} ORDER BY name")->queryAll();
+            return BaseLocation::find()->andWhere(['p_id' => $p_id])->orderBy(['name'=>SORT_ASC])->createCommand()->queryAll();
+        });
+
         return Yii::createObject([
-            'class' => ActiveDataProvider::className(),
-            'query' => BaseLocation::find()->andWhere(['p_id' => intval(Yii::$app->request->get('p_id'))]),
+            'class' => ArrayDataProvider::className(),
+            'allModels' => $models,
             'pagination' => [
-                'pageSize' => 0,
+                'pageSize' => 10,
             ],
-            'sort' => [
-                'defaultOrder' => [
-                    'name'=>SORT_ASC
-                ]
-            ],
+//            'sort' => [
+//                'defaultOrder' => [
+//                    'name'=>SORT_ASC
+//                ]
+//            ],
         ]);
     }
+
 }
