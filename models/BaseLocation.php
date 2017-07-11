@@ -72,7 +72,7 @@ class BaseLocation extends \app\components\base\BaseModel
     {
         $fields = parent::fields();
         unset($fields['p_id']);
-        $fields['_links'] = $this->getLinks;
+        $fields['_links'] = [$this,'getLinks'];
         return $fields;
     }
 }
