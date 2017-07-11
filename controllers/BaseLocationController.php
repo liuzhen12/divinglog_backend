@@ -33,7 +33,7 @@ class BaseLocationController extends ActiveController
 
     public function prepareDataProvider()
     {
-        $p_id=Yii::$app->request->get('p_id');
+        $p_id= intval(Yii::$app->request->get('p_id'));
         $models = Yii::$app->db->cache(function ($db) use ($p_id) {
             return BaseLocation::find()->select((new BaseLocation(['scenario' => BaseLocation::SCENARIO_INDEX]))->activeAttributes())->andWhere(['p_id' => $p_id])->orderBy(['name'=>SORT_ASC])->createCommand()->queryAll();
         });
