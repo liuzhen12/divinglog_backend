@@ -18,6 +18,7 @@ use yii\web\Link;
  */
 class BaseLocation extends \app\components\base\BaseModel
 {
+    const SCENARIO_INDEX = 'index';
     /**
      * @inheritdoc
      */
@@ -50,6 +51,13 @@ class BaseLocation extends \app\components\base\BaseModel
             'created_at' => Yii::t('app', '创建时间戳'),
             'updated_at' => Yii::t('app', '更新时间戳'),
         ];
+    }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_INDEX] = ['id','name','chinese_name'];
+        return $scenarios;
     }
 
     public function getLinks()
