@@ -58,8 +58,8 @@ class User2 extends User
         }
         if(in_array(self::getScenario(),[self::SCENARIO_VIEW])){
             $links[Link::REL_SELF] = Url::to(['coach/view', 'id' => $this->id], true);
-            $links['coach-title'] = Url::to(["@web/coach-titles"], true);
-            $links['coach-course'] = Url::to(['@web/coach-courses'], true);
+            $links['coachTitle'] = Url::to(["@web/coach-titles"], true);
+            $links['coachCourse'] = Url::to(['@web/coach-courses'], true);
             $links['student'] = Url::to(['@web/students'], true);
             $links['divestore'] = Url::to(["@web/divestores/{$this->divestore_id}"], true);
         }
