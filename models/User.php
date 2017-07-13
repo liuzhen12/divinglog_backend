@@ -67,7 +67,7 @@ class User extends \app\components\base\BaseModel
     public function rules()
     {
         return [
-            [['gender', 'language_detail', 'role', '!log_count', '!equip_count', '!speciality_count', 'is_store_manager', '!evaluation_count', 'divestore_id','!student_count', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['gender', 'role', '!log_count', '!equip_count', '!speciality_count', 'is_store_manager', '!evaluation_count', 'divestore_id','!student_count', 'status', 'created_at', 'updated_at'], 'integer'],
             [['!evaluation_score'], 'number'],
             [['open_id'], 'string', 'max' => 28],
             [['session_key'], 'string', 'max' => 24],
@@ -75,7 +75,7 @@ class User extends \app\components\base\BaseModel
             [['nick_name', 'city', 'province', 'language', '!level_keywords', 'title'], 'string', 'max' => 45],
             [['avatar_url'], 'string', 'max' => 200],
             [['country'], 'string', 'max' => 45],
-            [['wechat_no'], 'string', 'max' => 20],
+            [['language_detail','wechat_no'], 'string', 'max' => 20],
             [['open_id'], 'unique'],
             [['open_id','!session_key','!access_token'],'required','on'=>self::SCENARIO_LOGIN],
             [['open_id','!session_key','!access_token','gender','avatar_url', 'nick_name', 'country', 'province', 'language','language_detail','role'],'required','on'=>self::SCENARIO_REGISTER]
@@ -142,10 +142,12 @@ class User extends \app\components\base\BaseModel
         $links = [];
         if(in_array(self::getScenario(),[self::SCENARIO_DEFAULT])){
             $links['register'] = Url::to(['@web/register'], true);
+            $links['language'] = Url::to(['@web/languages'], true);
+
         }
         if(in_array(self::getScenario(),[self::SCENARIO_LOGIN])){
             $links[Link::REL_SELF] = Url::to(['@web/login{?code}'], true);
-            $links['logs'] = Url::to(['@web/diving-logs'], true);
+            $links['language'] = Url::to(['@web/languages'], true);
         }
         if(in_array(self::getScenario(),[self::SCENARIO_REGISTER])){
             $links[Link::REL_SELF] = Url::to(['@web/register'], true);
@@ -216,5 +218,17 @@ class User extends \app\components\base\BaseModel
         return $this->hasOne(Certification::className(),['id'=>'coach_id']);
     }
 
-
+    /**
+     * Name: getUserLanguage
+     * Desc: 获取用户关联的语言
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170713
+     * Modifier:
+     * ModifiedDate:
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserLanguage()
+    {
+        return $this->hasMany(UserLanguage::className(),['user_id'=>'id']);
+    }
 }

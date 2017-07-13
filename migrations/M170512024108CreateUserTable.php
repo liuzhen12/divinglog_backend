@@ -21,7 +21,7 @@ class M170512024108CreateUserTable extends BaseMigration
             'province' => $this->string(45)->notNull()->defaultValue(''),
             'country' => $this->string(45)->notNull()->defaultValue(''),
             'language' => $this->string(45)->notNull()->defaultValue(''),
-            'language_detail' => $this->smallInteger()->notNull()->defaultValue(1)->comment('1->中 2->英 3->粤'),
+            'language_detail' => $this->string(20)->notNull()->defaultValue('')->comment('1->中 2->英 3->粤'),
             'wechat_no' => $this->string(20)->notNull()->defaultValue('')->comment('微信号或者QQ号或者绑定的手机号，但手机号如果修改，需要重新维护该信息'),
             'role' => $this->smallInteger()->notNull()->defaultValue(1)->comment('1->潜员 2->教练'),
             'log_count' => $this->integer(11)->notNull()->defaultValue(0)->comment('潜员属性->日志数量'),

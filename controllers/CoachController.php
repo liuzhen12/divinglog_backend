@@ -11,6 +11,7 @@ namespace app\controllers;
 
 use app\components\base\BaseController;
 use app\models\User2;
+use app\models\UserLanguage;
 use Yii;
 use yii\data\ActiveDataProvider;
 
@@ -48,43 +49,48 @@ class CoachController extends BaseController
         $evaluationScore = Yii::$app->getRequest()->get('evaluation_score');
         $studentCount = Yii::$app->getRequest()->get('student_count');
 
+        $User2 = User2::tableName();
         $condition = [];
-        $sort = ['updated_at'=>SORT_DESC];
+        $sort = ["{$User2}.updated_at"=>SORT_DESC];
+        $query = User2::find()
+            ->select(implode(',',array_merge((new User2(['scenario' => User2::SCENARIO_INDEX]))->activeAttributes(),['user.id'])));
         if(!empty($country)){
-            $condition['country'] = $country;
+            $condition["{$User2}.country"] = $country;
         }
         if(!empty($province)){
-            $condition['province'] = $province;
+            $condition["{$User2}.province"] = $province;
         }
         if(!empty($city)){
-            $condition['city'] = $city;
+            $condition["{$User2}.city"] = $city;
         }
         if(!empty($gender)){
-            $condition['gender'] = explode(',',$gender);
+            $condition["{$User2}.gender"] = explode(',',$gender);
+        }
+        if(!empty($evaluationScore) && in_array($evaluationScore,[1,2])){
+            $sort["{$User2}.evaluation_score"] = 1 == $evaluationScore ? SORT_ASC : SORT_DESC;
+            unset($sort["{$User2}.updated_at"]);
+        }
+        if(!empty($studentCount)  && in_array($studentCount,[1,2])){
+            $sort["{$User2}.student_count"] = 1 == $studentCount ? SORT_ASC : SORT_DESC;
+            unset($sort["{$User2}.updated_at"]);
         }
         if(!empty($language)){
-            $condition['language_detail'] = explode(',',$language);
+            $userLanguage = UserLanguage::tableName();
+            $condition["{$userLanguage}.language_id"] = explode(',',$language);
+            $query->innerJoinWith('userLanguage');
         }
-        if(!empty($evaluationScore) && in_array($evaluationScore,[0,1])){
-            $sort['evaluation_score'] = 1 == $evaluationScore ? SORT_DESC : SORT_ASC;
-            unset($sort['updated_at']);
-        }
-        if(!empty($studentCount)  && in_array($studentCount,[0,1])){
-            $sort['student_count'] = 1 == $studentCount ? SORT_DESC : SORT_ASC;
-            unset($sort['updated_at']);
-        }
+        $query->andWhere($condition);
+        $query->orderBy($sort);
 
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
-            'query' => User2::find()
-                ->select(implode(',',array_merge((new User2(['scenario' => User2::SCENARIO_INDEX]))->activeAttributes(),['id'])))
-                ->andWhere($condition),
+            'query' => $query,
             'pagination' => [
                 'pageSize' => 5,
             ],
-            'sort' => [
-                'defaultOrder' => $sort,
-            ],
+//            'sort' => [
+//                'defaultOrder' => $sort,
+//            ],
         ]);
     }
 }
