@@ -173,6 +173,44 @@ class User extends \app\components\base\BaseModel
     }
 
     /**
+     * Name: save
+     * Desc:
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170713
+     * Modifier:
+     * ModifiedDate:
+     * @param bool $runValidation
+     * @param null $attributeNames
+     * @return bool
+     */
+    public function save($runValidation = true, $attributeNames = null)
+    {
+        $transaction = Yii::$app->getDb()->beginTransaction();
+        try {
+            $result = parent::save($runValidation, $attributeNames);
+            if ($result) {
+                if ($userLanguage = $this->userLanguage) {
+                    $userLanguage->delete();
+                }
+                foreach (explode(',', $result->language_detail) as $v) {
+                    $userLanguage = new UserLanguage();
+                    $userLanguage->user_id = $this->id;
+                    $userLanguage->language_id = $v;
+                    if(!$userLanguage->save()){
+                        $transaction->rollBack();
+                        return false;
+                    }
+                }
+            }
+            $transaction->commit();
+            return $result;
+        }catch (\Exception $e){
+            $transaction->rollBack();
+            return false;
+        }
+    }
+
+    /**
      * Name: getSubClass
      * Desc: 根据后缀确定子类名字
      * Creator: liuzhen<liuzhen12@lenovo.com>
