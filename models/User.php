@@ -193,7 +193,7 @@ class User extends \app\components\base\BaseModel
                 if ($userLanguage = $this->userLanguage) {
                     $userLanguage->delete();
                 }
-                $languages = explode(',', $result->language_detail);var_dump($languages);exit;
+                $languages = explode(',', $result->language_detail);
                 foreach ($languages as $v) {
                     $userLanguage = new UserLanguage();
                     $userLanguage->user_id = $this->id;
