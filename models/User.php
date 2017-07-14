@@ -153,7 +153,7 @@ class User extends \app\components\base\BaseModel
         if(in_array(self::getScenario(),[self::SCENARIO_REGISTER])){
             $links[Link::REL_SELF] = Url::to(['@web/register'], true);
         }
-        return array_merge($links,$this->getSubInstance()->getLinks());
+        return get_class($this) == get_class() ? $links : array_merge($links,$this->getSubInstance()->getLinks());
     }
 
     /**
