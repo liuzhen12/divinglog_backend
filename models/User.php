@@ -187,12 +187,14 @@ class User extends \app\components\base\BaseModel
     {
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
+            $doUpdateLanguage = in_array('language_detail',$this->getDirtyAttributes());
             $result = parent::save($runValidation, $attributeNames);
-            if ($result) {
+            if ($result && $doUpdateLanguage) {
                 if ($userLanguage = $this->userLanguage) {
                     $userLanguage->delete();
                 }
-                foreach (explode(',', $result->language_detail) as $v) {
+                $languages = explode(',', $result->language_detail);var_dump($languages);exit;
+                foreach ($languages as $v) {
                     $userLanguage = new UserLanguage();
                     $userLanguage->user_id = $this->id;
                     $userLanguage->language_id = $v;
