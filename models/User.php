@@ -143,11 +143,12 @@ class User extends \app\components\base\BaseModel
         if(in_array(self::getScenario(),[self::SCENARIO_DEFAULT])){
             $links['register'] = Url::to(['@web/register'], true);
             $links['language'] = Url::to(['@web/languages'], true);
-
+            $links['location'] = Url::to(['@web/base-locations'], true);
         }
         if(in_array(self::getScenario(),[self::SCENARIO_LOGIN])){
             $links[Link::REL_SELF] = Url::to(['@web/login{?code}'], true);
             $links['language'] = Url::to(['@web/languages'], true);
+            $links['location'] = Url::to(['@web/base-locations'], true);
         }
         if(in_array(self::getScenario(),[self::SCENARIO_REGISTER])){
             $links[Link::REL_SELF] = Url::to(['@web/register'], true);

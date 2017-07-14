@@ -133,7 +133,7 @@ class Location extends \app\components\base\BaseModel
                     $city = static::findOne(['source' => $this->source, 'name' => $this->city]) ?: clone $this;
                     $city->source = $this->source;
                     $city->name = $this->city;
-                    $city->detail = "{$this->country},{$this->province},{$this->city}";
+                    $city->detail = "{$this->city},{$this->province},{$this->country}";
                     $city->in_count++;
                     $city->save();
                 }
