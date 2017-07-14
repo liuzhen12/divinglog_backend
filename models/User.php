@@ -185,9 +185,9 @@ class User extends \app\components\base\BaseModel
      */
     public function save($runValidation = true, $attributeNames = null)
     {
+        $doUpdateLanguage = in_array('language_detail',$this->getDirtyAttributes());
         $transaction = Yii::$app->getDb()->beginTransaction();
         try {
-            $doUpdateLanguage = in_array('language_detail',$this->getDirtyAttributes());
             $result = parent::save($runValidation, $attributeNames);
             if ($result && $doUpdateLanguage) {
                 if ($userLanguage = $this->userLanguage) {
