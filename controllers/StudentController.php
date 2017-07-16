@@ -40,7 +40,7 @@ class StudentController extends BaseController
             'class' => ActiveDataProvider::className(),
             'query' => User1::find()->joinWith('certification')
                 ->select(implode(',',(new User1(['scenario' => User::SCENARIO_STUDENT]))->activeAttributes()))
-                ->where(['coach_id' => isset($depends_id)?:Yii::$app->user->id])
+                ->where(['coach_id' => isset($depends_id)? $depends_id : Yii::$app->user->id])
                 ->distinct(),
             'pagination' => [
                 'pageSize' => 5,

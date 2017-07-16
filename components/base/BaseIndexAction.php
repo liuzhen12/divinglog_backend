@@ -33,7 +33,7 @@ class BaseIndexAction extends \yii\rest\IndexAction
         $model = new $modelClass(['scenario' => $this->scenario]);
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
-            'query' => $modelClass::find()->select(implode(',',array_merge($model->activeAttributes(),['id'])))->andWhere($this->whereCondition?:[$this->identity => isset($depends_id)?:Yii::$app->user->id]),
+            'query' => $modelClass::find()->select(implode(',',array_merge($model->activeAttributes(),['id'])))->andWhere($this->whereCondition?:[$this->identity => isset($depends_id)? $depends_id :Yii::$app->user->id]),
             'pagination' => [
                 'pageSize' => $this->pageSize,
             ],
