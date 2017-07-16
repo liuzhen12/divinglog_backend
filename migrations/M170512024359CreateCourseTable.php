@@ -11,8 +11,8 @@ class M170512024359CreateCourseTable extends BaseMigration
         $this->createTable('course', [
             'id' => $this->primaryKey(),
 //            'organization' => $this->string(45)->notNull()->defaultValue('')->comment('组织 PADI'),
-            'name' => $this->string(45)->notNull()->defaultValue('')->comment('课程组织或名字'),
-            'chinese_name' => $this->string(45)->notNull()->defaultValue('')->comment('对应name字段的中文名字'),
+            'name' => $this->string(100)->notNull()->defaultValue('')->comment('课程组织或名字'),
+            'chinese_name' => $this->string(100)->notNull()->defaultValue('')->comment('对应name字段的中文名字'),
             'p_id' => $this->bigInteger()->notNull()->defaultValue(0)->comment('父级id'),
             'created_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('创建时间戳'),
             'updated_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('更新时间戳'),
