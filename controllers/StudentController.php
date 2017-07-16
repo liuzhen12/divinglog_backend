@@ -10,8 +10,10 @@ namespace app\controllers;
 
 
 use app\components\base\BaseController;
+use app\components\tool\TransferView;
 use app\models\Certification;
 use app\models\User;
+use app\models\User1;
 use Yii;
 use yii\data\ActiveDataProvider;
 
@@ -33,11 +35,12 @@ class StudentController extends BaseController
 
     public function prepareDataProvider()
     {
+        $depends_id = TransferView::receive();
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
-            'query' => Certification::find()->joinWith('diver')
-                ->select(implode(',',(new User(['scenario' => User::SCENARIO_STUDENT]))->activeAttributes()))
-                ->where(['coach_id' => Yii::$app->user->id])
+            'query' => User1::find()->joinWith('certification')
+                ->select(implode(',',(new User1(['scenario' => User::SCENARIO_STUDENT]))->activeAttributes()))
+                ->where(['coach_id' => isset($depends_id)?:Yii::$app->user->id])
                 ->distinct(),
             'pagination' => [
                 'pageSize' => 5,

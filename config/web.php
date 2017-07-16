@@ -55,7 +55,7 @@ $config = [
             'rules' => [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'user'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'diver'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'coach'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'coach', 'extraPatterns' => ['GET,HEAD {id}/{transfer}' => 'view'],'tokens' => ['{id}' => '<id:\\d[\\d,]*>','{transfer}' => '<transfer:\\S[\\S,]*>']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'activity'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'activity-member'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'certification'],

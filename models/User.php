@@ -255,7 +255,7 @@ class User extends \app\components\base\BaseModel
      */
     public function getCertification()
     {
-        return $this->hasOne(Certification::className(),['id'=>'coach_id']);
+        return $this->hasOne(Certification::className(),['coach_id'=>'id']);
     }
 
     /**
