@@ -114,4 +114,17 @@ class User2 extends User
         }
         return $result;
     }
+
+    /**
+     * Name: getCertification
+     * Desc: 获取教练的认证信息
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170702
+     * ModifiedDate:
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCertification()
+    {
+        return $this->hasOne(Certification::className(),['coach_id'=>'id']);
+    }
 };

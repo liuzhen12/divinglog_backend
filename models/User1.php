@@ -252,4 +252,17 @@ class User1 extends User
             throw new HttpException(422, implode('|', $this->getFirstErrors()));
         }
     }
+
+    /**
+     * Name: getCertification
+     * Desc: 获取潜员的认证信息
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170702
+     * ModifiedDate:
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCertification()
+    {
+        return $this->hasOne(Certification::className(),['user_id'=>'id']);
+    }
 }
