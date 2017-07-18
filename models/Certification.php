@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\helpers\Helper;
 use Yii;
 
 /**
@@ -21,6 +22,7 @@ class Certification extends \app\components\base\BaseModel
     const SCENARIO_CERTIFICATE = 'certificate';
     const SCENARIO_EVALUATE= 'evaluate';
     const SCENARIO_STUDENT= 'student';
+
     /**
      * @inheritdoc
      */
@@ -51,6 +53,21 @@ class Certification extends \app\components\base\BaseModel
         return $scenarios;
     }
 
+//    public function fields()
+//    {
+//        $fields = parent::fields();
+//
+//    }
+
+    public function extraFields()
+    {
+        $extraFields = parent::extraFields();
+        $extraFields['avatar_url'] = 'avatarUrl';
+        $extraFields['nick_name'] = 'nickName';
+        $extraFields['remark_time'] = 'updated_at';
+        return $extraFields;
+    }
+
     /**
      * @inheritdoc
      */
@@ -79,7 +96,7 @@ class Certification extends \app\components\base\BaseModel
      */
     public function getDivingLog()
     {
-        return $this->hasOne(DivingLog::className(),['id'=>'log_id'])->one();
+        return $this->hasOne(DivingLog::className(),['id'=>'log_id']);
     }
 
     /**
@@ -107,6 +124,16 @@ class Certification extends \app\components\base\BaseModel
      */
     public function getCoach()
     {
-        return $this->hasOne(User2::className(),['id'=>'coach_id'])->one();
+        return $this->hasOne(User2::className(),['id'=>'coach_id']);
+    }
+
+    public function getAvatarUrl()
+    {
+        return $this->diver->avatar_url;
+    }
+
+    public function getNickName()
+    {
+        return $this->diver->nick_name;
     }
 }
