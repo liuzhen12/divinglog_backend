@@ -32,7 +32,7 @@ class IndexAction extends Action
                 if(!$user->save()){
                     throw new HttpException(422, implode('|', $user->getFirstErrors()));
                 }
-                $user = $user->getSubInstance();
+                $user = clone $user->getSubInstance();
             }
         } else {
             $user = new User();
