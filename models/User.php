@@ -239,10 +239,14 @@ class User extends \app\components\base\BaseModel
     public function getSubInstance()
     {
         $modelClass = $this->getSubClass($this->role);
-        return new $modelClass([
+        $instance =  new $modelClass([
             'scenario' => $this->scenario,
             'id' => $this->id
         ]);
+        foreach ($this->activeAttributes() as $v){
+            $instance->$v = $this->$v;
+        }
+        return $instance;
     }
 
 
