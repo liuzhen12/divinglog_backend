@@ -110,7 +110,9 @@ class Certification extends \app\components\base\BaseModel
      */
     public function getDiver()
     {
-        return $this->hasOne(User1::className(),['id'=>'user_id']);
+        return  Yii::$app->db->cache(function ($db) {
+            return $this->hasOne(User1::className(), ['id' => 'user_id'])->createCommand()->queryOne();
+        });
     }
 
     /**
@@ -129,11 +131,11 @@ class Certification extends \app\components\base\BaseModel
 
     public function getAvatarUrl()
     {
-        return $this->diver->avatar_url;
+        return $this->diver["avatar_url"];
     }
 
     public function getNickName()
     {
-        return $this->diver->nick_name;
+        return $this->diver["nick_name"];
     }
 }
