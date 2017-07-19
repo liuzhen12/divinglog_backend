@@ -66,7 +66,7 @@ class M170512024359CreateCourseTable extends BaseMigration
             [44,"CCR Technical Extended Range","扩展等级CCR技术潜水",37],
             [45,"CCR Extended Range","扩展等级密闭式循环水肺潜水",37],
             [46,"Instructor Courses","",2],
-            [47,"Scuba","",46],
+            [47,"Scuba Instructor","",46],
             [48,"Dive Guide","潜水导游",47],
             [49,"Science OF Diving","潜水科学",47],
             [50,"Career STARTER Bundle","事业启动套装课程",47],
