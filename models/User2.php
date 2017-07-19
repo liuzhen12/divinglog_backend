@@ -60,6 +60,7 @@ class User2 extends User
             $links[Link::REL_SELF] = Url::to(['coach/view', 'id' => $this->id], true);
             $links['coachTitle'] = Url::to(["@web/coaches/{$this->id}/coach-titles"], true);
             $links['coachCourse'] = Url::to(["@web/coaches/{$this->id}/coach-courses"], true);
+            $links['comment'] = Url::to(["@web/coaches/{$this->id}/certifications"], true);
             $links['student'] = Url::to(["@web/coaches/{$this->id}/students"], true);
             $links['divestore'] = Url::to(["@web/divestores/{$this->divestore_id}"], true);
         }
