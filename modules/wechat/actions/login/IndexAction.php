@@ -32,8 +32,8 @@ class IndexAction extends Action
                 if(!$user->save()){
                     throw new HttpException(422, implode('|', $user->getFirstErrors()));
                 }
-                $user = clone $user->getSubInstance();
             }
+            $user = $user->getSubInstance();
         } else {
             $user = new User();
         }

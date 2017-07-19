@@ -31,7 +31,7 @@ class User1 extends User
         if(in_array(self::getScenario(),[self::SCENARIO_DEFAULT])){
             return $fields;
         }
-        return array_intersect(array_merge($fields, ['log_count','equip_count','level_keywords','speciality_count']),$this->activeAttributes());
+        return array_intersect(array_merge($fields, ['log_count','equip_count','level_keywords','speciality_count']),array_merge(['id'],$this->activeAttributes()));
     }
 
 
