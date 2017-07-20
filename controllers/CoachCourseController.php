@@ -10,10 +10,18 @@ namespace app\controllers;
 
 
 use app\components\base\BaseController;
+use yii\helpers\Url;
+use yii\web\Link;
 
 class CoachCourseController extends BaseController
 {
     public $modelClass = 'app\models\CoachCourse';
+
+    public $serializer = [
+        'class' => 'app\components\base\BaseSerializer',
+        'collectionEnvelope' => 'items',
+        'extraLinksClosure' => 'getExtraLinks',
+    ];
 
     public function actions()
     {
@@ -26,4 +34,13 @@ class CoachCourseController extends BaseController
         ];
         return $actions;
     }
+
+    public function getExtraLinks()
+    {
+        return [
+            'create' => Url::to(['@web/coach-courses'], true),
+            'course' => Url::to(["@web/courses"], true),
+        ];
+    }
+
 }

@@ -63,8 +63,6 @@ class CoachCourse extends \app\components\base\BaseModel
             Link::REL_SELF => Url::to(['coach-course/view', 'id' => $this->id], true),
             'delete' => Url::to(['coach-course/view', 'id' => $this->id], true),
             'index' => Url::to(['@web/coach-courses'], true),
-            'create' => Url::to(['@web/coach-courses'], true),
-            'course' => Url::to(["@web/courses"], true),
         ];
     }
 }

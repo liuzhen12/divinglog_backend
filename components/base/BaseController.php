@@ -16,8 +16,9 @@ use yii\rest\ActiveController;
 class BaseController extends ActiveController
 {
     public $serializer = [
-        'class' => 'yii\rest\Serializer',
+        'class' => 'app\components\base\BaseSerializer',
         'collectionEnvelope' => 'items',
+        'extraLinksClosure' => 'getExtraLinks',
     ];
 
     public function behaviors()
@@ -27,5 +28,10 @@ class BaseController extends ActiveController
             'class' => QueryParamAuth::className()
         ];
         return $behaviors;
+    }
+
+    public function getExtraLinks()
+    {
+        return null;
     }
 }
