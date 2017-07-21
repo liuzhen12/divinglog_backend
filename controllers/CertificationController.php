@@ -55,7 +55,7 @@ class CertificationController extends BaseController
             'query' => certification::find()
                 ->where(['coach_id' => isset($depends_id)? $depends_id : Yii::$app->user->id]),
             'pagination' => [
-                'pageSize' => 5,
+                'pageSize' => 10,
             ],
         ]);
     }
