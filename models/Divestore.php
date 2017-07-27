@@ -75,6 +75,14 @@ class Divestore extends \app\components\base\BaseModel
         ];
     }
 
+    public function getLinks()
+    {
+        return [
+            Link::REL_SELF => Url::to(['divestore/view', 'id' => $this->id], true),
+            'index' => Url::to(['@web/divestores'], true)
+        ];
+    }
+
     /**
      * Name: save
      * Desc: 重写，触发保存location的事件
