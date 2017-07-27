@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\events\LocationEvent;
 use Yii;
 use yii\web\HttpException;
 
@@ -15,6 +16,9 @@ use yii\web\HttpException;
  * @property integer $evaluation_count
  * @property string $evaluation_score
  * @property integer $coach_count
+ * @property string $city
+ * @property string $province
+ * @property string $country
  * @property string $location_longitude
  * @property string $location_latitue
  * @property string $location_name
@@ -40,7 +44,7 @@ class Divestore extends \app\components\base\BaseModel
         return [
             [['evaluation_count', 'coach_count', 'created_at', 'updated_at'], 'integer'],
             [['evaluation_score', 'location_longitude', 'location_latitue'], 'number'],
-            [['name', 'wechat_id', 'location_name'], 'string', 'max' => 45],
+            [['name', 'wechat_id', 'city', 'province', 'country', 'location_name'], 'string', 'max' => 45],
             [['telephone'], 'string', 'max' => 20],
             [['location_address'], 'string', 'max' => 200],
         ];
@@ -59,6 +63,9 @@ class Divestore extends \app\components\base\BaseModel
             'evaluation_count' => Yii::t('app', '评价次数'),
             'evaluation_score' => Yii::t('app', '评价平均分'),
             'coach_count' => Yii::t('app', '教练人数'),
+            'city' => Yii::t('app', 'City'),
+            'province' => Yii::t('app', 'Province'),
+            'country' => Yii::t('app', 'Country'),
             'location_longitude' => Yii::t('app', '微信定位-经度'),
             'location_latitue' => Yii::t('app', '微信定位-纬度'),
             'location_name' => Yii::t('app', '微信定位-位置名称'),
@@ -68,6 +75,33 @@ class Divestore extends \app\components\base\BaseModel
         ];
     }
 
+    /**
+     * Name: save
+     * Desc: 重写，触发保存location的事件
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170708
+     * Modifier:
+     * ModifiedDate:
+     * @param bool $runValidation
+     * @param null $attributeNames
+     * @return bool
+     */
+    public function save($runValidation = true, $attributeNames = null)
+    {
+        $data = [];
+        $data['country'] = $this->getAttribute('country');
+        $data['oldCountry'] = $this->getOldAttribute('country');
+        $data['province'] = $this->getAttribute('province');
+        $data['oldProvince'] = $this->getOldAttribute('province');
+        $data['city'] = $this->getAttribute('city');
+        $data['oldCity'] = $this->getOldAttribute('city');
+        $result = parent::save($runValidation, $attributeNames);
+        if($result){
+            //触发保存location的事件
+            Yii::$app->trigger(LocationEvent::DIVESTORE,new Event(['sender' => $data]));
+        }
+        return $result;
+    }
 
     /**
      * Name: evaluation
