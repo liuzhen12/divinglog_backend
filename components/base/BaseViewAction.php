@@ -10,6 +10,7 @@ namespace app\components\base;
 
 
 use app\components\tool\TransferView;
+use Yii;
 use yii\rest\ViewAction;
 use yii\base\Model;
 

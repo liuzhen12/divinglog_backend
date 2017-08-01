@@ -10,6 +10,8 @@ namespace app\controllers;
 
 
 use app\components\base\BaseController;
+use app\components\tool\TransferView;
+use app\models\Language;
 use app\models\User2;
 use app\models\UserLanguage;
 use Yii;
@@ -41,6 +43,7 @@ class CoachController extends BaseController
 
     public function prepareDataProvider()
     {
+        list($depends_id,$depends_obj) = TransferView::receive();
         $country =  Yii::$app->getRequest()->get('country');
         $province =  Yii::$app->getRequest()->get('province');
         $city =  Yii::$app->getRequest()->get('city');
@@ -54,6 +57,9 @@ class CoachController extends BaseController
         $sort = ["{$User2}.updated_at"=>SORT_DESC];
         $query = User2::find()
             ->select(implode(',',array_merge((new User2(['scenario' => User2::SCENARIO_INDEX]))->activeAttributes(),['user.id'])));
+        if(!empty($depends_id)){
+            $condition["{$User2}.divestore_id"] = $depends_id;
+        }
         if(!empty($country)){
             $condition["{$User2}.country"] = $country;
         }
@@ -71,13 +77,13 @@ class CoachController extends BaseController
             unset($sort["{$User2}.updated_at"]);
         }
         if(!empty($studentCount)  && in_array($studentCount,[1,2])){
-            $sort["{$User2}.student_count"] = 1 == $studentCount ? SORT_ASC : SORT_DESC;
+            $sort["{$User2}."] = 1 == $studentCount ? SORT_ASC : SORT_DESC;
             unset($sort["{$User2}.updated_at"]);
         }
         if(!empty($language)){
-            $userLanguage = UserLanguage::tableName();
+            $userLanguage = Language::tableName();
             $condition["{$userLanguage}.language_id"] = explode(',',$language);
-            $query->innerJoinWith('userLanguage');
+            $query->innerJoinWith('language');
         }
         $query->andWhere($condition);
         $query->orderBy($sort);

@@ -147,7 +147,7 @@ class User extends \app\components\base\BaseModel
         }
         if(in_array(self::getScenario(),[self::SCENARIO_LOGIN])){
             $links[Link::REL_SELF] = Url::to(['@web/login{?code}'], true);
-            $links['language'] = Url::to(['@web/languages'], true);
+            $links['language'] = Url::to(['@web/base-languages'], true);
             $links['location'] = Url::to(['@web/base-locations{?p_id}'], true);
         }
         if(in_array(self::getScenario(),[self::SCENARIO_REGISTER])){
@@ -173,44 +173,45 @@ class User extends \app\components\base\BaseModel
         return parent::find()->andWhere(['role'=>static::ROLE]);
     }
 
-    /**
-     * Name: save
-     * Desc:
-     * Creator: liuzhen<liuzhen12@lenovo.com>
-     * CreatedDate: 20170713
-     * Modifier:
-     * ModifiedDate:
-     * @param bool $runValidation
-     * @param null $attributeNames
-     * @return bool
-     */
-    public function save($runValidation = true, $attributeNames = null)
-    {
-        $doUpdateLanguage = isset($this->getDirtyAttributes()['language_detail']);
-        $transaction = Yii::$app->getDb()->beginTransaction();
-        try {
-            $result = parent::save($runValidation, $attributeNames);
-            if ($result && $doUpdateLanguage) {
-                foreach($this->userLanguage as $v) {
-                    $v->delete();
-                }
-                foreach (explode(',', $this->language_detail) as $v) {
-                    $userLanguage = new UserLanguage();
-                    $userLanguage->user_id = $this->id;
-                    $userLanguage->language_id = $v;
-                    if(!$userLanguage->save()){
-                        $transaction->rollBack();
-                        return false;
-                    }
-                }
-            }
-            $transaction->commit();
-            return $result;
-        }catch (\Exception $e){
-            $transaction->rollBack();
-            return false;
-        }
-    }
+//    /**
+//     * Name: save
+//     * Desc:
+//     * Creator: liuzhen<liuzhen12@lenovo.com>
+//     * CreatedDate: 20170713
+//     * Modifier:
+//     * ModifiedDate:
+//     * @param bool $runValidation
+//     * @param null $attributeNames
+//     * @return bool
+//     */
+//    public function save($runValidation = true, $attributeNames = null)
+//    {
+//        $doUpdateLanguage = isset($this->getDirtyAttributes()['language_detail']);
+//        $transaction = Yii::$app->getDb()->beginTransaction();
+//        try {
+//            $result = parent::save($runValidation, $attributeNames);
+//            if ($result && $doUpdateLanguage) {
+//                foreach($this->userLanguage as $v) {
+//                    $v->delete();
+//                }
+//                foreach (explode(',', $this->language_detail) as $v) {
+//                    $userLanguage = new Language();
+//                    $userLanguage->relation_id = $this->id;
+//                    $userLanguage->source = Language::SOURCE_USER;
+//                    $userLanguage->language_id = $v;
+//                    if(!$userLanguage->save()){
+//                        $transaction->rollBack();
+//                        return false;
+//                    }
+//                }
+//            }
+//            $transaction->commit();
+//            return $result;
+//        }catch (\Exception $e){
+//            $transaction->rollBack();
+//            return false;
+//        }
+//    }
 
     /**
      * Name: getSubClass
@@ -247,20 +248,5 @@ class User extends \app\components\base\BaseModel
             $instance->$v = $this->$v;
         }
         return $instance;
-    }
-
-
-    /**
-     * Name: getUserLanguage
-     * Desc: 获取用户关联的语言
-     * Creator: liuzhen<liuzhen12@lenovo.com>
-     * CreatedDate: 20170713
-     * Modifier:
-     * ModifiedDate:
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUserLanguage()
-    {
-        return $this->hasMany(UserLanguage::className(),['user_id'=>'id']);
     }
 }

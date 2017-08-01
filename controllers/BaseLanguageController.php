@@ -9,14 +9,14 @@
 namespace app\controllers;
 
 
-use app\models\Language;
+use app\models\BaseLanguage;
 use Yii;
 use yii\data\ArrayDataProvider;
 use yii\rest\ActiveController;
 
-class LanguageController extends ActiveController
+class BaseLanguageController extends ActiveController
 {
-    public $modelClass = 'app\models\Language';
+    public $modelClass = 'app\models\BaseLanguage';
 
     public function actions()
     {
@@ -34,7 +34,7 @@ class LanguageController extends ActiveController
     public function prepareDataProvider()
     {
         $models = Yii::$app->db->cache(function ($db) {
-            return Language::find()->select((new Language(['scenario' => Language::SCENARIO_INDEX]))->activeAttributes())->createCommand()->queryAll();
+            return BaseLanguage::find()->select((new BaseLanguage(['scenario' => BaseLanguage::SCENARIO_INDEX]))->activeAttributes())->createCommand()->queryAll();
         });
 
         return Yii::createObject([

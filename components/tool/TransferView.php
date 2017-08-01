@@ -17,11 +17,11 @@ class TransferView
     {
         $url = Yii::$app->request->url;
         $url = substr($url,strpos($url,$transfer)-1);
-        return Yii::$app->response->redirect($url. (strpos($url,'?') === false ?'?':'&') ."depends_id={$id}");
+        return Yii::$app->response->redirect($url. (strpos($url,'?') === false ?'?':'&') ."depends_id={$id}&depends_obj=".Yii::$app->controller->id);
     }
 
     public static function receive()
     {
-        return Yii::$app->request->get('depends_id');
+        return [Yii::$app->request->get('depends_id'),Yii::$app->request->get('depends_obj')];
     }
 }

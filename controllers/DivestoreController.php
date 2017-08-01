@@ -14,4 +14,17 @@ use app\components\base\BaseController;
 class DivestoreController extends BaseController
 {
     public $modelClass = 'app\models\Divestore';
+
+    public function actions()
+    {
+        $actions = parent::actions();
+        $modelClass = $this->modelClass;
+        $actions['view'] = [
+            'class' => 'app\components\base\BaseViewAction',
+            'modelClass' => $modelClass,
+            'checkAccess' => [$this, 'checkAccess'],
+//            'scenario' => $modelClass::SCENARIO_VIEW,
+        ];
+        return $actions;
+    }
 }

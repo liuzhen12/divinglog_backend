@@ -5,16 +5,20 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "language".
+ * This is the model class for table "user_language".
  *
  * @property integer $id
- * @property string $name
+ * @property integer $user_id
+ * @property integer $language_id
  * @property integer $created_at
  * @property integer $updated_at
  */
 class Language extends \app\components\base\BaseModel
 {
-    const SCENARIO_INDEX = 'index';
+    const SOURCE_DIVER = 1;
+    const SOURCE_COACH = 2;
+    const SOURCE_DIVESTORE = 3;
+    public $language_detail;
 
     /**
      * @inheritdoc
@@ -30,8 +34,7 @@ class Language extends \app\components\base\BaseModel
     public function rules()
     {
         return [
-            [['created_at', 'updated_at'], 'integer'],
-            [['name'], 'string', 'max' => 20],
+            [['relation_id', 'language_id', 'created_at', 'updated_at'], 'integer'],
         ];
     }
 
@@ -42,16 +45,43 @@ class Language extends \app\components\base\BaseModel
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', '语言单词'),
+            'relation_id' => Yii::t('app', '关联id,关联user,divestore'),
+            'source' => Yii::t('app', '关联id,关联user,divestore'),
+            'language_id' => Yii::t('app', '语言id,关联language'),
             'created_at' => Yii::t('app', '创建时间戳'),
             'updated_at' => Yii::t('app', '更新时间戳'),
         ];
     }
 
-    public function scenarios()
+    /**
+     * Name: batchSave
+     * Desc: 批量添加语言的对应关系 user或者潜店对应的语言关系
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170708
+     * Modifier:
+     * ModifiedDate:
+     * @return bool
+     */
+    public function batchSave()
     {
-        $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_INDEX] = ['id','name'];
-        return $scenarios;
+        $transaction = Yii::$app->getDb()->beginTransaction();
+        try {
+            Language::deleteAll(['relation_id' => $this->relation_id,'source' => $this->source]);
+            if(!empty($this->language_detail)){
+                $languageArr = explode(',', $this->language_detail);
+                foreach ($languageArr as $v) {
+                    $userLanguage = new Language();
+                    $userLanguage->relation_id = $this->relation_id;
+                    $userLanguage->source = $this->source;
+                    $userLanguage->language_id = $v;
+                    $userLanguage->save();
+                }
+            }
+            $transaction->commit();
+            return true;
+        }catch (\Exception $e){
+            $transaction->rollBack();
+        }
+        return false;
     }
 }

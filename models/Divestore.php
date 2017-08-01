@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\events\LanguageEvent;
 use app\components\events\LocationEvent;
 use Yii;
 use yii\base\Event;
@@ -48,7 +49,7 @@ class Divestore extends \app\components\base\BaseModel
             [['evaluation_count', 'coach_count', 'created_at', 'updated_at'], 'integer'],
             [['evaluation_score', 'location_longitude', 'location_latitue'], 'number'],
             [['name', 'wechat_id', 'city', 'province', 'country', 'location_name'], 'string', 'max' => 45],
-            [['telephone'], 'string', 'max' => 20],
+            [['telephone','language_detail'], 'string', 'max' => 20],
             [['location_address'], 'string', 'max' => 200],
         ];
     }
@@ -66,6 +67,9 @@ class Divestore extends \app\components\base\BaseModel
             'evaluation_count' => Yii::t('app', '评价次数'),
             'evaluation_score' => Yii::t('app', '评价平均分'),
             'coach_count' => Yii::t('app', '教练人数'),
+            'avatar_url' => Yii::t('app', '店铺門面图片'),
+            'assets' => Yii::t('app', '潜店照片链接'),
+            'language_detail' => Yii::t('app', '1->中 2->英 3->粤'),
             'city' => Yii::t('app', 'City'),
             'province' => Yii::t('app', 'Province'),
             'country' => Yii::t('app', 'Country'),
@@ -82,7 +86,8 @@ class Divestore extends \app\components\base\BaseModel
     {
         return [
             Link::REL_SELF => Url::to(['divestore/view', 'id' => $this->id], true),
-            'index' => Url::to(['@web/divestores'], true)
+            'index' => Url::to(['@web/divestores'], true),
+            'coach' => Url::to(["@web/divestores/{$this->id}/coaches"], true),
         ];
     }
 
@@ -99,17 +104,59 @@ class Divestore extends \app\components\base\BaseModel
      */
     public function save($runValidation = true, $attributeNames = null)
     {
-        $data = [];
-        $data['country'] = $this->getAttribute('country');
-        $data['oldCountry'] = $this->getOldAttribute('country');
-        $data['province'] = $this->getAttribute('province');
-        $data['oldProvince'] = $this->getOldAttribute('province');
-        $data['city'] = $this->getAttribute('city');
-        $data['oldCity'] = $this->getOldAttribute('city');
+        //Language
+        $doUpdateLanguage = isset($this->getDirtyAttributes()['language_detail']);
+        $languageData = [];
+        $languageData['relation_id'] = $this->getAttribute('id');
+        $languageData['language_detail'] = $this->getAttribute('language_detail');
+
+        //Location
+        $locationData = [];
+        $locationData['country'] = $this->getAttribute('country');
+        $locationData['oldCountry'] = $this->getOldAttribute('country');
+        $locationData['province'] = $this->getAttribute('province');
+        $locationData['oldProvince'] = $this->getOldAttribute('province');
+        $locationData['city'] = $this->getAttribute('city');
+        $locationData['oldCity'] = $this->getOldAttribute('city');
+
         $result = parent::save($runValidation, $attributeNames);
         if($result){
+            //触发保存language的事件
+            if($doUpdateLanguage){
+                Yii::$app->trigger(LanguageEvent::DIVESTORE,new Event(['sender' => $languageData]));
+            }
             //触发保存location的事件
-            Yii::$app->trigger(LocationEvent::DIVESTORE,new Event(['sender' => $data]));
+            Yii::$app->trigger(LocationEvent::DIVESTORE,new Event(['sender' => $locationData]));
+        }
+        return $result;
+    }
+
+    /**
+     * Name: delete
+     * Desc:
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170731
+     * Modifier:
+     * ModifiedDate:
+     * @return false|int
+     */
+    public function delete()
+    {
+        //Language
+        $languageData = [];
+        $languageData['relation_id'] = $this->getAttribute('id');
+
+        //Location
+        $locationData = [];
+        $locationData['oldCountry'] = $this->getAttribute('country');
+        $locationData['oldProvince'] = $this->getAttribute('province');
+        $locationData['oldCity'] = $this->getAttribute('city');
+        $result = parent::delete();
+        if($result){
+            //触发保存language的事件
+            Yii::$app->trigger(LanguageEvent::DIVESTORE,new Event(['sender' => $languageData]));
+            //触发保存location的事件
+            Yii::$app->trigger(LocationEvent::DIVESTORE,new Event(['sender' => $locationData]));
         }
         return $result;
     }

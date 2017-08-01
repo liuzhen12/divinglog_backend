@@ -9,6 +9,7 @@
 namespace app\models;
 
 
+use app\components\events\LanguageEvent;
 use app\components\events\LocationEvent;
 use Yii;
 use yii\base\Event;
@@ -79,17 +80,29 @@ class User2 extends User
      */
     public function save($runValidation = true, $attributeNames = null)
     {
-        $data = [];
-        $data['country'] = $this->getAttribute('country');
-        $data['oldCountry'] = $this->getOldAttribute('country');
-        $data['province'] = $this->getAttribute('province');
-        $data['oldProvince'] = $this->getOldAttribute('province');
-        $data['city'] = $this->getAttribute('city');
-        $data['oldCity'] = $this->getOldAttribute('city');
+        //Language
+        $doUpdateLanguage = isset($this->getDirtyAttributes()['language_detail']);
+        $languageData = [];
+        $languageData['language_detail'] = $this->getAttribute('language_detail');
+
+        //Location
+        $locationData = [];
+        $locationData['country'] = $this->getAttribute('country');
+        $locationData['oldCountry'] = $this->getOldAttribute('country');
+        $locationData['province'] = $this->getAttribute('province');
+        $locationData['oldProvince'] = $this->getOldAttribute('province');
+        $locationData['city'] = $this->getAttribute('city');
+        $locationData['oldCity'] = $this->getOldAttribute('city');
+
         $result = parent::save($runValidation, $attributeNames);
         if($result){
+            //触发保存language的事件
+            if($doUpdateLanguage){
+                $languageData['relation_id'] = $this->getAttribute('id');
+                Yii::$app->trigger(LanguageEvent::COACH,new Event(['sender' => $languageData]));
+            }
             //触发保存location的事件
-            Yii::$app->trigger(LocationEvent::COACH,new Event(['sender' => $data]));
+            Yii::$app->trigger(LocationEvent::COACH,new Event(['sender' => $locationData]));
         }
         return $result;
     }
@@ -105,13 +118,21 @@ class User2 extends User
      */
     public function delete()
     {
-        $data = [];
-        $data['oldCountry'] = $this->getAttribute('country');
-        $data['oldProvince'] = $this->getAttribute('province');
-        $data['oldCity'] = $this->getAttribute('city');
+        //Language
+        $languageData = [];
+        $languageData['relation_id'] = $this->getAttribute('id');
+
+        //Location
+        $locationData = [];
+        $locationData['oldCountry'] = $this->getAttribute('country');
+        $locationData['oldProvince'] = $this->getAttribute('province');
+        $locationData['oldCity'] = $this->getAttribute('city');
         $result = parent::delete();
         if($result){
-            Yii::$app->trigger(LocationEvent::COACH,new Event(['sender' => $data]));
+            //触发保存language的事件
+            Yii::$app->trigger(LanguageEvent::COACH,new Event(['sender' => $languageData]));
+            //触发保存location的事件
+            Yii::$app->trigger(LocationEvent::COACH,new Event(['sender' => $locationData]));
         }
         return $result;
     }
@@ -127,5 +148,19 @@ class User2 extends User
     public function getCertification()
     {
         return $this->hasOne(Certification::className(),['coach_id'=>'id']);
+    }
+
+    /**
+     * Name: getUserLanguage
+     * Desc: 获取用户关联的语言
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170713
+     * Modifier:
+     * ModifiedDate:
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLanguage()
+    {
+        return $this->hasMany(Language::className(),['relation_id'=>'id'])->onCondition(['source' => Language::SOURCE_COACH]);
     }
 };

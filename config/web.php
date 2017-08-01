@@ -5,7 +5,7 @@ $params = require(__DIR__ . '/params.php');
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log','locationEvent'],
+    'bootstrap' => ['log','locationEvent','languageEvent'],
     'modules' => [
         'wechat' => [
             'class' => 'app\modules\wechat\Module',
@@ -61,7 +61,7 @@ $config = [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'certification'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'coach-course'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'course'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'divestore'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'divestore', 'extraPatterns' => ['GET,HEAD {id}/{transfer}' => 'view'],'tokens' => ['{id}' => '<id:\\d[\\d,]*>','{transfer}' => '<transfer:\\S[\\S,]*>']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'diving-log'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'equip'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'level'],
@@ -71,10 +71,13 @@ $config = [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'diver-level'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'location'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'base-location'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'language', 'only'=>['index']],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'base-language', 'only'=>['index']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['login'=>'wechat/login'],'only'=>['index']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['register'=>'wechat/register'],'only'=>['create']],
             ],
+        ],
+        'languageEvent' => [
+            'class' => 'app\components\events\LanguageEvent'
         ],
         'locationEvent' => [
             'class' => 'app\components\events\LocationEvent'
