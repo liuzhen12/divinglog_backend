@@ -56,7 +56,7 @@ class CoachController extends BaseController
         $condition = [];
         $sort = ["{$User2}.updated_at"=>SORT_DESC];
         $query = User2::find()
-            ->select(implode(',',array_merge((new User2(['scenario' => User2::SCENARIO_INDEX]))->activeAttributes(),['user.id'])));
+            ->select(implode(',',array_merge((new User2(['scenario' => User2::SCENARIO_INDEX]))->activeAttributes(),["{$User2}.id"])));
         if(!empty($depends_id)){
             $condition["{$User2}.divestore_id"] = $depends_id;
         }
@@ -92,7 +92,7 @@ class CoachController extends BaseController
             'class' => ActiveDataProvider::className(),
             'query' => $query,
             'pagination' => [
-                'pageSize' => 5,
+                'pageSize' => 15,
             ],
 //            'sort' => [
 //                'defaultOrder' => $sort,

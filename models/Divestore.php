@@ -32,6 +32,8 @@ use yii\web\Link;
  */
 class Divestore extends \app\components\base\BaseModel
 {
+    const SCENARIO_INDEX = 'index';
+
     /**
      * @inheritdoc
      */
@@ -50,8 +52,15 @@ class Divestore extends \app\components\base\BaseModel
             [['evaluation_score', 'location_longitude', 'location_latitue'], 'number'],
             [['name', 'wechat_id', 'city', 'province', 'country', 'location_name'], 'string', 'max' => 45],
             [['telephone','language_detail'], 'string', 'max' => 20],
-            [['location_address'], 'string', 'max' => 200],
+            [['location_address','avatar_url','assets'], 'string', 'max' => 200],
         ];
+    }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_INDEX] = ['name','city', 'province', 'country','avatar_url','evaluation_count','evaluation_score','coach_count'];
+        return $scenarios;
     }
 
     /**
@@ -177,5 +186,19 @@ class Divestore extends \app\components\base\BaseModel
         if(!$this->save()){
             throw new HttpException(422, implode('|', $this->getFirstErrors()));
         }
+    }
+
+    /**
+     * Name: getUserLanguage
+     * Desc: 获取用户关联的语言
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170713
+     * Modifier:
+     * ModifiedDate:
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLanguage()
+    {
+        return $this->hasMany(Language::className(),['relation_id'=>'id'])->onCondition(['source' => Language::SOURCE_DIVESTORE]);
     }
 }
