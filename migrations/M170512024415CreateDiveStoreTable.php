@@ -23,7 +23,7 @@ class M170512024415CreateDiveStoreTable extends BaseMigration
             'province' => $this->string(45)->notNull()->defaultValue(''),
             'country' => $this->string(45)->notNull()->defaultValue(''),
             'location_longitude' => $this->decimal(10,6)->notNull()->defaultValue(0)->comment('微信定位-经度'),
-            'location_latitue' => $this->decimal(10,6)->notNull()->defaultValue(0)->comment('微信定位-纬度'),
+            'location_latitude' => $this->decimal(10,6)->notNull()->defaultValue(0)->comment('微信定位-纬度'),
             'location_name' => $this->string(45)->notNull()->defaultValue('')->comment('微信定位-位置名称'),
             'location_address' => $this->string(200)->notNull()->defaultValue('')->comment('微信定位-详细地址'),
             'created_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('创建时间戳'),

@@ -49,7 +49,7 @@ class Divestore extends \app\components\base\BaseModel
     {
         return [
             [['evaluation_count', 'coach_count', 'created_at', 'updated_at'], 'integer'],
-            [['evaluation_score', 'location_longitude', 'location_latitue'], 'number'],
+            [['evaluation_score', 'location_longitude', 'location_latitude'], 'number'],
             [['name', 'wechat_id', 'city', 'province', 'country', 'location_name'], 'string', 'max' => 45],
             [['telephone','language_detail'], 'string', 'max' => 20],
             [['location_address','avatar_url','assets'], 'string', 'max' => 200],
@@ -83,7 +83,7 @@ class Divestore extends \app\components\base\BaseModel
             'province' => Yii::t('app', 'Province'),
             'country' => Yii::t('app', 'Country'),
             'location_longitude' => Yii::t('app', '微信定位-经度'),
-            'location_latitue' => Yii::t('app', '微信定位-纬度'),
+            'location_latitude' => Yii::t('app', '微信定位-纬度'),
             'location_name' => Yii::t('app', '微信定位-位置名称'),
             'location_address' => Yii::t('app', '微信定位-详细地址'),
             'created_at' => Yii::t('app', '创建时间戳'),
