@@ -28,6 +28,7 @@ class User2 extends User
     public function fields()
     {
         $fields = parent::fields();
+        $fields['language_detail'] = 'languageDetail';
         if(in_array(self::getScenario(),[self::SCENARIO_DEFAULT])){
             return $fields;
         }

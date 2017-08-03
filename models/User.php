@@ -7,6 +7,7 @@ use Yii;
 use yii\base\Event;
 use yii\base\InvalidValueException;
 use yii\base\UserException;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\HttpException;
 use yii\web\Link;
@@ -248,5 +249,22 @@ class User extends \app\components\base\BaseModel
             $instance->$v = $this->$v;
         }
         return $instance;
+    }
+
+    /**
+     * Name: getLanguageDetail
+     * Desc:
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170803
+     * Modifier:
+     * ModifiedDate:
+     * @return mixed
+     */
+    public function getLanguageDetail()
+    {
+        return  Yii::$app->db->cache(function ($db) {
+            $query = BaseLanguage::find()->where(['id' => explode(',',$this->language_detail)])->select(['id','name'])->asArray()->all();
+            return implode(',',array_values(ArrayHelper::map($query,'id','name')));
+        });
     }
 }
