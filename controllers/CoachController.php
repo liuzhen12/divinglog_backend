@@ -77,7 +77,7 @@ class CoachController extends BaseController
             unset($sort["{$User2}.updated_at"]);
         }
         if(!empty($studentCount)  && in_array($studentCount,[1,2])){
-            $sort["{$User2}."] = 1 == $studentCount ? SORT_ASC : SORT_DESC;
+            $sort["{$User2}.student_count"] = 1 == $studentCount ? SORT_ASC : SORT_DESC;
             unset($sort["{$User2}.updated_at"]);
         }
         if(!empty($language)){

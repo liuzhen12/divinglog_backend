@@ -6,6 +6,7 @@ use app\components\events\LanguageEvent;
 use app\components\events\LocationEvent;
 use Yii;
 use yii\base\Event;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\HttpException;
 use yii\web\Link;
@@ -59,7 +60,7 @@ class Divestore extends \app\components\base\BaseModel
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_INDEX] = ['name','city', 'province', 'country','avatar_url','evaluation_count','evaluation_score','coach_count'];
+        $scenarios[self::SCENARIO_INDEX] = ['name','language_detail','city', 'province', 'country','avatar_url','evaluation_count','evaluation_score','coach_count'];
         return $scenarios;
     }
 
@@ -98,6 +99,13 @@ class Divestore extends \app\components\base\BaseModel
             'index' => Url::to(['@web/divestores'], true),
             'coach' => Url::to(["@web/divestores/{$this->id}/coaches"], true),
         ];
+    }
+
+    public function fields()
+    {
+        $fields = parent::fields();
+        $fields['language_detail'] = 'languageDetail';
+        return $fields;
     }
 
     /**
@@ -200,5 +208,22 @@ class Divestore extends \app\components\base\BaseModel
     public function getLanguage()
     {
         return $this->hasMany(Language::className(),['relation_id'=>'id'])->onCondition(['source' => Language::SOURCE_DIVESTORE]);
+    }
+
+    /**
+     * Name: getLanguageDetail
+     * Desc:
+     * Creator: liuzhen<liuzhen12@lenovo.com>
+     * CreatedDate: 20170803
+     * Modifier:
+     * ModifiedDate:
+     * @return mixed
+     */
+    public function getLanguageDetail()
+    {
+        return  Yii::$app->db->cache(function ($db) {
+            $query = BaseLanguage::find()->where(['id' => explode(',',$this->language_detail)])->select(['id','name'])->asArray()->all();
+            return implode(',',array_values(ArrayHelper::map($query,'id','name')));
+        });
     }
 }
