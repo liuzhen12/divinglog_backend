@@ -10,6 +10,7 @@ namespace app\controllers;
 
 
 use app\components\base\BaseController;
+use yii\rest\ActiveController;
 
 class DivingLogController extends ActiveController
 {
