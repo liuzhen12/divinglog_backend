@@ -9,16 +9,25 @@
 namespace app\components\tool;
 
 
+use yii\base\Model;
+
 class UploadModel extends Model
 {
     public $images;
 
-    public $thumbnails;
+//    public $thumbnails;
+//
+//    public function scenarios()
+//    {
+//        return [
+//            'attachment' => ['images','thumbnails'],
+//        ];
+//    }
 
-    public function scenarios()
+    public function rules()
     {
         return [
-            'attachment' => ['images','thumbnails'],
+            ['images', 'file', 'extensions' => ['png', 'jpg', 'gif'], 'maxSize' => 1024*1024, 'maxFiles' => 6],
         ];
     }
 }

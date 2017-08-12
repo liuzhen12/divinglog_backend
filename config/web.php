@@ -74,6 +74,7 @@ $config = [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'base-language', 'only'=>['index']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['login'=>'wechat/login'],'only'=>['index']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['register'=>'wechat/register'],'only'=>['create']],
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['upload'=>'wechat/upload'],'only'=>['create']],
             ],
         ],
         'languageEvent' => [
