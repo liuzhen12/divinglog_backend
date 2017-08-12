@@ -68,11 +68,12 @@ class DivingLog extends \app\components\base\BaseModel
 
     public function scenarios()
     {
-        return [
-            self::SCENARIO_INDEX => ['user_id', 'day','location_longitude','location_latitue','location_name','location_address','assets'],
-            self::SCENARIO_DIVER_INDEX => ['user_id', 'day','location_longitude','location_latitue','location_name','location_address','assets','stamp'],
-            self::SCENARIO_CREATE => ['no','user_id','day','time_in','time_out', 'location_longitude', 'location_latitue','location_name', 'location_address', 'dive_point','depth1', 'time1','depth2', 'time2','depth3', 'time3','gas','barometer_start','barometer_end','weight','comments','!assets','link_id','divestore_id','divestore_score'],
-        ];
+        return
+            array_merge(parent::scenarios(),[
+                self::SCENARIO_INDEX => ['user_id', 'day','location_longitude','location_latitue','location_name','location_address','assets'],
+                self::SCENARIO_DIVER_INDEX => ['user_id', 'day','location_longitude','location_latitue','location_name','location_address','assets','stamp'],
+                self::SCENARIO_CREATE => ['no','user_id','day','time_in','time_out', 'location_longitude', 'location_latitue','location_name', 'location_address', 'dive_point','depth1', 'time1','depth2', 'time2','depth3', 'time3','gas','barometer_start','barometer_end','weight','comments','!assets','link_id','divestore_id','divestore_score'],
+            ]);
     }
     /**
      * @inheritdoc

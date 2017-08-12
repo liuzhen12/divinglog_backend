@@ -24,6 +24,7 @@ class CreateAction extends \yii\rest\CreateAction
      */
     public function run()
     {
+        var_dump($_FILES);exit;
         $model = parent::run();
         //日志记录成功之后，所属用户日志数增加
         try{

@@ -3,3 +3,6 @@ config/db.php
 .buildpath
 .project
 .idea
+web/images
+web/thumbnails
+
