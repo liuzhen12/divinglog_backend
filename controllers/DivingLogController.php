@@ -11,7 +11,7 @@ namespace app\controllers;
 
 use app\components\base\BaseController;
 
-class DivingLogController extends BaseController
+class DivingLogController extends ActiveController
 {
     public $modelClass = 'app\models\DivingLog';
 
