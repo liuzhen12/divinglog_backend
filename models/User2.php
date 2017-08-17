@@ -32,7 +32,7 @@ class User2 extends User
         if(in_array(self::getScenario(),[self::SCENARIO_DEFAULT])){
             return $fields;
         }
-        return array_merge($fields, ['title','is_store_manager','evaluation_count','evaluation_score','student_count','divestore_id']);
+        return array_merge($fields, ['title','is_store_manager','evaluation_count','evaluation_score','student_count','divestore_id','hasDiveStore']);
     }
 
     public function scenarios()
@@ -40,7 +40,7 @@ class User2 extends User
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_REGISTER] = array_merge($scenarios[self::SCENARIO_REGISTER],['wechat_no','title','is_store_manager']);
         $scenarios[self::SCENARIO_INDEX] = array_merge($scenarios[self::SCENARIO_INDEX],['title','evaluation_count','evaluation_score','student_count']);
-        $scenarios[self::SCENARIO_VIEW] = array_merge($scenarios[self::SCENARIO_VIEW],['title','is_store_manager','divestore_id','evaluation_count','evaluation_score','student_count']);
+        $scenarios[self::SCENARIO_VIEW] = array_merge($scenarios[self::SCENARIO_VIEW],['title','is_store_manager','divestore_id','evaluation_count','evaluation_score','student_count','hasDiveStore']);
         return $scenarios;
     }
 
@@ -64,7 +64,7 @@ class User2 extends User
             $links['coachCourse'] = Url::to(["@web/coaches/{$this->id}/coach-courses"], true);
             $links['comment'] = Url::to(["@web/coaches/{$this->id}/certifications"], true);
             $links['student'] = Url::to(["@web/coaches/{$this->id}/students"], true);
-            $links['divestore'] = Url::to(["@web/divestores/{$this->divestore_id}"], true);
+            $links['divestore'] = Url::to(["@web/divestores". ($this->hasDiveStore ? "/{$this->divestore_id}" : "{?country,province,city}")], true);
         }
         return $links;
     }
@@ -163,5 +163,10 @@ class User2 extends User
     public function getLanguage()
     {
         return $this->hasMany(Language::className(),['relation_id'=>'id'])->onCondition(['source' => Language::SOURCE_COACH]);
+    }
+
+    public function getHasDiveStore()
+    {
+        return $this->divestore_id > 0;
     }
 };
