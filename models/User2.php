@@ -54,6 +54,7 @@ class User2 extends User
             $links['me'] = Url::to(["@web/coaches/{$this->id}"], true);
             $links['logs'] = Url::to(['@web/diving-logs'], true);
             $links['activities'] = Url::to(['@web/activities'], true);
+            $links['location'] = Url::to(['@web/base-locations{?p_id}'], true);
         }
         if(in_array(self::getScenario(),[self::SCENARIO_INDEX])){
             $links[Link::REL_SELF] = Url::to(['coach/view', 'id' => $this->id], true);
