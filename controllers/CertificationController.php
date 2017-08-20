@@ -48,7 +48,7 @@ class CertificationController extends BaseController
 
     public function prepareDataProvider()
     {
-        $depends_id = TransferView::receive();
+        list($depends_id,$depends_obj) = TransferView::receive();
         Yii::$app->request->setQueryParams(array_merge(Yii::$app->request->getQueryParams(),['expand'=>'avatar_url,nick_name,remark_time']));
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),

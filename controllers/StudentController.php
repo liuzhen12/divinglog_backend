@@ -35,7 +35,7 @@ class StudentController extends BaseController
 
     public function prepareDataProvider()
     {
-        $depends_id = TransferView::receive();
+        list($depends_id,$depends_obj) = TransferView::receive();
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
             'query' => User1::find()->joinWith('certification')

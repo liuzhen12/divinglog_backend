@@ -23,7 +23,7 @@ class BaseIndexAction extends \yii\rest\IndexAction
 
     protected function prepareDataProvider()
     {
-        $depends_id = TransferView::receive();
+        list($depends_id,$depends_obj) = TransferView::receive();
         if ($this->prepareDataProvider !== null) {
             return call_user_func($this->prepareDataProvider, $this);
         }
