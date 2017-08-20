@@ -3,10 +3,17 @@
 namespace app\controllers;
 
 use app\components\base\BaseController;
+use yii\helpers\Url;
 
 class ActivityController extends BaseController
 {
     public $modelClass = 'app\models\Activity';
+
+    public $serializer = [
+        'class' => 'app\components\base\BaseSerializer',
+        'collectionEnvelope' => 'items',
+        'extraLinksClosure' => 'getExtraLinks',
+    ];
 
     public function actions()
     {
@@ -21,4 +28,10 @@ class ActivityController extends BaseController
         return $actions;
     }
 
+    public function getExtraLinks()
+    {
+        return [
+            'create' => Url::to(['@web/activities'], true),
+        ];
+    }
 }
