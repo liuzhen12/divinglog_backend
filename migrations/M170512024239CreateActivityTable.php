@@ -12,7 +12,7 @@ class M170512024239CreateActivityTable extends BaseMigration
             'id' => $this->primaryKey(),
             'type' => $this->smallInteger()->notNull()->defaultValue(1)->comment('1: 約伴'),
             'title' => $this->string(30)->notNull()->defaultValue('')->comment('活动标题'),
-            'sponsor_id' => $this->bigInteger(20)->notNull()->defaultValue(0)->comment('发起人'),
+            'user_id' => $this->bigInteger(20)->notNull()->defaultValue(0)->comment('发起人'),
             'start_date' => $this->date()->notNull()->defaultValue('1000-01-01')->comment('活动开始日期'),
             'end_date' => $this->date()->notNull()->defaultValue('1000-01-01')->comment('活动结束日期'),
             'location_longitude' => $this->decimal(10,6)->notNull()->defaultValue(0)->comment('微信定位-经度'),

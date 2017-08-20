@@ -10,7 +10,7 @@ use Yii;
  * @property integer $id
  * @property integer $type
  * @property string $title
- * @property integer $sponsor_id
+ * @property integer $user_id
  * @property string $start_date
  * @property string $end_date
  * @property string $location_longitude
@@ -40,7 +40,7 @@ class Activity extends \app\components\base\BaseModel
     public function rules()
     {
         return [
-            [['type', 'sponsor_id', 'max_member', 'accommodation', 'participants_count', 'created_at', 'updated_at'], 'integer'],
+            [['type', 'user_id', 'max_member', 'accommodation', 'participants_count', 'created_at', 'updated_at'], 'integer'],
             [['start_date', 'end_date'], 'safe'],
             [['location_longitude', 'location_latitue'], 'number'],
             [['title'], 'string', 'max' => 30],
@@ -58,7 +58,7 @@ class Activity extends \app\components\base\BaseModel
             'id' => Yii::t('app', 'ID'),
             'type' => Yii::t('app', '1: 約伴'),
             'title' => Yii::t('app', '活动标题'),
-            'sponsor_id' => Yii::t('app', '发起人'),
+            'user_id' => Yii::t('app', '发起人'),
             'start_date' => Yii::t('app', '活动开始日期'),
             'end_date' => Yii::t('app', '活动结束日期'),
             'location_longitude' => Yii::t('app', '微信定位-经度'),
