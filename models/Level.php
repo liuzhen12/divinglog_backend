@@ -41,8 +41,15 @@ class Level extends \app\components\base\BaseModel
             [['user_id', 'coach_id', 'created_at', 'updated_at'], 'integer'],
             [['organization'], 'string', 'max' => 45],
             [['level', 'no'], 'string', 'max' => 20],
+            [['coach_id'],function($attribute, $params, $validator){
+                $coach = $this->coach;
+                if(empty($coach) || $coach->role != User2::ROLE){
+                    $this->addError($attribute, 'Only valid instructors could do this operation.');
+                }
+
+            },'skipOnError'=>false],
             [['user_id','organization','level','no'],'required','on'=>self::SCENARIO_CREATE],
-            [['coach_id',],'required','on'=>self::SCENARIO_CERTIFICATE],
+            [['coach_id'],'required','on'=>self::SCENARIO_CERTIFICATE],
         ];
     }
 
@@ -149,7 +156,7 @@ class Level extends \app\components\base\BaseModel
         if(0 >= $this->coach_id){
             return (new User2())->loadDefaultValues();
         }
-        return $this->hasOne(User2::className(),['id'=>'coach_id'])->one();
+        return $this->hasOne(User2::className(),['id'=>'coach_id']);
     }
 
     /**
@@ -163,6 +170,6 @@ class Level extends \app\components\base\BaseModel
      */
     public function getCoachName()
     {
-        return $this->coach->nick_name;
+        return isset($this->coach) ? $this->coach->nick_name : null;
     }
 }
