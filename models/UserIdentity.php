@@ -48,6 +48,11 @@ final class UserIdentity extends User implements \yii\web\IdentityInterface
         return $this->id;
     }
 
+    public function getWechatNo()
+    {
+        return $this->wechat_no;
+    }
+
     /**
      * @inheritdoc
      */

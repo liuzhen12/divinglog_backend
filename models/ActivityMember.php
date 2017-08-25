@@ -23,6 +23,16 @@ class ActivityMember extends \app\components\base\BaseModel
         return 'activity_member';
     }
 
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors[] = [
+            'class' => 'app\components\behavior\UserImpressionBehavior',
+            'supporter' => $this
+        ];
+        return $behaviors;
+    }
+
     /**
      * @inheritdoc
      */
@@ -46,4 +56,13 @@ class ActivityMember extends \app\components\base\BaseModel
             'updated_at' => Yii::t('app', '更新时间戳'),
         ];
     }
+
+    public function fields()
+    {
+        $fields = parent::fields();
+        $fields['avatar_url'] = 'avatarUrl';
+        $fields['nick_name'] = 'nickName';
+        return $fields;
+    }
+
 }

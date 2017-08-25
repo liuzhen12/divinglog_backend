@@ -31,6 +31,16 @@ class Certification extends \app\components\base\BaseModel
         return 'certification';
     }
 
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors[] = [
+            'class' => 'app\components\behavior\UserImpressionBehavior',
+            'supporter' => $this
+        ];
+        return $behaviors;
+    }
+
     /**
      * @inheritdoc
      */
@@ -52,12 +62,6 @@ class Certification extends \app\components\base\BaseModel
         $scenarios[self::SCENARIO_STUDENT] = ['user_id'];
         return $scenarios;
     }
-
-//    public function fields()
-//    {
-//        $fields = parent::fields();
-//
-//    }
 
     public function extraFields()
     {
@@ -129,13 +133,4 @@ class Certification extends \app\components\base\BaseModel
         return $this->hasOne(User2::className(),['id'=>'coach_id']);
     }
 
-    public function getAvatarUrl()
-    {
-        return $this->diver["avatar_url"];
-    }
-
-    public function getNickName()
-    {
-        return $this->diver["nick_name"];
-    }
 }

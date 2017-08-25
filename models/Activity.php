@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Url;
+use yii\web\Link;
 
 /**
  * This is the model class for table "activity".
@@ -36,6 +38,16 @@ class Activity extends \app\components\base\BaseModel
         return 'activity';
     }
 
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors[] = [
+            'class' => 'app\components\behavior\UserImpressionBehavior',
+            'supporter' => $this
+        ];
+        return $behaviors;
+    }
+
     /**
      * @inheritdoc
      */
@@ -45,7 +57,6 @@ class Activity extends \app\components\base\BaseModel
             [['type', 'user_id', 'max_member', 'accommodation', 'participants_count', 'created_at', 'updated_at'], 'integer'],
             [['start_date', 'end_date'], 'date'],
             [['location_longitude', 'location_latitude'], 'number'],
-            [['wechat_no'], 'string', 'max' => 20],
             [['title'], 'string', 'max' => 30],
             [['description'], 'string', 'max' => 150],
             [['location_name', 'dive_point'], 'string', 'max' => 45],
@@ -70,7 +81,6 @@ class Activity extends \app\components\base\BaseModel
             'type' => Yii::t('app', '1: 約伴'),
             'title' => Yii::t('app', '活动标题'),
             'user_id' => Yii::t('app', '发起人'),
-            'wechat_no' => Yii::t('app', '微信号或者QQ号或者绑定的手机号，但手机号如果修改，需要重新维护该信息'),
             'start_date' => Yii::t('app', '活动开始日期'),
             'end_date' => Yii::t('app', '活动结束日期'),
             'location_longitude' => Yii::t('app', '微信定位-经度'),
@@ -84,6 +94,24 @@ class Activity extends \app\components\base\BaseModel
             'description' => Yii::t('app', '描述'),
             'created_at' => Yii::t('app', '创建时间戳'),
             'updated_at' => Yii::t('app', '更新时间戳'),
+        ];
+    }
+
+    public function fields()
+    {
+        $fields = parent::fields();
+        $fields['avatar_url'] = 'avatarUrl';
+        $fields['nick_name'] = 'nickName';
+        $fields['wechat_no'] = 'wechatNo';
+        return $fields;
+    }
+
+    public function getLinks()
+    {
+        return [
+            Link::REL_SELF => Url::to(['activity/view', 'id' => $this->id], true),
+            'index' => Url::to(['@web/activities'], true),
+            'member' => Url::to(["@web/activities/{$this->id}/activitiy-members"], true)
         ];
     }
 }

@@ -25,6 +25,11 @@ class ActivityController extends BaseController
             'checkAccess' => [$this, 'checkAccess'],
             'scenario' => $modelClass::SCENARIO_INDEX
         ];
+        $actions['view'] = [
+            'class' => 'app\components\base\BaseViewAction',
+            'modelClass' => $modelClass,
+            'checkAccess' => [$this, 'checkAccess'],
+        ];
         return $actions;
     }
 
