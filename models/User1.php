@@ -52,7 +52,7 @@ class User1 extends User
         if(in_array(self::getScenario(),[self::SCENARIO_LOGIN,self::SCENARIO_REGISTER])){
             $links['me'] = Url::to(["@web/divers/{$this->id}"], true);
             $links['logs'] = Url::to(['@web/diving-logs'], true);
-            $links['activities'] = Url::to(['@web/activities'], true);
+            $links['activity'] = Url::to(['@web/activities'], true);
             $links['coaches'] = Url::to(['@web/coaches{?country,province,city,gender,language,evaluation_score,student_count}'], true);
             $links['coaches-location'] = Url::to(['@web/locations?source=2'], true);
             $links['divestores'] = Url::to(['@web/divestores'], true);

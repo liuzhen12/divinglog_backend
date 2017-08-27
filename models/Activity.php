@@ -55,7 +55,7 @@ class Activity extends \app\components\base\BaseModel
     {
         return [
             [['type', 'user_id', 'max_member', 'accommodation', 'participants_count', 'created_at', 'updated_at'], 'integer'],
-            [['start_date', 'end_date'], 'date'],
+            [['start_date', 'end_date'], 'date', 'format'=>'yyyy-MM-dd'],
             [['location_longitude', 'location_latitude'], 'number'],
             [['title'], 'string', 'max' => 30],
             [['description'], 'string', 'max' => 150],
