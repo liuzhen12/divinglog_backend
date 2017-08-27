@@ -67,7 +67,7 @@ class Activity extends \app\components\base\BaseModel
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_INDEX] = ['start_date','end_date','dive_point', 'max_member','participants_count'];
+        $scenarios[self::SCENARIO_INDEX] = ['title','start_date','end_date','dive_point', 'max_member','participants_count'];
         return $scenarios;
     }
 
