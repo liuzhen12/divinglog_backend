@@ -52,6 +52,16 @@ class DivingLog extends \app\components\base\BaseModel
         return 'diving_log';
     }
 
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors[] = [
+            'class' => 'app\components\behavior\UserImpressionBehavior',
+            'supporter' => $this
+        ];
+        return $behaviors;
+    }
+
     /**
      * @inheritdoc
      */
@@ -123,6 +133,15 @@ class DivingLog extends \app\components\base\BaseModel
             'delete' => Url::to(['diving-log/view', 'id' => $this->id], true),
             'index' => Url::to(['@web/diving-logs'],true),
         ];
+    }
+
+    public function fields()
+    {
+        $fields = parent::fields();
+        $fields['avatar_url'] = 'avatarUrl';
+        $fields['nick_name'] = 'nickName';
+        $fields['wechat_no'] = 'wechatNo';
+        return $fields;
     }
 
     /**
