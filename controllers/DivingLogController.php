@@ -10,10 +10,20 @@ namespace app\controllers;
 
 
 use app\components\base\BaseController;
+use app\models\User1;
+use app\models\User2;
+use Yii;
+use yii\helpers\Url;
 
 class DivingLogController extends BaseController
 {
     public $modelClass = 'app\models\DivingLog';
+
+    public $serializer = [
+        'class' => 'app\components\base\BaseSerializer',
+        'collectionEnvelope' => 'items',
+        'extraLinksClosure' => 'getExtraLinks',
+    ];
 
     public function actions()
     {
@@ -24,7 +34,7 @@ class DivingLogController extends BaseController
             'modelClass' => $modelClass,
             'checkAccess' => [$this, 'checkAccess'],
             'scenario' => $modelClass::SCENARIO_DIVER_INDEX,
-            'whereCondition' => '1 = 1'
+            'ignoreAccessToken' => true
         ];
         $actions['create'] = [
             'class' => 'app\actions\divingLog\CreateAction',
@@ -43,5 +53,15 @@ class DivingLogController extends BaseController
             'checkAccess' => [$this, 'checkAccess'],
         ];
         return $actions;
+    }
+
+    public function getExtraLinks()
+    {
+        $extra = [];
+        if(Yii::$app->user->identity->role == User1::ROLE) {
+            $extra['create'] = Url::to(['@web/diving-logs'], true);
+            $extra['mine'] =  Url::to(['@web/divers/'.Yii::$app->user->id.'/diving-logs'], true);
+        }
+        return $extra;
     }
 }

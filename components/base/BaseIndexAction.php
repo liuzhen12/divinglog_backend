@@ -19,6 +19,7 @@ class BaseIndexAction extends \yii\rest\IndexAction
     public $identity = "user_id";
     public $pageSize = 10;
     public $whereCondition;
+    public $ignoreAccessToken = false;
     public $sort = ['updated_at' => SORT_DESC];
 
     protected function prepareDataProvider()
@@ -31,9 +32,22 @@ class BaseIndexAction extends \yii\rest\IndexAction
         /* @var $modelClass \yii\db\BaseActiveRecord */
         $modelClass = $this->modelClass;
         $model = new $modelClass(['scenario' => $this->scenario]);
+        $where = [];
+        if(!empty($this->whereCondition)){
+            $where = $this->whereCondition;
+        } else {
+            if ($this->ignoreAccessToken){
+                if(isset($depends_id)){
+                    $where[$this->identity] = $depends_id;
+                }
+            } else {
+                $where[$this->identity] = isset($depends_id)? $depends_id :Yii::$app->user->id;
+            }
+        }
+//        $this->whereCondition?:[$this->identity => isset($depends_id)? $depends_id :Yii::$app->user->id]
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
-            'query' => $modelClass::find()->select(implode(',',array_merge($model->activeAttributes(),['id'])))->andWhere($this->whereCondition?:[$this->identity => isset($depends_id)? $depends_id :Yii::$app->user->id]),
+            'query' => $modelClass::find()->select(implode(',',array_merge($model->activeAttributes(),['id'])))->andWhere($where),
             'pagination' => [
                 'pageSize' => $this->pageSize,
             ],

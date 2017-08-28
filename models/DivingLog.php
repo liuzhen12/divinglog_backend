@@ -122,7 +122,6 @@ class DivingLog extends \app\components\base\BaseModel
             'edit' => Url::to(['diving-log/view', 'id' => $this->id], true),
             'delete' => Url::to(['diving-log/view', 'id' => $this->id], true),
             'index' => Url::to(['@web/diving-logs'],true),
-            'create' => Url::to(['@web/diving-logs'], true),
         ];
     }
 
