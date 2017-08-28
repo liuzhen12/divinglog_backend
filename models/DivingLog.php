@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Url;
+use yii\web\Link;
 
 /**
  * This is the model class for table "diving_log".

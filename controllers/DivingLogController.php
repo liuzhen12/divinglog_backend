@@ -10,9 +10,8 @@ namespace app\controllers;
 
 
 use app\components\base\BaseController;
-use yii\rest\ActiveController;
 
-class DivingLogController extends ActiveController
+class DivingLogController extends BaseController
 {
     public $modelClass = 'app\models\DivingLog';
 
@@ -23,7 +22,9 @@ class DivingLogController extends ActiveController
         $actions['index'] = [
             'class' => 'app\components\base\BaseIndexAction',
             'modelClass' => $modelClass,
+            'checkAccess' => [$this, 'checkAccess'],
             'scenario' => $modelClass::SCENARIO_DIVER_INDEX,
+            'whereCondition' => '1 = 1'
         ];
         $actions['create'] = [
             'class' => 'app\actions\divingLog\CreateAction',
@@ -43,5 +44,4 @@ class DivingLogController extends ActiveController
         ];
         return $actions;
     }
-
 }
