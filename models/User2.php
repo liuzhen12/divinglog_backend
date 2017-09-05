@@ -58,6 +58,8 @@ class User2 extends User
             $links['divestores'] = Url::to(['@web/divestores'], true);
             $links['divestores-location'] = Url::to(['@web/locations?source=3'], true);
             $links['language'] = Url::to(['@web/base-languages'], true);
+            $links['coaches'] = Url::to(['@web/coaches{?country,province,city,gender,language,evaluation_score,student_count}'], true);
+            $links['coaches-location'] = Url::to(['@web/locations?source=2'], true);
         }
         if(in_array(self::getScenario(),[self::SCENARIO_INDEX])){
             $links[Link::REL_SELF] = Url::to(['coach/view', 'id' => $this->id], true);
