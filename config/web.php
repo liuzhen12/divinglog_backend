@@ -62,7 +62,7 @@ $config = [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'coach-course'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'course'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'divestore', 'extraPatterns' => ['GET,HEAD {id}/{transfer}' => 'view'],'tokens' => ['{id}' => '<id:\\d[\\d,]*>','{transfer}' => '<transfer:\\S[\\S,]*>']],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'diving-log'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'diving-log', 'extraPatterns' => ['GET,HEAD {id}/{transfer}' => 'view'],'tokens' => ['{id}' => '<id:\\d[\\d,]*>','{transfer}' => '<transfer:\\S[\\S,]*>']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'equip'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'level'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'speciality'],

@@ -10,9 +10,11 @@ namespace app\controllers;
 
 
 use app\components\base\BaseController;
+use app\components\tool\TransferView;
+use app\models\DivingLog;
 use app\models\User1;
-use app\models\User2;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
 
 class DivingLogController extends BaseController
@@ -34,7 +36,7 @@ class DivingLogController extends BaseController
             'modelClass' => $modelClass,
             'checkAccess' => [$this, 'checkAccess'],
             'scenario' => $modelClass::SCENARIO_DIVER_INDEX,
-            'ignoreAccessToken' => true
+            'prepareDataProvider' => [$this, 'prepareDataProvider']
         ];
         $actions['create'] = [
             'class' => 'app\actions\divingLog\CreateAction',
@@ -63,5 +65,34 @@ class DivingLogController extends BaseController
             $extra['mine'] =  Url::to(['@web/divers/'.Yii::$app->user->id.'/diving-logs'], true);
         }
         return $extra;
+    }
+
+    public function prepareDataProvider()
+    {
+        list($depends_id,$depends_obj) = TransferView::receive();
+
+        $model = new DivingLog(['scenario' => DivingLog::SCENARIO_DIVER_INDEX]);
+
+        $query = DivingLog::find()->select(implode(',',array_merge($model->activeAttributes(),['id'])));
+
+        if(isset($depends_id)){
+            $query->andWhere(['user_id'=>$depends_id]);
+        } else {
+            $query->andWhere(['>','stamp',0]);
+        }
+
+
+        return Yii::createObject([
+            'class' => ActiveDataProvider::className(),
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'updated_at' => SORT_DESC
+                ]
+            ],
+        ]);
     }
 }
