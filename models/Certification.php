@@ -4,6 +4,7 @@ namespace app\models;
 
 use app\helpers\Helper;
 use Yii;
+use yii\base\Exception;
 
 /**
  * This is the model class for table "certification".
@@ -87,6 +88,30 @@ class Certification extends \app\components\base\BaseModel
             'created_at' => Yii::t('app', '创建时间戳'),
             'updated_at' => Yii::t('app', '更新时间戳'),
         ];
+    }
+
+    public function insert($runValidation = true, $attributes = null)
+    {
+        $transaction = static::getDb()->beginTransaction();
+        try{
+            $ret = parent::insert($runValidation, $attributes);
+            if($ret){
+                $divingLog = $this->divingLog;
+                $divingLog->stamp = $divingLog->stamp + 1;
+                if(true === $divingLog->save()){
+                    $transaction->commit();
+                    return true;
+                }
+            }
+            $transaction->rollBack();
+            return false;
+        }catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        } catch (\Throwable $e) {
+            $transaction->rollBack();
+            throw $e;
+        }
     }
 
     /**
