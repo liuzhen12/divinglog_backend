@@ -17,8 +17,8 @@ use yii\web\UploadedFile;
 
 class UploadModel extends Model
 {
-    public $files;
-    public $abandons;
+    private $files;
+    private $abandons;
     public $filePath;
 
 //    public $thumbnails;
@@ -51,7 +51,7 @@ class UploadModel extends Model
     {
         if ($this->validate()) {
             $newNames = [];
-            $dirName = Yii::getAlias('@app') . '/web/images';
+            $dirName = Yii::getAlias('@app') . '/web/files';
             if (!file_exists($dirName)) {
                 FileHelper::createDirectory($dirName);
             }
@@ -63,7 +63,7 @@ class UploadModel extends Model
                 }
             }
             if ($newNames) {
-                $this->filePath = $newNames;
+                $this->filePath = "files/{$newFileName}";
             }
             return true;
         }
