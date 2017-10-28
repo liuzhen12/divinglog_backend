@@ -47,6 +47,11 @@ class UploadModel extends Model
         return true;
     }
 
+    public function fields()
+    {
+        return ['filePath'];
+    }
+
     public function save()
     {
         if ($this->validate()) {
@@ -57,7 +62,6 @@ class UploadModel extends Model
             }
             foreach ($this->files as $file) {
                 $newFileName = uniqid().mt_rand(1,99) . '.' . $file->extension;
-
                 if ($file->saveAs($dirName . '/' . $newFileName)) {
                     $newNames[] = $dirName . '/' . $newFileName;
                 }
