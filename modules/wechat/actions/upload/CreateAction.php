@@ -26,12 +26,13 @@ class CreateAction extends \yii\rest\CreateAction
      */
     public function run()
     {
-        var_dump($_FILES);
         $uploadModel = new UploadModel();
         $uploadModel->images = UploadedFile::getInstances($uploadModel, 'images');
+        $uploadModel->upload();
         var_dump($uploadModel);exit;
         return parent::run();
     }
+
 
     function upload_logo( $key_name='photos', $logo_path='manage/images/nurse', $pre_name='logo', $salt='20160101',$encode = 1,$make=0 ){
         $result_arr = array();
