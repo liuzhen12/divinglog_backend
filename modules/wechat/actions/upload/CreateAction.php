@@ -26,7 +26,7 @@ class CreateAction extends \yii\rest\CreateAction
      */
     public function run()
     {
-        $uploadModel = new UploadModel();
+        $uploadModel = new UploadModel(['scenario' => 'images']);
         $uploadModel->load(Yii::$app->getRequest()->getBodyParams(), '');
         if($uploadModel->save()){
             $response = Yii::$app->getResponse();
