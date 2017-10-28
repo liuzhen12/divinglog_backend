@@ -62,6 +62,7 @@ class DivingLogController extends BaseController
         $extra = [];
         if(Yii::$app->user->identity->role == User1::ROLE) {
             $extra['create'] = Url::to(['@web/diving-logs'], true);
+            $extra['upload'] = Url::to(['@web/upload'], true);
             $extra['mine'] =  Url::to(['@web/divers/'.Yii::$app->user->id.'/diving-logs'], true);
         }
         return $extra;
@@ -80,7 +81,6 @@ class DivingLogController extends BaseController
         } else {
             $query->andWhere(['>','stamp',0]);
         }
-
 
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
