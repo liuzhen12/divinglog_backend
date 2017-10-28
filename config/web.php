@@ -58,7 +58,7 @@ $config = [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'coach', 'extraPatterns' => ['GET,HEAD {id}/{transfer}' => 'view'],'tokens' => ['{id}' => '<id:\\d[\\d,]*>','{transfer}' => '<transfer:\\S[\\S,]*>']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'activity', 'extraPatterns' => ['GET,HEAD {id}/{transfer}' => 'view'],'tokens' => ['{id}' => '<id:\\d[\\d,]*>','{transfer}' => '<transfer:\\S[\\S,]*>']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'activity-member'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'certification'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'certification','extraPatterns' => ['GET,HEAD {id}/{transfer}' => 'view'],'tokens' => ['{id}' => '<id:\\d[\\d,]*>','{transfer}' => '<transfer:\\S[\\S,]*>']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'coach-course'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'course'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'divestore', 'extraPatterns' => ['GET,HEAD {id}/{transfer}' => 'view'],'tokens' => ['{id}' => '<id:\\d[\\d,]*>','{transfer}' => '<transfer:\\S[\\S,]*>']],

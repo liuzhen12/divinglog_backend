@@ -54,6 +54,12 @@ class DivingLogController extends BaseController
             'modelClass' => $this->modelClass,
             'checkAccess' => [$this, 'checkAccess'],
         ];
+        $actions['view'] = [
+            'class' => 'app\components\base\BaseViewAction',
+            'modelClass' => $modelClass,
+            'checkAccess' => [$this, 'checkAccess'],
+            'scenario' => $modelClass::SCENARIO_VIEW,
+        ];
         return $actions;
     }
 

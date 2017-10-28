@@ -49,11 +49,19 @@ class CertificationController extends BaseController
     public function prepareDataProvider()
     {
         list($depends_id,$depends_obj) = TransferView::receive();
+        $query = certification::find();
+        switch ($depends_obj){
+            case 'coach':
+                $query = certification::find()->where(['coach_id' => isset($depends_id)? $depends_id : Yii::$app->user->id]);
+                break;
+            case 'diving-log':
+                $query = certification::find()->where(['user_id' => isset($depends_id)? $depends_id : Yii::$app->user->id]);
+                break;
+        }
         Yii::$app->request->setQueryParams(array_merge(Yii::$app->request->getQueryParams(),['expand'=>'avatar_url,nick_name,remark_time']));
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
-            'query' => certification::find()
-                ->where(['coach_id' => isset($depends_id)? $depends_id : Yii::$app->user->id]),
+            'query' => $query,
             'pagination' => [
                 'pageSize' => 10,
             ],
