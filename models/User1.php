@@ -64,7 +64,7 @@ class User1 extends User
         }
         if(in_array(self::getScenario(),[self::SCENARIO_VIEW])){
             $links[Link::REL_SELF] = Url::to(['user/view', 'id' => $this->id], true);
-            $links['divinglog'] = Url::to(["@web/diver/{$this->id}/diving-logs"], true);
+            $links['divinglog'] = Url::to(["@web/divers/{$this->id}/diving-logs"], true);
             $links['equip'] = Url::to(['@web/equips'], true);
             $links['level'] = Url::to(['@web/levels'], true);
             $links['default-level'] = Url::to(['@web/diver-levels'], true);
