@@ -31,7 +31,7 @@ class M170512024425CreateDivingLogTable extends BaseMigration
             'barometer_end' => $this->smallInteger()->notNull()->defaultValue(50)->comment('潜水结束时压力表数值'),
             'weight' => $this->smallInteger()->notNull()->defaultValue(4)->comment('配重'),
             'comments' => $this->string(140)->notNull()->defaultValue('')->comment('潜水的感受和评价'),
-            'assets' => $this->string(100)->notNull()->defaultValue('')->comment('潜水照片链接'),
+            'assets' => $this->string(250)->notNull()->defaultValue('')->comment('潜水照片链接'),
             'stamp' => $this->smallInteger()->notNull()->defaultValue(0)->comment('认证人数和被拷贝的日志数量之和'),
             'link_id' => $this->bigInteger()->notNull()->defaultValue(0)->comment('一次潜水buddies的日志可以通过copy来减少输入量，那么copy出来的日志和被copy的日志维护相同的link_id'),
             'divestore_id' => $this->bigInteger(20)->notNull()->defaultValue(0)->comment('关联潜店ID'),
