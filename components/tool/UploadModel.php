@@ -17,8 +17,8 @@ use yii\web\UploadedFile;
 
 class UploadModel extends Model
 {
-    private $files;
-    private $abandons;
+    public $files;
+    public $abandons;
     public $filePath;
 
 //    public $thumbnails;
