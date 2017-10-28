@@ -27,9 +27,8 @@ class CreateAction extends \yii\rest\CreateAction
     public function run()
     {
         $uploadModel = new UploadModel();
-        $uploadModel->images = UploadedFile::getInstances($uploadModel, 'images');
-        $uploadModel->upload();
-        var_dump($uploadModel);exit;
+        $uploadModel->files = UploadedFile::getInstances($uploadModel, 'images');
+        $uploadModel->save();
         return parent::run();
     }
 

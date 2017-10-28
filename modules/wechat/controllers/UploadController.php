@@ -17,12 +17,8 @@ class UploadController extends ActiveController
 
     public function actions()
     {
-        return [
-            'create' => [
-                'class' => 'app\modules\wechat\actions\upload\CreateAction',
-                'modelClass' => $this->modelClass,
-                'checkAccess' => [$this, 'checkAccess'],
-            ]
-        ];
+        $actions = parent::actions();
+        $actions['create']['scenario'] = 'images';
+        return $actions;
     }
 }
