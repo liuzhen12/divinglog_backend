@@ -27,9 +27,14 @@ class CreateAction extends \yii\rest\CreateAction
     public function run()
     {
         $uploadModel = new UploadModel();
-        $uploadModel->files = UploadedFile::getInstances($uploadModel, 'images');
-        $uploadModel->save();
-        return parent::run();
+        $uploadModel->load(Yii::$app->getRequest()->getBodyParams(), '');
+        if($uploadModel->save()){
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(201);
+        }elseif (!$uploadModel->hasErrors()) {
+            throw new ServerErrorHttpException('Failed to create the object for unknown reason.');
+        }
+        return $uploadModel;
     }
 
 
