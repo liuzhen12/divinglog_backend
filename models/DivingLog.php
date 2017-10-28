@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\tool\UploadModel;
 use Yii;
 use yii\helpers\Url;
 use yii\web\Link;
@@ -143,6 +144,15 @@ class DivingLog extends \app\components\base\BaseModel
         $fields['nick_name'] = 'nickName';
         $fields['wechat_no'] = 'wechatNo';
         return $fields;
+    }
+
+    public function delete()
+    {
+        $ret = parent::delete();
+        if($ret){
+            (new UploadModel(['abandons'=>$this->assets]))->delete();
+        }
+        return $ret;
     }
 
     /**

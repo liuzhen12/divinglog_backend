@@ -73,4 +73,21 @@ class UploadModel extends Model
         }
         return false;
     }
+
+    public function delete()
+    {
+        if(isset($this->abandons)){
+            if(is_string($this->abandons)){
+                $this->abandons = explode(",",$this->abandons);
+            }
+            if(!is_array($this->abandons)){
+                return false;
+            }
+            $dirName = Yii::getAlias('@app') . '/web/';
+            foreach ($this->abandons as $abandon){
+                @unlink($dirName.$abandon);
+            }
+        }
+        return true;
+    }
 }
