@@ -60,10 +60,10 @@ class ActivityController extends BaseController
         $query = Activity::find()
             ->select(implode(',',array_merge((new Activity(['scenario' => Activity::SCENARIO_INDEX]))->activeAttributes(),["{$activity}.id"])));
         if(!empty($start_date)){
-            $query->andWhere(["=" , "{$activity}.start_date" , $start_date]);
+            $query->andWhere([">=" , "{$activity}.start_date" , $start_date]);
         }
         if(!empty($end_date)){
-            $query->andWhere(["=" , "{$activity}.end_date" , $end_date]);
+            $query->andWhere(["<=" , "{$activity}.end_date" , $end_date]);
         }
         if(!empty($northeast_longitude)){
             $query->andWhere(["<=", "{$activity}.location_longitude" ,$northeast_longitude]);
