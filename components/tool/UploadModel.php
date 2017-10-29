@@ -22,6 +22,7 @@ class UploadModel extends Model
     public $filePath;
     public $thumbWidth;
     public $thumbHeight;
+    public $thumbSuffix = '_thumb';
 
     public function scenarios()
     {
@@ -33,7 +34,7 @@ class UploadModel extends Model
     public function rules()
     {
         return [
-            ['files', 'file', 'extensions' => ['png', 'jpg', 'gif'], 'maxSize' => 1024*1024, 'maxFiles' => 6, 'on' => 'images'],
+            ['files', 'file', 'extensions' => ['png', 'jpg', 'gif'], 'maxSize' => 6000*6000, 'maxFiles' => 6, 'on' => 'images'],
             ['thumbWidth', 'integer'],
             ['thumbHeight', 'integer'],
         ];
@@ -74,11 +75,10 @@ class UploadModel extends Model
             if ($newNames) {
                 $this->filePath = "files/{$newFileName}";
             }
-
             if($this->thumbWidth > 0 && $this->thumbHeight > 0){
                 $img = new Image(Yii::getAlias('@app') . '/web/'.$this->filePath);
                 $img->thumb($this->thumbWidth, $this->thumbHeight);
-                $img->out();
+                $img->out($this->thumbSuffix);
             }
             return true;
         }
@@ -97,6 +97,7 @@ class UploadModel extends Model
             $dirName = Yii::getAlias('@app') . '/web/';
             foreach ($this->abandons as $abandon){
                 @unlink($dirName.$abandon);
+                @unlink(Image::addSuffix($dirName.$abandon));
             }
         }
         return true;

@@ -88,12 +88,12 @@ class Image
 
     //图像输出
     public function out($suffix='thumb') {
-        imagepng($this->new,$this->addSuffix($this->file,$suffix));//第二个参数为新生成的图片名
+        imagepng($this->new,self::addSuffix($this->file,$suffix));//第二个参数为新生成的图片名
 //        imagedestroy($this->img);
         imagedestroy($this->new);
     }
 
-    private function addSuffix($file, $suffix)
+    public static function addSuffix($file, $suffix)
     {
         $pathInfo = pathinfo($file);
         return $pathInfo['dirname'] . DIRECTORY_SEPARATOR . $pathInfo['filename'] . '_' . $suffix . '.' .  $pathInfo['extension'];
