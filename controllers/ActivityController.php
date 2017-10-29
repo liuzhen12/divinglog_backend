@@ -82,7 +82,7 @@ class ActivityController extends BaseController
             unset($sort["{$activity}.updated_at"]);
         }
         $query->orderBy($sort);
-        var_dump($query->createCommand()->getRawSql());exit;
+
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
             'query' => $query,
