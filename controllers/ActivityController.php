@@ -72,7 +72,7 @@ class ActivityController extends BaseController
             $query->andWhere(["<=", "{$activity}.location_latitude" ,$northeast_latitude]);
         }
         if(!empty($southwest_longitude)){
-            $query->andWhere([">=", "{$activity}.location_longitude" ,t]);
+            $query->andWhere([">=", "{$activity}.location_longitude" ,$southwest_longitude]);
         }
         if(!empty($southwest_latitude)){
             $query->andWhere([">=", "{$activity}.location_latitude" ,$southwest_latitude]);
