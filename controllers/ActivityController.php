@@ -83,8 +83,6 @@ class ActivityController extends BaseController
         }
         $query->orderBy($sort);
 
-        var_dump($query->createCommand()->getRawSql());exit;
-
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
             'query' => $query,
