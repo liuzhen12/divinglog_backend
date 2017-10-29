@@ -20,9 +20,9 @@ class UploadModel extends Model
     public $files;
     public $abandons;
     public $filePath;
+    public $thumbWidth;
+    public $thumbHeight;
 
-//    public $thumbnails;
-//
     public function scenarios()
     {
         return [
@@ -34,6 +34,8 @@ class UploadModel extends Model
     {
         return [
             ['files', 'file', 'extensions' => ['png', 'jpg', 'gif'], 'maxSize' => 1024*1024, 'maxFiles' => 6, 'on' => 'images'],
+            ['thumbWidth', 'integer'],
+            ['thumbHeight', 'integer'],
         ];
     }
 
@@ -41,6 +43,9 @@ class UploadModel extends Model
     {
         try{
             $this->files = UploadedFile::getInstances($this, 'files');
+            foreach ($data as $k=>$v){
+                $this->$k = $v;
+            }
         } catch (Exception $e){
             return false;
         }
@@ -68,6 +73,12 @@ class UploadModel extends Model
             }
             if ($newNames) {
                 $this->filePath = "files/{$newFileName}";
+            }
+
+            if($this->thumbWidth > 0 && $this->thumbHeight > 0){
+                $img = new Image(Yii::getAlias('@app') . '/web/'.$this->filePath);
+                $img->thumb($this->thumbWidth, $this->thumbHeight);
+                $img->out();
             }
             return true;
         }
