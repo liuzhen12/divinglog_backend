@@ -48,9 +48,9 @@ class ActivityController extends BaseController
     {
         $start_date =  Yii::$app->getRequest()->get('start_date');
         $end_date = Yii::$app->getRequest()->get('end_date');
-        $northeast_longtitude =  Yii::$app->getRequest()->get('northeast_longtitude');
+        $northeast_longitude =  Yii::$app->getRequest()->get('northeast_longitude');
         $northeast_latitude =  Yii::$app->getRequest()->get('northeast_latitude');
-        $southwest_longtitude =  Yii::$app->getRequest()->get('southwest_longtitude');
+        $southwest_longitude =  Yii::$app->getRequest()->get('southwest_longitude');
         $southwest_latitude =  Yii::$app->getRequest()->get('southwest_latitude');
         $max_member= Yii::$app->getRequest()->get('max_member');
 
@@ -65,14 +65,14 @@ class ActivityController extends BaseController
         if(!empty($end_date)){
             $query->andWhere(["=" , "{$activity}.end_date" , $end_date]);
         }
-        if(!empty($northeast_longtitude)){
-            $query->andWhere(["<=", "{$activity}.location_longitude" ,$northeast_longtitude]);
+        if(!empty($northeast_longitude)){
+            $query->andWhere(["<=", "{$activity}.location_longitude" ,$northeast_longitude]);
         }
         if(!empty($northeast_latitude)){
             $query->andWhere(["<=", "{$activity}.location_latitude" ,$northeast_latitude]);
         }
-        if(!empty($southwest_longtitude)){
-            $query->andWhere([">=", "{$activity}.location_longitude" ,$southwest_longtitude]);
+        if(!empty($southwest_longitude)){
+            $query->andWhere([">=", "{$activity}.location_longitude" ,t]);
         }
         if(!empty($southwest_latitude)){
             $query->andWhere([">=", "{$activity}.location_latitude" ,$southwest_latitude]);
@@ -82,7 +82,7 @@ class ActivityController extends BaseController
             unset($sort["{$activity}.updated_at"]);
         }
         $query->orderBy($sort);
-
+        var_dump($query->createCommand()->getRawSql());exit;
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
             'query' => $query,
