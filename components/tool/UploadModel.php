@@ -34,7 +34,7 @@ class UploadModel extends Model
     public function rules()
     {
         return [
-            ['files', 'file', 'extensions' => ['png', 'jpg', 'gif'], 'maxSize' => 6000*6000, 'maxFiles' => 6, 'on' => 'images'],
+            ['files', 'file', 'extensions' => ['png', 'jpg', 'gif'], 'maxSize' => 10*1024*1024, 'maxFiles' => 6, 'on' => 'images'],
             ['thumbWidth', 'integer'],
             ['thumbHeight', 'integer'],
         ];
