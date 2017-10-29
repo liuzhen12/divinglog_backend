@@ -75,7 +75,7 @@ class DivingLog extends \app\components\base\BaseModel
             [['location_name','dive_point'], 'string', 'max' => 45],
             [['location_address'], 'string', 'max' => 200],
             [['comments'], 'string', 'max' => 140],
-            [['assets'], 'string', 'max' => 100],
+            [['assets'], 'string', 'max' => 250],
         ];
     }
 
