@@ -22,7 +22,7 @@ class UploadModel extends Model
     public $filePath;
     public $thumbWidth;
     public $thumbHeight;
-    public $thumbSuffix = '_thumb';
+    public $thumbSuffix = 'thumb';
 
     public function scenarios()
     {
