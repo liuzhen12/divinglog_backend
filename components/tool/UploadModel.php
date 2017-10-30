@@ -97,7 +97,7 @@ class UploadModel extends Model
             $dirName = Yii::getAlias('@app') . '/web/';
             foreach ($this->abandons as $abandon){
                 @unlink($dirName.$abandon);
-                @unlink(Image::addSuffix($dirName.$abandon));
+                @unlink(Image::addSuffix($dirName.$abandon,$this->thumbSuffix));
             }
         }
         return true;
