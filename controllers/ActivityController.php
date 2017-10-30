@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\base\BaseController;
+use app\components\tool\TransferView;
 use app\models\Activity;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -41,48 +42,56 @@ class ActivityController extends BaseController
     {
         return [
             'create' => Url::to(['@web/activities'], true),
+            'mine' => Url::to(['@web/users/'.Yii::$app->user->id.'/activities'], true),
         ];
     }
 
     public function prepareDataProvider()
     {
-        $start_date =  Yii::$app->getRequest()->get('start_date');
-        $end_date = Yii::$app->getRequest()->get('end_date');
-        $northeast_longitude =  Yii::$app->getRequest()->get('northeast_longitude');
-        $northeast_latitude =  Yii::$app->getRequest()->get('northeast_latitude');
-        $southwest_longitude =  Yii::$app->getRequest()->get('southwest_longitude');
-        $southwest_latitude =  Yii::$app->getRequest()->get('southwest_latitude');
-        $max_member= Yii::$app->getRequest()->get('max_member');
-
+        list($depends_id,$depends_obj) = TransferView::receive();
         $activity = Activity::tableName();
-        $condition = [];
         $sort = ["{$activity}.updated_at"=>SORT_DESC];
-        $query = Activity::find()
-            ->select(implode(',',array_merge((new Activity(['scenario' => Activity::SCENARIO_INDEX]))->activeAttributes(),["{$activity}.id"])));
-        if(!empty($start_date)){
-            $query->andWhere([">=" , "{$activity}.start_date" , $start_date]);
-        }
-        if(!empty($end_date)){
-            $query->andWhere(["<=" , "{$activity}.end_date" , $end_date]);
-        }
-        if(!empty($northeast_longitude)){
-            $query->andWhere(["<=", "{$activity}.location_longitude" ,$northeast_longitude]);
-        }
-        if(!empty($northeast_latitude)){
-            $query->andWhere(["<=", "{$activity}.location_latitude" ,$northeast_latitude]);
-        }
-        if(!empty($southwest_longitude)){
-            $query->andWhere([">=", "{$activity}.location_longitude" ,$southwest_longitude]);
-        }
-        if(!empty($southwest_latitude)){
-            $query->andWhere([">=", "{$activity}.location_latitude" ,$southwest_latitude]);
-        }
-        if(!empty($max_member) && in_array($max_member,[1,2])){
-            $sort["{$activity}.evaluation_score"] = 1 == $max_member ? SORT_ASC : SORT_DESC;
-            unset($sort["{$activity}.updated_at"]);
+        if(isset($depends_id)){
+            $query = Activity::find()->joinWith('activityMember')
+                ->select(implode(',',array_merge((new Activity(['scenario' => Activity::SCENARIO_INDEX]))->activeAttributes(),["{$activity}.id"])))
+                ->where(['activity_member.user_id' => $depends_id])
+                ->orWhere(['activity.user_id' => $depends_id]);
+        } else {
+            $start_date =  Yii::$app->getRequest()->get('start_date');
+            $end_date = Yii::$app->getRequest()->get('end_date');
+            $northeast_longitude =  Yii::$app->getRequest()->get('northeast_longitude');
+            $northeast_latitude =  Yii::$app->getRequest()->get('northeast_latitude');
+            $southwest_longitude =  Yii::$app->getRequest()->get('southwest_longitude');
+            $southwest_latitude =  Yii::$app->getRequest()->get('southwest_latitude');
+            $max_member= Yii::$app->getRequest()->get('max_member');
+
+
+            $query = Activity::find()
+                ->select(implode(',',array_merge((new Activity(['scenario' => Activity::SCENARIO_INDEX]))->activeAttributes(),["{$activity}.id"])));
+            if(!empty($start_date)){
+                $query->andWhere([">=" , "{$activity}.start_date" , $start_date]);
+            }
+            if(!empty($end_date)){
+                $query->andWhere(["<=" , "{$activity}.end_date" , $end_date]);
+            }
+            if(!empty($northeast_longitude)){
+                $query->andWhere(["<=", "{$activity}.location_longitude" ,$northeast_longitude]);
+            }
+            if(!empty($northeast_latitude)){
+                $query->andWhere(["<=", "{$activity}.location_latitude" ,$northeast_latitude]);
+            }
+            if(!empty($southwest_longitude)){
+                $query->andWhere([">=", "{$activity}.location_longitude" ,$southwest_longitude]);
+            }
+            if(!empty($southwest_latitude)){
+                $query->andWhere([">=", "{$activity}.location_latitude" ,$southwest_latitude]);
+            }
+            if(!empty($max_member) && in_array($max_member,[1,2])){
+                $sort["{$activity}.evaluation_score"] = 1 == $max_member ? SORT_ASC : SORT_DESC;
+                unset($sort["{$activity}.updated_at"]);
+            }
         }
         $query->orderBy($sort);
-
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
             'query' => $query,

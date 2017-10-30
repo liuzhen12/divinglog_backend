@@ -103,6 +103,7 @@ class Activity extends \app\components\base\BaseModel
         $fields['avatar_url'] = 'avatarUrl';
         $fields['nick_name'] = 'nickName';
         $fields['wechat_no'] = 'wechatNo';
+        $fields['is_sponser'] = 'isSponser';
         return $fields;
     }
 
@@ -111,7 +112,18 @@ class Activity extends \app\components\base\BaseModel
         return [
             Link::REL_SELF => Url::to(['activity/view', 'id' => $this->id], true),
             'index' => Url::to(['@web/activities'], true),
+            'delete' => Url::to(['activity/view', 'id' => $this->id], true),
             'member' => Url::to(["@web/activities/{$this->id}/activitiy-members"], true)
         ];
+    }
+
+    public function getIsSponser()
+    {
+        return $this->user_id == Yii::$app->user->id;
+    }
+
+    public function getActivityMember()
+    {
+        return $this->hasMany(ActivityMember::className(),['activity_id'=>'id']);
     }
 }

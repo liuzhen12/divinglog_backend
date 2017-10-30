@@ -64,5 +64,4 @@ class ActivityMember extends \app\components\base\BaseModel
         $fields['nick_name'] = 'nickName';
         return $fields;
     }
-
 }
