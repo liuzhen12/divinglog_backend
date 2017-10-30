@@ -5,6 +5,8 @@ namespace app\models;
 use app\helpers\Helper;
 use Yii;
 use yii\base\Exception;
+use yii\helpers\Url;
+use yii\web\Link;
 
 /**
  * This is the model class for table "certification".
@@ -77,6 +79,7 @@ class Certification extends \app\components\base\BaseModel
     {
         return [
             Link::REL_SELF => Url::to(['certification/view', 'id' => $this->id], true),
+            'edit' => Url::to(['certification/view', 'id' => $this->id], true),
         ];
     }
 
