@@ -73,6 +73,13 @@ class Certification extends \app\components\base\BaseModel
         return $extraFields;
     }
 
+    public function getLinks()
+    {
+        return [
+            Link::REL_SELF => Url::to(['certification/view', 'id' => $this->id], true),
+        ];
+    }
+
     /**
      * @inheritdoc
      */
