@@ -91,7 +91,7 @@ class DivingLogController extends BaseController
             'class' => ActiveDataProvider::className(),
             'query' => $query,
             'pagination' => [
-                'pageSize' => 20,
+                'pageSize' => 5,
             ],
             'sort' => [
                 'defaultOrder' => [
