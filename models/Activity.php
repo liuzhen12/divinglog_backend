@@ -113,7 +113,8 @@ class Activity extends \app\components\base\BaseModel
             Link::REL_SELF => Url::to(['activity/view', 'id' => $this->id], true),
             'index' => Url::to(['@web/activities'], true),
             'delete' => Url::to(['activity/view', 'id' => $this->id], true),
-            'member' => Url::to(["@web/activities/{$this->id}/activitiy-members"], true)
+            'member' => Url::to(["@web/activities/{$this->id}/activity-members"], true),
+            'participate' => Url::to(['@web/activity-members'], true)
         ];
     }
 

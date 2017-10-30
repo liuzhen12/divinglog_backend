@@ -40,6 +40,7 @@ class ActivityMember extends \app\components\base\BaseModel
     {
         return [
             [['activity_id', 'user_id', 'created_at', 'updated_at'], 'integer'],
+            ['user_id', 'unique', 'targetAttribute' => ['activity_id', 'user_id'], 'message' => 'You have already taken part in this activity.'],
         ];
     }
 
