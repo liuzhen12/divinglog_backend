@@ -10,6 +10,7 @@ class M170512024415CreateDiveStoreTable extends BaseMigration
     {
         $this->createTable('divestore', [
             'id' => $this->primaryKey(),
+            'no' => $this->string(20)->notNull()->defaultValue('')->comment('潜店编号'),
             'name' => $this->string(45)->notNull()->defaultValue('')->comment('潜店名字'),
             'telephone' => $this->string(20)->notNull()->defaultValue('')->comment('潜店电话'),
             'wechat_id' => $this->string(45)->notNull()->defaultValue('')->comment('微信号或者qq号码或者手机号码，反正是可以直接加好友的ID'),
@@ -30,6 +31,7 @@ class M170512024415CreateDiveStoreTable extends BaseMigration
             'updated_at' => $this->integer(11)->notNull()->defaultValue(0)->comment('更新时间戳'),
         ]);
         $this->alterColumn('divestore',"id","bigint auto_increment");
+        $this->createIndex('no','divestore','no',true);
     }
 
     public function safeDown()

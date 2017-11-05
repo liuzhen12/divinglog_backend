@@ -15,6 +15,7 @@ use yii\web\Link;
  * This is the model class for table "divestore".
  *
  * @property integer $id
+ * @property string $no
  * @property string $name
  * @property string $telephone
  * @property string $wechat_id
@@ -52,7 +53,7 @@ class Divestore extends \app\components\base\BaseModel
             [['evaluation_count', 'coach_count', 'created_at', 'updated_at'], 'integer'],
             [['evaluation_score', 'location_longitude', 'location_latitude'], 'number'],
             [['name', 'wechat_id', 'city', 'province', 'country', 'location_name'], 'string', 'max' => 45],
-            [['telephone','language_detail'], 'string', 'max' => 20],
+            [['no','telephone','language_detail'], 'string', 'max' => 20],
             [['location_address','avatar_url','assets'], 'string', 'max' => 200],
         ];
     }
@@ -60,7 +61,7 @@ class Divestore extends \app\components\base\BaseModel
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_INDEX] = ['name','language_detail','city', 'province', 'country','avatar_url','evaluation_count','evaluation_score','coach_count'];
+        $scenarios[self::SCENARIO_INDEX] = ['no','name','language_detail','city', 'province', 'country','avatar_url','evaluation_count','evaluation_score','coach_count'];
         return $scenarios;
     }
 
@@ -71,6 +72,7 @@ class Divestore extends \app\components\base\BaseModel
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            'n' => Yii::t('app', '潜店编号'),
             'name' => Yii::t('app', '潜店名字'),
             'telephone' => Yii::t('app', '潜店电话'),
             'wechat_id' => Yii::t('app', '微信号或者qq号码或者手机号码，反正是可以直接加好友的ID'),
