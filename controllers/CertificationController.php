@@ -55,7 +55,7 @@ class CertificationController extends BaseController
                 $query = certification::find()->where(['coach_id' => isset($depends_id)? $depends_id : Yii::$app->user->id]);
                 break;
             case 'diving-log':
-                $query = certification::find()->where(['user_id' => isset($depends_id)? $depends_id : Yii::$app->user->id]);
+                $query = certification::find()->where(['log_id' => isset($depends_id)]);
                 break;
         }
         Yii::$app->request->setQueryParams(array_merge(Yii::$app->request->getQueryParams(),['expand'=>'avatar_url,nick_name,remark_time']));
