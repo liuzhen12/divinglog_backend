@@ -72,7 +72,7 @@ class Divestore extends \app\components\base\BaseModel
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'n' => Yii::t('app', '潜店编号'),
+            'no' => Yii::t('app', '潜店编号'),
             'name' => Yii::t('app', '潜店名字'),
             'telephone' => Yii::t('app', '潜店电话'),
             'wechat_id' => Yii::t('app', '微信号或者qq号码或者手机号码，反正是可以直接加好友的ID'),
