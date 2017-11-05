@@ -41,6 +41,7 @@ class DivestoreController extends BaseController
 
     public function prepareDataProvider()
     {
+        $no =  Yii::$app->getRequest()->get('no');
         $country =  Yii::$app->getRequest()->get('country');
         $province =  Yii::$app->getRequest()->get('province');
         $city =  Yii::$app->getRequest()->get('city');
@@ -54,6 +55,10 @@ class DivestoreController extends BaseController
         $sort = ["{$divestore}.updated_at"=>SORT_DESC];
         $query = Divestore::find()
             ->select(implode(',',array_merge((new Divestore(['scenario' => Divestore::SCENARIO_INDEX]))->activeAttributes(),["{$divestore}.id"])));
+
+        if(!empty($no)){
+            $condition["{$divestore}.no"] = $no;
+        }
         if(!empty($country)){
             $condition["{$divestore}.country"] = $country;
         }
