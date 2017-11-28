@@ -86,7 +86,7 @@ class User extends \app\components\base\BaseModel
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_LOGIN] = ['open_id', 'session_key','access_token'];
+        $scenarios[self::SCENARIO_LOGIN] = ['open_id', 'session_key','access_token', 'role'];
         $scenarios[self::SCENARIO_REGISTER] = ['open_id','session_key','access_token','gender','avatar_url', 'nick_name', 'country','city', 'province', 'language','language_detail','wechat_no','role'];
         $scenarios[self::SCENARIO_INDEX] = ['avatar_url','nick_name','gender','country','province','city','language','language_detail'];
         $scenarios[self::SCENARIO_VIEW] = ['nick_name','gender','country','province','city','language_detail','wechat_no','role'];
