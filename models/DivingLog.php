@@ -76,6 +76,10 @@ class DivingLog extends \app\components\base\BaseModel
             [['location_address'], 'string', 'max' => 200],
             [['comments'], 'string', 'max' => 140],
             [['assets'], 'string', 'max' => 250],
+            [['depth1', 'time1', 'depth2', 'time2', 'depth3', 'time3', 'gas', 'divestore_id'], 'default', 'value' => 0],
+            ['barometer_start', 'default', 'value' => 220],
+            ['barometer_end', 'default', 'value' => 50],
+            ['weight', 'default', 'value' => 4]
         ];
     }
 
